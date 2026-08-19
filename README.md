@@ -37,6 +37,7 @@ window.CHADOGU_EC = {
 - **Shopify連携の場合**: 商品に道具スラッグ(`chawan`, `natsume` など)のタグを付け、
   Storefront API で `tag:カテゴリ` 検索した結果を返すだけで、各ページの在庫枠に表示されます。
 - カート・決済はShopify側(Buy Button / チェックアウトリンク)に委ねる構成が最小工数です。
+- 
 
 ## 編集方法
 
