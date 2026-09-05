@@ -1,0 +1,1 @@
+{ "name": "yusando-gallery", "private": true, "scripts": { "deploy": "wrangler deploy" } }
