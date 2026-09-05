@@ -1,0 +1,21 @@
+name = "gallery-yusando"
+pages_build_output_dir = "public"
+compatibility_date = "2026-09-01"
+
+[vars]
+PRICE_TIERS = "3000,5000,7000,10000"
+CLAUDE_MODEL = "claude-sonnet-5"
+SITE_NAME = "悠三堂 茶器ギャラリー"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gallery-db"
+database_id = "6aee87a8-e748-4515-859b-5285a03bc4a1"
+
+[[r2_buckets]]
+binding = "PHOTOS"
+bucket_name = "gallery-photos"
+
+# Secrets（ダッシュボード or `wrangler pages secret put` で設定）
+#   ANTHROPIC_API_KEY  … Claude API キー
+#   UPLOAD_TOKEN       … アップロード・編集用の合言葉

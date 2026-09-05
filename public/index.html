@@ -1,0 +1,22 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>悠三堂 茶器ギャラリー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head><body>
+<header class="site"><h1>悠三堂　茶器</h1><span class="note">奈良・都祁より</span></header>
+<main><div class="list" id="list"></div></main>
+<script>
+const yen = n => "¥" + n.toLocaleString("ja-JP");
+fetch("/api/items").then(r=>r.json()).then(items=>{
+  const el=document.getElementById("list");
+  if(!items.length){el.innerHTML='<p class="empty">まだ茶器がありません。</p>';return;}
+  el.innerHTML=items.map(i=>`
+   <a class="item ${i.status}" href="/item.html?id=${i.id}">
+     <img src="/photos/${i.photos[0]}" alt="${i.mei||i.category||""}" loading="lazy">
+     <h2 class="mei">${i.mei||"無銘"}<small>${i.mei_yomi||""}</small></h2>
+     <div class="meta"><span>${i.category||""}</span><span class="price">${yen(i.price)}</span></div>
+   </a>`).join("");
+});
+</script></body></html>
