@@ -1,6 +1,19 @@
 // gallery.yusando.com — 茶器ギャラリー Worker
+const ALLOWED = ["https://gallery.yusando.com", "https://yusandonatural.github.io"];
+const cors = (request) => {
+  const o = request?.headers.get("origin") || "";
+  const ok = ALLOWED.includes(o) || o.endsWith(".workers.dev");
+  return {
+    "access-control-allow-origin": ok ? o : ALLOWED[0],
+    "access-control-allow-methods": "GET,POST,PATCH,OPTIONS",
+    "access-control-allow-headers": "content-type,x-upload-token",
+    "access-control-max-age": "86400",
+    "vary": "origin",
+  };
+};
+let CUR = null; // 現在のリクエスト（CORSヘッダ用）
 const json = (data, status = 200) =>
-  new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json; charset=utf-8" } });
+  new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json; charset=utf-8", ...cors(CUR) } });
 const authed = (request, env) => {
   const t = request.headers.get("x-upload-token") || new URL(request.url).searchParams.get("token");
   return !!env.UPLOAD_TOKEN && t === env.UPLOAD_TOKEN;
@@ -41,6 +54,8 @@ async function upload(request, env) {
   const files = form.getAll("photos").filter((f) => f && f.size > 0).slice(0, 5);
   if (!files.length) return json({ error: "写真が1枚もありません" }, 400);
   const forcedTier = parseInt(form.get("tier") || "", 10);
+  if (!env.ANTHROPIC_API_KEY) return json({ error: "ANTHROPIC_API_KEY が未設定です（Settings → Variables and Secrets）" }, 500);
+  for (const f of files) if (f.size > 4.5 * 1024 * 1024) return json({ error: `写真が大きすぎます（${(f.size/1048576).toFixed(1)}MB）。縮小して再送してください` }, 413);
 
   const id = crypto.randomUUID().slice(0, 8);
   const keys = [], images = [];
@@ -110,7 +125,7 @@ async function photo(key, env) {
   if (!obj) return new Response("not found", { status: 404 });
   return new Response(obj.body, { headers: {
     "content-type": obj.httpMetadata?.contentType || "image/jpeg",
-    "cache-control": "public, max-age=31536000, immutable" } });
+    "cache-control": "public, max-age=31536000, immutable", ...cors(CUR) } });
 }
 
 function toBase64(buf) {
@@ -121,14 +136,16 @@ function toBase64(buf) {
 
 export default {
   async fetch(request, env) {
+    CUR = request;
     const { pathname } = new URL(request.url);
     const m = request.method;
+    if (m === "OPTIONS") return new Response(null, { status: 204, headers: cors(request) });
     if (pathname === "/api/upload" && m === "POST") return upload(request, env);
     if (pathname === "/api/items" && m === "GET") return listItems(request, env);
     const item = pathname.match(/^\/api\/items\/([\w-]+)$/);
     if (item && m === "GET") return getItem(item[1], env);
     if (item && m === "PATCH") return patchItem(request, item[1], env);
     if (pathname.startsWith("/photos/") && m === "GET") return photo(decodeURIComponent(pathname.slice(8)), env);
-    return env.ASSETS.fetch(request); // public/ の静的ファイル
+    return env.ASSETS.fetch(request); // docs/ の静的ファイル
   },
 };

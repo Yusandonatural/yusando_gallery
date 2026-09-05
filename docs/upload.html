@@ -1,0 +1,61 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>茶器を登録</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head><body>
+<header class="site"><h1><a href="/">悠三堂　茶器</a></h1><span class="note">登録</span></header>
+<main class="up">
+  <label for="photos">写真（1〜5枚）</label>
+  <input id="photos" type="file" accept="image/*" multiple capture="environment">
+  <p class="hint">正面・高台・見込みの3枚がおすすめ。箱書きがあれば追加。</p>
+  <div class="thumbs" id="thumbs"></div>
+
+  <label for="tier">等級（空欄ならAIが判定）</label>
+  <select id="tier"><option value="">AIにまかせる</option>
+    <option value="1">1 ― ¥3,000</option><option value="2">2 ― ¥5,000</option>
+    <option value="3">3 ― ¥7,000</option><option value="4">4 ― ¥10,000</option></select>
+
+  <label for="token">合言葉</label>
+  <input id="token" type="password" autocomplete="current-password">
+
+  <button id="go">登録して掲載する</button>
+  <div class="result" id="res"></div>
+</main>
+<script>
+const API="https://yusando-gallery.isozaki-f67.workers.dev";
+const $=s=>document.querySelector(s);
+$("#token").value=localStorage.getItem("gt")||"";
+$("#photos").addEventListener("change",e=>{
+  $("#thumbs").innerHTML=[...e.target.files].slice(0,5).map(f=>`<img src="${URL.createObjectURL(f)}" alt="">`).join("");
+});
+// 送信前に縮小（長辺1600px・JPEG 0.85）— APIの上限とアップロード時間対策
+async function shrink(file, max=1600){
+  const img=await createImageBitmap(file).catch(()=>null);
+  if(!img) return file;
+  const r=Math.min(1, max/Math.max(img.width,img.height));
+  const c=document.createElement("canvas"); c.width=Math.round(img.width*r); c.height=Math.round(img.height*r);
+  c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+  const blob=await new Promise(res=>c.toBlob(res,"image/jpeg",0.85));
+  return new File([blob], file.name.replace(/\.\w+$/,"")+".jpg", {type:"image/jpeg"});
+}
+$("#go").addEventListener("click",async()=>{
+  const files=[...$("#photos").files].slice(0,5);
+  const res=$("#res"); res.className="result";
+  if(!files.length){res.textContent="写真を選んでください。";return;}
+  localStorage.setItem("gt",$("#token").value);
+  $("#go").disabled=true; res.textContent="写真を整えています…";
+  const small=[]; for(const f of files) small.push(await shrink(f));
+  const fd=new FormData(); small.forEach(f=>fd.append("photos",f)); fd.append("tier",$("#tier").value);
+  res.textContent="解析しています…（20秒ほど）";
+  try{
+    const r=await fetch(API+"/api/upload",{method:"POST",headers:{"x-upload-token":$("#token").value},body:fd});
+    const j=await r.json();
+    if(!r.ok){res.className="result err";res.textContent=j.error+(j.detail?"："+j.detail.slice(0,300):"");}
+    else{res.innerHTML=`登録しました：銘「${j.mei}」　¥${j.price.toLocaleString()}<br><a href="${j.url}">掲載ページを見る</a>`;
+      $("#photos").value="";$("#thumbs").innerHTML="";}
+  }catch(e){res.className="result err";res.textContent="通信に失敗しました。もう一度お試しください。";}
+  $("#go").disabled=false;
+});
+</script></body></html>
