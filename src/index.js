@@ -140,6 +140,14 @@ export default {
     const { pathname } = new URL(request.url);
     const m = request.method;
     if (m === "OPTIONS") return new Response(null, { status: 204, headers: cors(request) });
+    if (pathname === "/api/health" && m === "GET") {
+      const k = env.ANTHROPIC_API_KEY || "";
+      return json({
+        anthropic_key: k ? `${k.slice(0, 16)}…${k.slice(-4)} (${k.length}文字${/\s/.test(k) ? "・空白あり!" : ""}${/["']/.test(k) ? "・引用符あり!" : ""})` : "未設定",
+        upload_token: env.UPLOAD_TOKEN ? "設定済み" : "未設定",
+        db: !!env.DB, photos: !!env.PHOTOS,
+      });
+    }
     if (pathname === "/api/upload" && m === "POST") return upload(request, env);
     if (pathname === "/api/items" && m === "GET") return listItems(request, env);
     const item = pathname.match(/^\/api\/items\/([\w-]+)$/);
