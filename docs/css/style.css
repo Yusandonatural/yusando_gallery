@@ -266,35 +266,58 @@ a.tool-card:hover .ico{color:var(--gold)}
 .pn a:hover{border-color:var(--matcha);color:var(--matcha)}
 
 /* ================= stock listing (Worker API) ================= */
-.shop-stub.has-stock{text-align:left;padding:34px 30px 30px}
-.shop-stub.has-stock h3{font-size:17px;letter-spacing:.16em;font-weight:500;
-  text-align:center;margin-bottom:26px;color:var(--matcha)}
-.stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
-.stock-card{display:block;background:var(--paper);border:1px solid var(--line);
-  border-radius:4px;overflow:hidden;transition:transform .35s ease,box-shadow .35s ease,border-color .35s}
-a.stock-card:hover{transform:translateY(-4px);border-color:var(--gold);
-  box-shadow:0 18px 40px -22px rgba(43,42,38,.35)}
-.st-photo{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--paper-deep);display:block}
-.st-nophoto{aspect-ratio:4/3}
-.stock-card.sold .st-photo{filter:grayscale(.85);opacity:.72}
-.st-body{padding:18px 18px 20px}
-.st-mei{font-size:17px;letter-spacing:.14em;font-weight:500;display:flex;
-  align-items:baseline;gap:9px;flex-wrap:wrap}
-.st-yomi{font-family:var(--sans);font-size:10px;letter-spacing:.16em;color:var(--gold)}
-.st-desc{margin-top:9px;font-size:12.5px;line-height:1.9;color:var(--ink-soft);
-  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.st-sekki{margin-top:10px;font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
-  color:var(--rikyu)}
-.st-price{margin-top:12px;font-size:15px;letter-spacing:.06em;color:var(--matcha)}
-.st-sold{font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
-  color:var(--shu);margin-left:8px}
-.st-more{margin-top:10px;font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;
-  color:var(--matcha)}
-.st-note{margin-top:22px;text-align:center;font-family:var(--sans);font-size:11.5px;
+.shop-stub.has-stock{text-align:left;padding:34px 26px 30px;background:var(--paper-deep)}
+.shop-stub.has-stock h3{font-size:16px;letter-spacing:.2em;font-weight:500;
+  text-align:center;margin-bottom:28px;color:var(--matcha)}
+
+.stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:22px}
+
+.stock-card{display:flex;flex-direction:column;height:100%;background:transparent;
+  transition:transform .4s ease}
+a.stock-card:hover{transform:translateY(-3px)}
+
+/* 正方形に切り抜く。枠は紙色の余白で受ける */
+.st-frame{display:block;position:relative;aspect-ratio:1;overflow:hidden;
+  background:var(--paper);border:1px solid var(--line);border-radius:2px}
+.st-frame img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+a.stock-card:hover .st-frame img{transform:scale(1.045)}
+a.stock-card:hover .st-frame{border-color:var(--gold)}
+.st-nophoto{display:block;width:100%;height:100%;background:var(--paper-deep)}
+
+.st-badge{position:absolute;left:0;bottom:0;font-family:var(--sans);
+  font-size:10px;letter-spacing:.2em;color:var(--paper);background:rgba(43,42,38,.82);
+  padding:6px 14px}
+.stock-card.sold .st-frame img{filter:grayscale(.9);opacity:.68}
+
+/* 銘を主役に。説明文はカードに載せず、詳細ページに預ける */
+.st-body{flex:1;display:flex;flex-direction:column;padding:14px 2px 0}
+.st-mei{display:block;font-size:17px;letter-spacing:.14em;font-weight:500;line-height:1.5}
+.st-yomi{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.18em;
+  color:var(--gold);margin-top:3px}
+.st-meta{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  font-family:var(--sans);font-size:11px;letter-spacing:.06em;
+  color:var(--rikyu);margin-top:9px;line-height:1.7}
+.st-sekki{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 12px}
+.st-sekki span{font-family:var(--sans);font-size:10px;letter-spacing:.08em;
+  color:var(--matcha);border:1px solid rgba(74,93,58,.28);border-radius:999px;
+  padding:2px 9px;line-height:1.7}
+.st-price{display:block;font-size:15px;letter-spacing:.08em;color:var(--ink);
+  margin-top:auto;padding-top:11px;border-top:1px solid var(--line)}
+.st-sekki+.st-price,.st-meta+.st-price{margin-top:auto}
+.stock-card.sold .st-price{color:var(--rikyu)}
+
+.st-note{margin-top:28px;text-align:center;font-family:var(--sans);font-size:11.5px;
   letter-spacing:.06em;color:var(--rikyu)}
-@media (max-width:560px){
-  .shop-stub.has-stock{padding:26px 18px 24px}
-  .stock-grid{grid-template-columns:1fr;gap:16px}
+
+@media (max-width:640px){
+  .shop-stub.has-stock{padding:26px 16px 24px}
+  .stock-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .st-body{padding-top:11px}
+  .st-mei{font-size:15px;letter-spacing:.1em}
+  .st-meta{font-size:10px;margin-top:7px}
+  .st-price{font-size:13.5px;padding-top:9px}
+  .st-sekki span{font-size:9px;padding:2px 7px}
 }
 
 /* ================= guide page ================= */

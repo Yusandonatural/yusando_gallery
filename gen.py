@@ -1137,10 +1137,10 @@ window.CHADOGU_EC = {
   var root = stub.getAttribute('data-ec-root') || '';
   var en = document.documentElement.lang === 'en';
   var T = en
-    ? { head: 'Available Now', sold: ' (sold)', detail: 'View details',
+    ? { head: 'Available Now', sold: 'SOLD', detail: 'View details',
         note: 'Prices include tax. Each piece is one of a kind.' }
     : { head: 'いま買える' + (stub.getAttribute('data-ec-name') || cat),
-        sold: '(売却済)', detail: '詳しく見る',
+        sold: '売却済', detail: '詳しく見る',
         note: '価格は税込。すべて一点ものです。' };
 
   var esc = function (v) {
@@ -1173,29 +1173,36 @@ window.CHADOGU_EC = {
     var cards = items.map(function (i) {
       var sold = i.status === 'sold';
       var photo = (i.photos && i.photos[0])
-        ? '<img class="st-photo" loading="lazy" alt="' + esc(i.mei) + '" src="'
+        ? '<img loading="lazy" alt="' + esc(i.mei) + '" src="'
           + EC.endpoint + '/photos/' + esc(i.photos[0]) + '">'
-        : '<div class="st-photo st-nophoto"></div>';
+        : '<span class="st-nophoto"></span>';
+
       // sekki は配列でもJSON文字列でも受ける(D1のTEXT列のため)
       var sk = i.sekki;
       if (typeof sk === 'string') {
         try { sk = JSON.parse(sk); } catch (e) { sk = sk.split(/[,・]/); }
       }
       var sekki = (Array.isArray(sk) && sk.length)
-        ? '<p class="st-sekki">' + sk.map(esc).join('・') + '</p>' : '';
+        ? '<p class="st-sekki">' + sk.slice(0, 3).map(function (v) {
+            return '<span>' + esc(v) + '</span>'; }).join('') + '</p>' : '';
+
+      // 産地・時代は分かっているものだけ、中黒でつなぐ
+      var facts = [i.kiln, i.era].filter(function (v) {
+        return v && !/^(不詳|不明)$/.test(String(v).trim()); });
+      var meta = facts.length
+        ? '<p class="st-meta">' + facts.map(esc).join(' ・ ') + '</p>' : '';
+
       return '<a class="stock-card' + (sold ? ' sold' : '') + '" href="'
         + root + 'item.html?id=' + encodeURIComponent(i.id) + '">'
-        + photo
-        + '<div class="st-body">'
-        + '<h4 class="st-mei">' + esc(i.mei)
+        + '<span class="st-frame">' + photo
+        + (sold ? '<span class="st-badge">' + T.sold + '</span>' : '') + '</span>'
+        + '<span class="st-body">'
+        + '<span class="st-mei">' + esc(i.mei || '無銘') + '</span>'
         + (i.mei_yomi ? '<span class="st-yomi">' + esc(i.mei_yomi) + '</span>' : '')
-        + '</h4>'
-        + (i.description ? '<p class="st-desc">' + esc(i.description) + '</p>' : '')
-        + sekki
-        + '<p class="st-price">¥' + Number(i.price || 0).toLocaleString('ja-JP')
-        + (sold ? '<span class="st-sold">' + T.sold + '</span>' : '') + '</p>'
-        + '<p class="st-more">' + T.detail + ' →</p>'
-        + '</div></a>';
+        + meta + sekki
+        + '<span class="st-price">¥' + Number(i.price || 0).toLocaleString('ja-JP')
+        + '</span>'
+        + '</span></a>';
     }).join('');
 
     stub.classList.add('has-stock');
