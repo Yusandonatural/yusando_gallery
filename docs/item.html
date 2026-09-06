@@ -5,7 +5,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 </head><body>
-<header class="site"><h1><a href="/">悠三堂　茶器</a></h1><span class="note">奈良・都祁より</span></header>
+<header class="site"><h1><a href="/stock.html">悠三堂　茶器</a></h1><span class="note">奈良・都祁より</span></header>
 <main class="detail" id="d"></main>
 <script>
 const API="https://yusando-gallery.isozaki-f67.workers.dev";
@@ -34,6 +34,6 @@ fetch(API+"/api/items/"+id).then(r=>r.ok?r.json():null).then(i=>{
    </dl>
    <p class="price">${yen(i.price)}${i.status==="sold"?"　売却済":""}</p>
    ${i.status==="sold"?"":`<a class="buy" href="${INQUIRY}?item=${i.id}&mei=${encodeURIComponent(i.mei||"")}">この茶器について問い合わせる</a>`}
-   <a class="back" href="/">一覧へ戻る</a>`;
+   <a class="back" href="/stock.html">一覧へ戻る</a>`;
 });
 </script></body></html>
