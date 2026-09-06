@@ -1189,6 +1189,11 @@ def smarten(html):
     return re.sub(r'\x00(\d+)\x00', lambda m: blocks[int(m.group(1))], html)
 
 
+import hashlib
+JS_V = hashlib.md5(
+    open(os.path.join(ROOT, "js", "site.js"), encoding="utf-8").read().encode()
+).hexdigest()[:8]
+
 for p in ja_pages:
     depth = p.count("/")
     prefix = "../" * depth
@@ -1197,6 +1202,8 @@ for p in ja_pages:
     for q in (p, f"en/{p}"):
         full = os.path.join(ROOT, q)
         src = open(full, encoding="utf-8").read()
+        # ブラウザが古い site.js を掴み続けないよう、内容ハッシュを付ける
+        src = re.sub(r'js/site\.js(\?v=[0-9a-f]+)?', f'js/site.js?v={JS_V}', src)
         open(full, "w", encoding="utf-8").write(smarten(src))
     inject_hreflang(p, p)
     inject_hreflang(f"en/{p}", p)

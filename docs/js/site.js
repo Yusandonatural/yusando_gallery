@@ -52,6 +52,17 @@ window.CHADOGU_EC = {
     });
   };
 
+  // ?debug=1 を付けたときだけ、画面に理由を出す
+  var DBG = /[?&]debug=/.test(location.search);
+  var note = function (msg) {
+    if (!DBG) return;
+    var p = document.createElement('p');
+    p.style.cssText = 'margin-top:14px;font-size:12px;color:#a53f2b';
+    p.textContent = '[stock] ' + msg;
+    stub.appendChild(p);
+  };
+  if (DBG) note('category=' + cat + ' / endpoint=' + EC.endpoint);
+
   fetch(EC.endpoint + '/api/items').then(function (r) {
     if (!r.ok) throw new Error(r.status);
     return r.json();
@@ -59,7 +70,8 @@ window.CHADOGU_EC = {
     var items = (all || []).filter(function (i) {
       return i.category === cat && i.status !== 'hidden';
     });
-    if (!items.length) return;                        // 準備中の文面を残す
+    if (DBG) note('APIから ' + (all || []).length + ' 件、うち該当 ' + items.length + ' 件');
+    if (!items.length) return 0;                      // 準備中の文面を残す
 
     var cards = items.map(function (i) {
       var sold = i.status === 'sold';
@@ -67,8 +79,13 @@ window.CHADOGU_EC = {
         ? '<img class="st-photo" loading="lazy" alt="' + esc(i.mei) + '" src="'
           + EC.endpoint + '/photos/' + esc(i.photos[0]) + '">'
         : '<div class="st-photo st-nophoto"></div>';
-      var sekki = (i.sekki && i.sekki.length)
-        ? '<p class="st-sekki">' + i.sekki.map(esc).join('・') + '</p>' : '';
+      // sekki は配列でもJSON文字列でも受ける(D1のTEXT列のため)
+      var sk = i.sekki;
+      if (typeof sk === 'string') {
+        try { sk = JSON.parse(sk); } catch (e) { sk = sk.split(/[,・]/); }
+      }
+      var sekki = (Array.isArray(sk) && sk.length)
+        ? '<p class="st-sekki">' + sk.map(esc).join('・') + '</p>' : '';
       return '<a class="stock-card' + (sold ? ' sold' : '') + '" href="'
         + root + 'item.html?id=' + encodeURIComponent(i.id) + '">'
         + photo
@@ -88,7 +105,12 @@ window.CHADOGU_EC = {
     stub.innerHTML = '<h3>' + esc(T.head) + '</h3>'
       + '<div class="stock-grid">' + cards + '</div>'
       + '<p class="st-note">' + esc(T.note) + '</p>';
-  }).catch(function () {
-    /* 取得できないときは「準備中」のまま静かに残す */
+    return items.length;
+  }).then(function (n) {
+    if (DBG) note('在庫 ' + n + ' 件を表示しました (' + cat + ')');
+  }).catch(function (e) {
+    // 取得できないときは「準備中」のまま残す。?debug=1 で理由を表示。
+    console.warn('[stock] 在庫を取得できませんでした:', e);
+    note('在庫を取得できませんでした: ' + (e && e.message ? e.message : e));
   });
 })();
