@@ -63,7 +63,7 @@ def shell_en(title, desc, body, root="../", current=""):
       <a href="{root}en/index.html#about">ABOUT</a>
     </nav>
   </div>
-  <p class="f-copy">© 2026 YUSANDO ANTIQUE GALLERY — Demo draft. Online shop integration coming soon.</p>
+  <p class="f-copy">© 2026 YUSANDO ANTIQUE GALLERY — Demo draft. Online ordering is not yet available.</p>
 </footer>
 <script src="{root}js/site.js"></script>
 </body>
@@ -445,11 +445,11 @@ index_body = f'''
 </section>
 
 <section class="section reveal" style="text-align:center">
-  <p class="section-kicker">SHOP</p>
-  <h2 class="section-title">Online Shop — Coming Soon</h2>
+  <p class="section-kicker">GALLERY</p>
+  <h2 class="section-title">The Pieces We Hold</h2>
   <div class="rule"></div>
-  <p class="section-lede">This site is built to connect to an online shop, so each utensil page will show pre-loved pieces available right now. The listing slots on the detail pages are waiting for it.</p>
-  <div style="margin-top:30px"><span class="btn" style="opacity:.5;cursor:default">SHOP (COMING SOON)</span></div>
+  <p class="section-lede">Each utensil page shows the pieces held in the Yusando gallery. Ask us about anything that catches your eye — online ordering will follow once it is ready.</p>
+  <div style="margin-top:30px"><span class="btn" style="opacity:.5;cursor:default">ONLINE ORDERING — NOT YET</span></div>
 </section>
 '''
 w("en/index.html", shell_en("Yusando Antique Gallery — Flat-Price Used Japanese Tea Utensils",
@@ -1064,8 +1064,8 @@ def detail_en(t, i):
     <div class="d-rule"></div>
     <div class="shop-stub" data-ec-category="{t["slug"]}" data-ec-root="../../" data-ec-name="{t["name"]}">
       <div class="listing-slot" id="listings-{t["slug"]}"></div>
-      <h3>Online Shop — Coming Soon</h3>
-      <p>Once the shop is connected, pre-loved {t["en"].lower()}s available now will appear right here.</p>
+      <h3>In the Yusando Gallery</h3>
+      <p>Pieces of this kind held in the gallery will appear here.</p>
       <button class="btn" disabled>VIEW STOCK — COMING SOON</button>
     </div>
   </section>

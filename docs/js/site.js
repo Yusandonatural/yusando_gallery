@@ -40,11 +40,13 @@ window.CHADOGU_EC = {
   var root = stub.getAttribute('data-ec-root') || '';
   var en = document.documentElement.lang === 'en';
   var T = en
-    ? { head: 'Available Now', sold: 'SOLD', detail: 'View details',
-        note: 'Prices include tax. Each piece is one of a kind.' }
-    : { head: 'いま買える' + (stub.getAttribute('data-ec-name') || cat),
+    ? { head: 'In the Yusando Gallery', sold: 'SOLD', detail: 'View details',
+        ask: 'Enquire', gone: 'No longer available',
+        note: 'Each piece is one of a kind. Online ordering is not yet available.' }
+    : { head: '悠三堂ギャラリーにある' + (stub.getAttribute('data-ec-name') || cat),
         sold: '売却済', detail: '詳しく見る',
-        note: '価格は税込。すべて一点ものです。' };
+        ask: 'お問い合わせください', gone: 'お渡し済み',
+        note: 'すべて一点ものです。オンラインでの販売は行っておりません。' };
 
   var esc = function (v) {
     return String(v == null ? '' : v).replace(/[&<>"]/g, function (c) {
@@ -103,8 +105,7 @@ window.CHADOGU_EC = {
         + '<span class="st-mei">' + esc(i.mei || '無銘') + '</span>'
         + (i.mei_yomi ? '<span class="st-yomi">' + esc(i.mei_yomi) + '</span>' : '')
         + meta + sekki
-        + '<span class="st-price">¥' + Number(i.price || 0).toLocaleString('ja-JP')
-        + '</span>'
+        + '<span class="st-price">' + esc(sold ? T.gone : T.ask) + '</span>'
         + '</span></a>';
     }).join('');
 

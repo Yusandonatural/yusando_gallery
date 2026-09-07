@@ -589,7 +589,7 @@ def shell(title, desc, body, root="", current="", extra_head=""):
       <a href="{root}index.html#about">このサイトについて ABOUT</a>
     </nav>
   </div>
-  <p class="f-copy">© 2026 YUSANDO ANTIQUE GALLERY — このサイトはデモ・下書きです。オンラインショップ(EC)連携は準備中。</p>
+  <p class="f-copy">© 2026 YUSANDO ANTIQUE GALLERY — このサイトはデモ・下書きです。オンラインでの販売は行っておりません。</p>
 </footer>
 <script src="{root}js/site.js"></script>
 </body>
@@ -728,11 +728,11 @@ index_body = f'''
 </section>
 
 <section class="section reveal" style="text-align:center">
-  <p class="section-kicker">オンラインショップ — SHOP</p>
+  <p class="section-kicker">ギャラリーの道具 — GALLERY</p>
   <h2 class="section-title">EC連携は、準備中です</h2>
   <div class="rule"></div>
-  <p class="section-lede">このサイトは将来、オンラインショップと連携し、道具ページから直接「いま買える中古在庫」を見られるようにする設計になっています。各道具ページの在庫枠は、その受け皿です。</p>
-  <div style="margin-top:30px"><span class="btn" style="opacity:.5;cursor:default">オンラインショップ(準備中)</span></div>
+  <p class="section-lede">各道具のページには、悠三堂ギャラリーにある道具が並びます。気になるものはお問い合わせください。オンラインでのお求めは準備が整いしだいご案内します。</p>
+  <div style="margin-top:30px"><span class="btn" style="opacity:.5;cursor:default">オンライン販売は準備中</span></div>
 </section>
 '''
 
@@ -1045,9 +1045,9 @@ def detail(t, i):
     <div class="d-rule"></div>
     <div class="shop-stub" data-ec-category="{t["slug"]}" data-ec-root="../" data-ec-name="{t["name"]}">
       <div class="listing-slot" id="listings-{t["slug"]}"></div>
-      <h3>オンラインショップ 準備中</h3>
-      <p>EC連携後、この枠に「いま買える中古の{t["name"]}」が表示されます。<br>Listings will appear here once the online shop is connected.</p>
-      <button class="btn" disabled>在庫を見る — COMING SOON</button>
+      <h3>悠三堂ギャラリーにある道具</h3>
+      <p>この枠に、悠三堂ギャラリーにある{t["name"]}が並びます。<br>Pieces held in the Yusando gallery will appear here.</p>
+      <button class="btn" disabled>ただいま準備中</button>
     </div>
   </section>
 </div>
@@ -1137,11 +1137,13 @@ window.CHADOGU_EC = {
   var root = stub.getAttribute('data-ec-root') || '';
   var en = document.documentElement.lang === 'en';
   var T = en
-    ? { head: 'Available Now', sold: 'SOLD', detail: 'View details',
-        note: 'Prices include tax. Each piece is one of a kind.' }
-    : { head: 'いま買える' + (stub.getAttribute('data-ec-name') || cat),
+    ? { head: 'In the Yusando Gallery', sold: 'SOLD', detail: 'View details',
+        ask: 'Enquire', gone: 'No longer available',
+        note: 'Each piece is one of a kind. Online ordering is not yet available.' }
+    : { head: '悠三堂ギャラリーにある' + (stub.getAttribute('data-ec-name') || cat),
         sold: '売却済', detail: '詳しく見る',
-        note: '価格は税込。すべて一点ものです。' };
+        ask: 'お問い合わせください', gone: 'お渡し済み',
+        note: 'すべて一点ものです。オンラインでの販売は行っておりません。' };
 
   var esc = function (v) {
     return String(v == null ? '' : v).replace(/[&<>"]/g, function (c) {
@@ -1200,8 +1202,7 @@ window.CHADOGU_EC = {
         + '<span class="st-mei">' + esc(i.mei || '無銘') + '</span>'
         + (i.mei_yomi ? '<span class="st-yomi">' + esc(i.mei_yomi) + '</span>' : '')
         + meta + sekki
-        + '<span class="st-price">¥' + Number(i.price || 0).toLocaleString('ja-JP')
-        + '</span>'
+        + '<span class="st-price">' + esc(sold ? T.gone : T.ask) + '</span>'
         + '</span></a>';
     }).join('');
 
