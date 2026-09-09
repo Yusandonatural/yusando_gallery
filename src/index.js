@@ -18,6 +18,8 @@ const authed = (request, env) => {
   const t = request.headers.get("x-upload-token") || new URL(request.url).searchParams.get("token");
   return !!env.UPLOAD_TOKEN && t === env.UPLOAD_TOKEN;
 };
+const CATEGORIES = ["茶碗","茶入","棗","水指","建水","蓋置","茶杓","花入","香合",
+  "釜・風炉","急須・宝瓶","湯冷まし","湯呑・茶托","菓子器","掛物","その他"];
 const tiers = (env) => (env.PRICE_TIERS || "3000,5000,7000,10000").split(",").map((n) => parseInt(n.trim(), 10));
 const publicItem = (row) => ({ ...row, photos: JSON.parse(row.photos || "[]"), has_box: !!row.has_box, raw_json: undefined });
 
@@ -25,19 +27,30 @@ const SYSTEM = `あなたは日本の茶道具商の目利きです。茶器の�
 作家名・窯・時代は断定せず「〜と思われる」「〜風」と書きます。写っていないことは書きません。
 出力は必ずJSONのみ。前置き・コードフェンス不要。`;
 
-const prompt = (n) => `写真${n}枚の茶器について、次のJSONを返してください。
+const prompt = (n, forcedCategory) => `写真${n}枚の茶器について、次のJSONを返してください。
+日本語と英語の両方を書きます。英語は日本語の直訳ではなく、海外の茶道具愛好家に向けた自然な英文にしてください。
+${forcedCategory ? `この茶器の種別は「${forcedCategory}」です。category はこの値をそのまま返してください。` : ""}
 {
- "category": "種別（例: 茶碗／茶入／水指／建水／蓋置／茶杓／花入）",
+ "category": "種別。次のいずれか: ${CATEGORIES.join("／")}",
  "technique": "成形・技法（例: 轆轤成形、手捏ね、粉引、刷毛目）",
+ "technique_en": "同上を英語で（例: wheel-thrown, hand-built, kohiki slip）",
  "glaze": "釉薬・土味の観察",
+ "glaze_en": "同上を英語で",
  "kiln": "推定産地・窯（不明なら「不詳」）",
- "era": "推定時代（例: 現代／昭和／江戸後期 など。不明なら「不詳」）",
+ "kiln_en": "同上を英語で（不明なら \"Unknown\"）",
+ "era": "推定時代（例: 現代／昭和／江戸後期。不明なら「不詳」）",
+ "era_en": "同上を英語で（例: Contemporary / Shōwa / late Edo。不明なら \"Unknown\"）",
  "condition": "状態（ニュウ・ホツ・直し・貫入・使用感の有無を具体的に）",
+ "condition_en": "同上を英語で",
  "has_box": true/false（共箱・箱書きが写っているか）,
  "mei": "銘（漢字2〜4字。季節・景色・茶趣にちなむ）",
  "mei_yomi": "銘の読み（ひらがな）",
+ "mei_romaji": "銘のローマ字（例: Hatsushimo）",
+ "mei_en": "銘の英訳（例: First Frost）。詩的な短い語で",
  "mei_reason": "銘の由来（40字以内）",
+ "mei_reason_en": "銘の由来を英語で（1文）",
  "description": "茶道具商の文体で150〜220字。観察できた特徴→見どころ→取り合わせの提案。断定を避ける。",
+ "description_en": "同じ内容を英語で80〜130語。日本語の直訳ではなく、英語として自然な茶道具の解説に。",
  "tier": 1〜4の整数,
  "tier_reason": "等級の理由（40字以内）"
 }
@@ -47,13 +60,14 @@ const prompt = (n) => `写真${n}枚の茶器について、次のJSONを返し�
 3 = 作行き・釉調が良い、作家物と思われる、見どころが明確
 4 = 共箱や箱書きあり、作家サインが確認できる、特に上質
 `;
-
 async function upload(request, env) {
   if (!authed(request, env)) return json({ error: "合言葉が違います" }, 401);
   const form = await request.formData();
   const files = form.getAll("photos").filter((f) => f && f.size > 0).slice(0, 5);
   if (!files.length) return json({ error: "写真が1枚もありません" }, 400);
   const forcedTier = parseInt(form.get("tier") || "", 10);
+  const rawCat = (form.get("category") || "").trim();
+  const forcedCategory = CATEGORIES.includes(rawCat) ? rawCat : "";
   if (!env.ANTHROPIC_API_KEY) return json({ error: "ANTHROPIC_API_KEY が未設定です（Settings → Variables and Secrets）" }, 500);
   for (const f of files) if (f.size > 4.5 * 1024 * 1024) return json({ error: `写真が大きすぎます（${(f.size/1048576).toFixed(1)}MB）。縮小して再送してください` }, 413);
 
@@ -72,8 +86,8 @@ async function upload(request, env) {
     method: "POST",
     headers: { "content-type": "application/json", "x-api-key": env.ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
-      model: env.CLAUDE_MODEL || "claude-sonnet-5", max_tokens: 1200, system: SYSTEM,
-      messages: [{ role: "user", content: [...images, { type: "text", text: prompt(files.length) }] }],
+      model: env.CLAUDE_MODEL || "claude-sonnet-5", max_tokens: 2600, system: SYSTEM,
+      messages: [{ role: "user", content: [...images, { type: "text", text: prompt(files.length, forcedCategory) }] }],
     }),
   });
   if (!res.ok) return json({ error: "AI解析に失敗しました", detail: await res.text() }, 502);
@@ -85,11 +99,16 @@ async function upload(request, env) {
 
   const tier = Math.min(4, Math.max(1, forcedTier || ai.tier || 2));
   const price = tiers(env)[tier - 1];
+  const category = forcedCategory || (CATEGORIES.includes(ai.category) ? ai.category : "その他");
   await env.DB.prepare(`INSERT INTO items
-    (id, created_at, status, mei, mei_yomi, mei_reason, category, technique, glaze, kiln, era, condition, has_box, description, tier, price, tier_reason, photos, raw_json)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
-    .bind(id, new Date().toISOString(), "published", ai.mei, ai.mei_yomi, ai.mei_reason, ai.category, ai.technique, ai.glaze, ai.kiln, ai.era, ai.condition,
-      ai.has_box ? 1 : 0, ai.description, tier, price, ai.tier_reason, JSON.stringify(keys), text).run();
+    (id, created_at, status, mei, mei_yomi, mei_reason, category, technique, glaze, kiln, era, condition, has_box, description, tier, price, tier_reason, photos, raw_json,
+     mei_en, mei_romaji, mei_reason_en, technique_en, glaze_en, kiln_en, era_en, condition_en, description_en)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?,?,?,?,?,?,?,?,?)`)
+    .bind(id, new Date().toISOString(), "published", ai.mei, ai.mei_yomi, ai.mei_reason, category, ai.technique, ai.glaze, ai.kiln, ai.era, ai.condition,
+      ai.has_box ? 1 : 0, ai.description, tier, price, ai.tier_reason, JSON.stringify(keys), text,
+      ai.mei_en || null, ai.mei_romaji || null, ai.mei_reason_en || null, ai.technique_en || null,
+      ai.glaze_en || null, ai.kiln_en || null, ai.era_en || null, ai.condition_en || null,
+      ai.description_en || null).run();
   return json({ id, mei: ai.mei, price, tier, url: `/item.html?id=${id}` });
 }
 
@@ -110,7 +129,11 @@ async function getItem(id, env) {
 async function patchItem(request, id, env) {
   if (!authed(request, env)) return json({ error: "unauthorized" }, 401);
   const body = await request.json();
-  const allowed = ["status", "mei", "mei_yomi", "mei_reason", "description", "tier", "category", "kiln", "era", "condition"];
+  const allowed = ["status", "mei", "mei_yomi", "mei_reason", "description", "tier", "category",
+    "kiln", "era", "condition", "technique", "glaze", "sekki", "sekki_reason",
+    "mei_en", "mei_romaji", "mei_reason_en", "description_en",
+    "technique_en", "glaze_en", "kiln_en", "era_en", "condition_en"];
+  if (Array.isArray(body.sekki)) body.sekki = JSON.stringify(body.sekki);
   const sets = [], vals = [];
   for (const k of allowed) if (k in body) { sets.push(`${k}=?`); vals.push(body[k]); }
   if ("tier" in body) { sets.push("price=?"); vals.push(tiers(env)[Math.min(4, Math.max(1, body.tier)) - 1]); }

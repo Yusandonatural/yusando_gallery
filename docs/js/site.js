@@ -26,7 +26,9 @@ window.CHADOGU_EC = {
     kensui: "建水", futaoki: "蓋置", chashaku: "茶杓", hanaire: "花入",
     kogo: "香合", kama: "釜・風炉", furo: "釜・風炉", kashiki: "菓子器",
     kakemono: "掛物"
-  }
+  },
+  // 二十四節気の英語表記(英語ページのチップ用)
+  sekkiEn: {"立春":"Risshun","雨水":"Usui","啓蟄":"Keichitsu","春分":"Shunbun","清明":"Seimei","穀雨":"Kokuu","立夏":"Rikka","小満":"Shōman","芒種":"Bōshu","夏至":"Geshi","小暑":"Shōsho","大暑":"Taisho","立秋":"Risshū","処暑":"Shosho","白露":"Hakuro","秋分":"Shūbun","寒露":"Kanro","霜降":"Sōkō","立冬":"Rittō","小雪":"Shōsetsu","大雪":"Taisetsu","冬至":"Tōji","小寒":"Shōkan","大寒":"Daikan"}
 };
 
 (function () {
@@ -82,6 +84,9 @@ window.CHADOGU_EC = {
           + EC.endpoint + '/photos/' + esc(i.photos[0]) + '">'
         : '<span class="st-nophoto"></span>';
 
+      // 英語ページでは英語の項目を優先し、無ければ日本語にもどる
+      var pick = function (k) { return (en && i[k + '_en']) ? i[k + '_en'] : i[k]; };
+
       // sekki は配列でもJSON文字列でも受ける(D1のTEXT列のため)
       var sk = i.sekki;
       if (typeof sk === 'string') {
@@ -89,21 +94,27 @@ window.CHADOGU_EC = {
       }
       var sekki = (Array.isArray(sk) && sk.length)
         ? '<p class="st-sekki">' + sk.slice(0, 3).map(function (v) {
-            return '<span>' + esc(v) + '</span>'; }).join('') + '</p>' : '';
+            return '<span>' + esc(en ? (EC.sekkiEn[v] || v) : v) + '</span>'; }).join('')
+          + '</p>' : '';
 
       // 産地・時代は分かっているものだけ、中黒でつなぐ
-      var facts = [i.kiln, i.era].filter(function (v) {
-        return v && !/^(不詳|不明)$/.test(String(v).trim()); });
+      var facts = [pick('kiln'), pick('era')].filter(function (v) {
+        return v && !/^(不詳|不明|unknown)$/i.test(String(v).trim()); });
       var meta = facts.length
-        ? '<p class="st-meta">' + facts.map(esc).join(' ・ ') + '</p>' : '';
+        ? '<p class="st-meta">' + facts.map(esc).join(en ? ' · ' : ' ・ ') + '</p>' : '';
 
       return '<a class="stock-card' + (sold ? ' sold' : '') + '" href="'
         + root + 'item.html?id=' + encodeURIComponent(i.id) + '">'
         + '<span class="st-frame">' + photo
         + (sold ? '<span class="st-badge">' + T.sold + '</span>' : '') + '</span>'
         + '<span class="st-body">'
-        + '<span class="st-mei">' + esc(i.mei || '無銘') + '</span>'
-        + (i.mei_yomi ? '<span class="st-yomi">' + esc(i.mei_yomi) + '</span>' : '')
+        + '<span class="st-mei">'
+        + esc((en && i.mei_en) ? i.mei_en : (i.mei || (en ? 'Unnamed' : '無銘'))) + '</span>'
+        + (function () {
+            // 英語では「ローマ字 · 漢字の銘」、日本語では読みだけ
+            var sub = en ? [i.mei_romaji, i.mei].filter(Boolean).join(' · ') : i.mei_yomi;
+            return sub ? '<span class="st-yomi">' + esc(sub) + '</span>' : '';
+          })()
         + meta + sekki
         + '<span class="st-price">' + esc(sold ? T.gone : T.ask) + '</span>'
         + '</span></a>';

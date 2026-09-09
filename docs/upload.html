@@ -74,7 +74,7 @@ input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events
   background:linear-gradient(transparent,rgba(43,42,38,.72));
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.hint{font-family:var(--sans);font-size:11.5px;color:var(--rikyu);margin-top:10px;line-height:1.8}
+.hint{font-family:var(--sans);font-size:11.5px;color:var(--rikyu);margin-top:9px;line-height:1.8}
 
 select,input[type=password]{width:100%;font-family:var(--sans);font-size:15px;
   padding:13px 14px;border:1px solid var(--line);border-radius:4px;
@@ -135,6 +135,30 @@ select:focus,input:focus{outline:0;border-color:var(--matcha)}
 
       <div class="thumbs" id="thumbs"></div>
       <p class="hint" id="hint" hidden>1枚目が一覧のサムネイルになります。↑↓ で順番を入れ替えられます。</p>
+    </div>
+
+    <div class="field">
+      <div class="label">種別</div>
+      <select id="category">
+        <option value="">AIにおまかせ</option>
+        <option value="茶碗">茶碗</option>
+        <option value="茶入">茶入</option>
+        <option value="棗">棗</option>
+        <option value="水指">水指</option>
+        <option value="建水">建水</option>
+        <option value="蓋置">蓋置</option>
+        <option value="茶杓">茶杓</option>
+        <option value="花入">花入</option>
+        <option value="香合">香合</option>
+        <option value="釜・風炉">釜・風炉</option>
+        <option value="急須・宝瓶">急須・宝瓶</option>
+        <option value="湯冷まし">湯冷まし</option>
+        <option value="湯呑・茶托">湯呑・茶托</option>
+        <option value="菓子器">菓子器</option>
+        <option value="掛物">掛物</option>
+        <option value="その他">その他</option>
+      </select>
+      <p class="hint">迷ったら「おまかせ」で構いません。指定すると、その種別で登録されます。</p>
     </div>
 
     <div class="field">
@@ -265,6 +289,7 @@ $("form").addEventListener("submit", async (e) => {
       fd.append("photos", await shrink(files[i].file));
     }
     if ($("tier").value) fd.append("tier", $("tier").value);
+    if ($("category").value) fd.append("category", $("category").value);
 
     btn.textContent = "AIが見ています… 20秒ほど";
     const res = await fetch(API + "/api/upload", {
