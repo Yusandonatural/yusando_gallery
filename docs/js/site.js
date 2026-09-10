@@ -109,10 +109,10 @@ window.CHADOGU_EC = {
         + (sold ? '<span class="st-badge">' + T.sold + '</span>' : '') + '</span>'
         + '<span class="st-body">'
         + '<span class="st-mei">'
-        + esc((en && i.mei_en) ? i.mei_en : (i.mei || (en ? 'Unnamed' : '無銘'))) + '</span>'
+        // 銘は訳さない。英語ページではローマ字を主に、漢字を添える
+        + esc((en && i.mei_romaji) ? i.mei_romaji : (i.mei || (en ? 'Unnamed' : '無銘'))) + '</span>'
         + (function () {
-            // 英語では「ローマ字 · 漢字の銘」、日本語では読みだけ
-            var sub = en ? [i.mei_romaji, i.mei].filter(Boolean).join(' · ') : i.mei_yomi;
+            var sub = en ? i.mei : i.mei_yomi;
             return sub ? '<span class="st-yomi">' + esc(sub) + '</span>' : '';
           })()
         + meta + sekki
