@@ -16,18 +16,15 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);
   line-height:1.9;letter-spacing:.04em;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
-[hidden]{display:none!important}
 
 header{border-bottom:1px solid var(--line);background:rgba(247,243,234,.94);
   position:sticky;top:0;z-index:10;backdrop-filter:blur(8px)}
 .hd{max-width:940px;margin:0 auto;padding:0 22px;height:60px;
   display:flex;align-items:center;gap:16px}
 .hd .brand{font-size:15px;letter-spacing:.12em;font-weight:600;white-space:nowrap}
-.hd .back{font-family:var(--sans);font-size:11.5px;letter-spacing:.12em;color:var(--ink-soft)}
-.lang{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
-.lang button{font-family:var(--sans);font-size:11px;letter-spacing:.1em;padding:6px 14px;
-  border:0;background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:.25s}
-.lang button.on{background:var(--matcha);color:var(--paper)}
+.hd .back{margin-left:auto;font-family:var(--sans);font-size:11.5px;
+  letter-spacing:.1em;color:var(--ink-soft);text-align:right;line-height:1.5}
+.hd .back i{display:block;font-style:normal;font-size:9.5px;color:var(--rikyu);letter-spacing:.14em}
 
 .wrap{max-width:940px;margin:0 auto;padding:0 22px 90px}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:44px;padding-top:44px}
@@ -41,58 +38,68 @@ header{border-bottom:1px solid var(--line);background:rgba(247,243,234,.94);
   border-radius:2px;cursor:pointer;opacity:.62;transition:.25s}
 .thumbs img.on,.thumbs img:hover{opacity:1;border-color:var(--gold)}
 
-.mei{font-size:clamp(28px,5vw,38px);letter-spacing:.14em;font-weight:500;line-height:1.4}
-.yomi{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--gold);margin-top:8px}
-.reason{font-size:13.5px;color:var(--ink-soft);margin-top:16px;padding-left:14px;
+/* 銘は訳さず、漢字の下にローマ字を添える */
+.mei{font-size:clamp(27px,4.6vw,36px);letter-spacing:.14em;font-weight:500;line-height:1.4}
+.mei-en{font-family:var(--sans);font-size:clamp(13px,2vw,15px);letter-spacing:.16em;
+  font-weight:400;color:var(--matcha);margin-top:8px;line-height:1.5}
+.yomi{font-family:var(--sans);font-size:10.5px;letter-spacing:.2em;color:var(--gold);margin-top:8px}
+
+/* 由来・説明は 日本語 → 英語 の順に、英語は一段落とした色で */
+.reason{font-size:13.5px;color:var(--ink-soft);margin-top:18px;padding-left:14px;
   border-left:1px solid var(--gold);line-height:1.95}
+.reason .en{display:block;margin-top:6px;color:var(--rikyu);font-size:12.5px}
 .desc{margin-top:26px;font-size:15px;line-height:2.15}
-.sekki{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+.desc .en{display:block;margin-top:16px;padding-top:16px;border-top:1px dotted var(--line);
+  font-size:14px;line-height:2.05;color:var(--ink-soft)}
+
+.sekki{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px}
 .sekki span{font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;color:var(--matcha);
   border:1px solid rgba(74,93,58,.28);border-radius:999px;padding:3px 11px}
+.sekki span b{font-weight:400;color:var(--rikyu);margin-left:5px}
 .sekki-why{font-family:var(--sans);font-size:11.5px;color:var(--rikyu);margin-top:9px;line-height:1.8}
+.sekki-why .en{display:block;margin-top:3px}
 
 dl{margin-top:32px;border-top:1px solid var(--line)}
-.row{display:grid;grid-template-columns:6.5em 1fr;gap:16px;padding:12px 2px;
+.row{display:grid;grid-template-columns:7.5em 1fr;gap:16px;padding:13px 2px;
   border-bottom:1px solid var(--line);align-items:baseline}
-dt{font-family:var(--sans);font-size:11px;letter-spacing:.12em;color:var(--matcha)}
+dt{font-family:var(--sans);font-size:11px;letter-spacing:.1em;color:var(--matcha);line-height:1.6}
+dt i{display:block;font-style:normal;font-size:9px;letter-spacing:.14em;color:var(--rikyu);margin-top:2px}
 dd{font-size:13.5px;line-height:1.95;color:var(--ink-soft)}
-@media (max-width:520px){.row{grid-template-columns:1fr;gap:3px}}
+dd .en{display:block;color:var(--rikyu);font-size:12.5px;margin-top:4px}
+@media (max-width:520px){.row{grid-template-columns:1fr;gap:4px}dt i{display:inline;margin-left:8px}}
 
 .status{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);
-  font-family:var(--sans);font-size:12px;letter-spacing:.12em;color:var(--matcha)}
+  font-family:var(--sans);font-size:12px;letter-spacing:.12em;color:var(--matcha);line-height:1.7}
+.status i{display:block;font-style:normal;font-size:10.5px;color:var(--rikyu);letter-spacing:.1em}
 .status.gone{color:var(--rikyu)}
-.btn{display:inline-block;font-family:var(--sans);font-size:12.5px;letter-spacing:.16em;
-  padding:14px 30px;border:1px solid var(--matcha);color:var(--matcha);
-  margin-top:16px;transition:.3s;border-radius:2px}
+.btn{display:inline-block;font-family:var(--sans);font-size:12px;letter-spacing:.14em;
+  padding:14px 28px;border:1px solid var(--matcha);color:var(--matcha);
+  margin-top:16px;transition:.3s;border-radius:2px;line-height:1.6;text-align:center}
+.btn i{display:block;font-style:normal;font-size:10px;opacity:.75;letter-spacing:.1em}
 .btn:hover{background:var(--matcha);color:var(--paper)}
 .note{font-family:var(--sans);font-size:11px;color:var(--rikyu);margin-top:14px;line-height:1.8}
+.note .en{display:block}
 .msg{padding:80px 0;text-align:center;font-family:var(--sans);font-size:14px;color:var(--rikyu)}
 </style></head><body>
 
 <header><div class="hd">
   <a class="brand" href="/index.html">悠三堂</a>
-  <a class="back" href="/stock.html" id="back">← 一覧</a>
-  <div class="lang">
-    <button id="bja" class="on" type="button">日本語</button>
-    <button id="ben" type="button">EN</button>
-  </div>
+  <a class="back" href="/stock.html">← 一覧<i>ALL PIECES</i></a>
 </div></header>
 
-<div class="wrap"><div id="d"><p class="msg">読み込んでいます…</p></div></div>
+<div class="wrap"><div id="d"><p class="msg">読み込んでいます… / Loading…</p></div></div>
 
 <script>
 const API = "https://yusando-gallery.isozaki-f67.workers.dev";
 const INQUIRY = "https://yusando.com/pages/contact";
 const id = new URLSearchParams(location.search).get("id");
 
-/* 二十四節気の英語表記 */
 const SEKKI_EN = {"立春":"Risshun","雨水":"Usui","啓蟄":"Keichitsu","春分":"Shunbun",
 "清明":"Seimei","穀雨":"Kokuu","立夏":"Rikka","小満":"Shōman","芒種":"Bōshu",
 "夏至":"Geshi","小暑":"Shōsho","大暑":"Taisho","立秋":"Risshū","処暑":"Shosho",
 "白露":"Hakuro","秋分":"Shūbun","寒露":"Kanro","霜降":"Sōkō","立冬":"Rittō",
 "小雪":"Shōsetsu","大雪":"Taisetsu","冬至":"Tōji","小寒":"Shōkan","大寒":"Daikan"};
 
-/* 種別の英語表記 */
 const CAT_EN = {"茶碗":"Chawan — tea bowl","茶入":"Chaire — thick-tea caddy",
 "棗":"Natsume — thin-tea caddy","水指":"Mizusashi — water jar","建水":"Kensui — waste-water bowl",
 "蓋置":"Futaoki — lid rest","茶杓":"Chashaku — tea scoop","花入":"Hanaire — flower vessel",
@@ -101,54 +108,35 @@ const CAT_EN = {"茶碗":"Chawan — tea bowl","茶入":"Chaire — thick-tea ca
 "湯呑・茶托":"Yunomi / Chataku — cup & saucer","菓子器":"Kashiki — sweets dish",
 "掛物":"Kakemono — hanging scroll","その他":"Other"};
 
-const T = {
-  ja: {back:"← 一覧", loading:"読み込んでいます…", notfound:"この茶器は見つかりませんでした。",
-       unnamed:"無銘", rows:["種別","技法","釉・土","産地","時代","状態","箱"],
-       box:["あり","なし"], ask:"お問い合わせください", gone:"お渡し済みです",
-       btn:"この茶器について問い合わせる",
-       note:"オンラインでの販売は行っておりません。お問い合わせより承ります。",
-       sekkiWhy:"この時期に"},
-  en: {back:"← All pieces", loading:"Loading…", notfound:"This piece could not be found.",
-       unnamed:"Unnamed", rows:["Type","Technique","Glaze & clay","Origin","Period","Condition","Box"],
-       box:["Yes","No"], ask:"Please enquire", gone:"No longer available",
-       btn:"Enquire about this piece",
-       note:"Online ordering is not available. We are glad to answer enquiries.",
-       sekkiWhy:"Suited to"}
-};
-
-let lang = localStorage.getItem("ysd_lang") || "ja";
-let item = null, shot = 0;
+const ROWS = [["種別","TYPE"],["技法","TECHNIQUE"],["釉・土","GLAZE & CLAY"],
+              ["産地","ORIGIN"],["時代","PERIOD"],["状態","CONDITION"],["箱","BOX"]];
 
 const esc = (v) => String(v == null ? "" : v).replace(/[&<>"]/g,
   (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
 
-function setLang(l) {
-  lang = l;
-  localStorage.setItem("ysd_lang", l);
-  document.documentElement.lang = l;
-  document.getElementById("bja").classList.toggle("on", l === "ja");
-  document.getElementById("ben").classList.toggle("on", l === "en");
-  document.getElementById("back").textContent = T[l].back;
-  render();
+let item = null, shot = 0;
+
+/* 日本語 / 英語 を上下に重ねる。英語が無ければ日本語だけ出す */
+function pair(ja, en) {
+  if (!ja && !en) return "—";
+  return esc(ja || "") + (en && en !== ja ? '<span class="en">' + esc(en) + "</span>" : "");
 }
-document.getElementById("bja").onclick = () => setLang("ja");
-document.getElementById("ben").onclick = () => setLang("en");
 
 function render() {
-  const d = document.getElementById("d"), t = T[lang], en = lang === "en";
-  if (item === false) { d.innerHTML = '<p class="msg">' + esc(t.notfound) + "</p>"; return; }
-  if (!item) { d.innerHTML = '<p class="msg">' + esc(t.loading) + "</p>"; return; }
+  const d = document.getElementById("d");
+  if (item === false) {
+    d.innerHTML = '<p class="msg">この茶器は見つかりませんでした。<br>This piece could not be found.</p>';
+    return;
+  }
+  if (!item) return;
   const i = item;
-  const pick = (k) => (en && i[k + "_en"]) ? i[k + "_en"] : i[k];
 
-  const title = (en && i.mei_en) ? i.mei_en : (i.mei || t.unnamed);
-  document.title = title + "｜悠三堂";
-  const sub = en ? [i.mei_romaji, i.mei].filter(Boolean).join(" · ") : (i.mei_yomi || "");
+  document.title = (i.mei || "茶器") + "｜悠三堂";
 
   const photos = i.photos || [];
   const stage = photos.length
-    ? '<div class="stage"><img id="big" src="' + API + "/photos/" + esc(photos[shot])
-      + '" alt="' + esc(title) + '"></div>'
+    ? '<div class="stage"><img src="' + API + "/photos/" + esc(photos[shot])
+      + '" alt="' + esc(i.mei || "") + '"></div>'
       + (photos.length > 1 ? '<div class="thumbs">' + photos.map((p, n) =>
           '<img data-n="' + n + '" class="' + (n === shot ? "on" : "") + '" src="'
           + API + "/photos/" + esc(p) + '" alt="">').join("") + "</div>" : "")
@@ -158,30 +146,45 @@ function render() {
   if (typeof sk === "string") { try { sk = JSON.parse(sk); } catch (e) { sk = sk.split(/[,・]/); } }
   const sekki = (Array.isArray(sk) && sk.length)
     ? '<div class="sekki">' + sk.map((v) =>
-        "<span>" + esc(en ? (SEKKI_EN[v] || v) : v) + "</span>").join("") + "</div>"
-      + (pick("sekki_reason") ? '<p class="sekki-why">' + esc(pick("sekki_reason")) + "</p>" : "")
+        "<span>" + esc(v) + "<b>" + esc(SEKKI_EN[v] || "") + "</b></span>").join("") + "</div>"
+      + ((i.sekki_reason || i.sekki_reason_en)
+          ? '<p class="sekki-why">' + esc(i.sekki_reason || "")
+            + (i.sekki_reason_en ? '<span class="en">' + esc(i.sekki_reason_en) + "</span>" : "")
+            + "</p>" : "")
     : "";
 
-  const cat = en ? (CAT_EN[i.category] || i.category) : i.category;
-  const vals = [cat, pick("technique"), pick("glaze"), pick("kiln"),
-                pick("era"), pick("condition"), i.has_box ? t.box[0] : t.box[1]];
-  const rows = t.rows.map((label, n) =>
-    '<div class="row"><dt>' + esc(label) + "</dt><dd>"
-    + esc(vals[n] || "—") + "</dd></div>").join("");
+  const vals = [
+    [i.category, CAT_EN[i.category] || ""],
+    [i.technique, i.technique_en], [i.glaze, i.glaze_en],
+    [i.kiln, i.kiln_en], [i.era, i.era_en], [i.condition, i.condition_en],
+    [i.has_box ? "あり" : "なし", i.has_box ? "Yes" : "No"],
+  ];
+  const rows = ROWS.map(([ja, en], n) =>
+    '<div class="row"><dt>' + ja + "<i>" + en + "</i></dt><dd>"
+    + pair(vals[n][0], vals[n][1]) + "</dd></div>").join("");
 
   const sold = i.status === "sold";
   const action = sold
-    ? '<p class="status gone">' + esc(t.gone) + "</p>"
-    : '<p class="status">' + esc(t.ask) + "</p>"
+    ? '<p class="status gone">お渡し済みです<i>No longer available</i></p>'
+    : '<p class="status">お問い合わせください<i>Please enquire</i></p>'
       + '<a class="btn" href="' + INQUIRY + "?item=" + encodeURIComponent(i.id)
-      + "&mei=" + encodeURIComponent(i.mei || "") + '">' + esc(t.btn) + "</a>"
-      + '<p class="note">' + esc(t.note) + "</p>";
+      + "&mei=" + encodeURIComponent(i.mei || "")
+      + '">この茶器について問い合わせる<i>Enquire about this piece</i></a>'
+      + '<p class="note">オンラインでの販売は行っておりません。'
+      + '<span class="en">Online ordering is not available.</span></p>';
 
   d.innerHTML = '<div class="grid"><div>' + stage + "</div><div>"
-    + '<h2 class="mei">' + esc(title) + "</h2>"
-    + (sub ? '<p class="yomi">' + esc(sub) + "</p>" : "")
-    + (pick("mei_reason") ? '<p class="reason">' + esc(pick("mei_reason")) + "</p>" : "")
-    + (pick("description") ? '<p class="desc">' + esc(pick("description")) + "</p>" : "")
+    + '<h2 class="mei">' + esc(i.mei || "無銘") + "</h2>"
+    + (i.mei_romaji ? '<p class="mei-en">' + esc(i.mei_romaji) + "</p>" : "")
+    + (i.mei_yomi ? '<p class="yomi">' + esc(i.mei_yomi) + "</p>" : "")
+    + ((i.mei_reason || i.mei_reason_en)
+        ? '<p class="reason">' + esc(i.mei_reason || "")
+          + (i.mei_reason_en ? '<span class="en">' + esc(i.mei_reason_en) + "</span>" : "")
+          + "</p>" : "")
+    + ((i.description || i.description_en)
+        ? '<p class="desc">' + esc(i.description || "")
+          + (i.description_en ? '<span class="en">' + esc(i.description_en) + "</span>" : "")
+          + "</p>" : "")
     + sekki + "<dl>" + rows + "</dl>" + action
     + "</div></div>";
 
@@ -190,7 +193,6 @@ function render() {
   });
 }
 
-setLang(lang);
 fetch(API + "/api/items/" + encodeURIComponent(id))
   .then((r) => (r.ok ? r.json() : null))
   .then((i) => { item = i && !i.error ? i : false; render(); })
