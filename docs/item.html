@@ -1,39 +1,198 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>悠三堂 茶器</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/style.css">
-</head><body>
-<header class="site"><h1><a href="/stock.html">悠三堂　茶器</a></h1><span class="note">奈良・都祁より</span></header>
-<main class="detail" id="d"></main>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<style>
+:root{--paper:#f7f3ea;--paper-deep:#efe8d8;--ink:#2b2a26;--ink-soft:#5a564c;
+  --matcha:#4a5d3a;--matcha-deep:#37452b;--rikyu:#8a8c78;--shu:#a53f2b;
+  --gold:#b0965a;--line:#d8cfba;
+  --serif:"Shippori Mincho",serif;--sans:"Zen Kaku Gothic New",sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);
+  line-height:1.9;letter-spacing:.04em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+[hidden]{display:none!important}
+
+header{border-bottom:1px solid var(--line);background:rgba(247,243,234,.94);
+  position:sticky;top:0;z-index:10;backdrop-filter:blur(8px)}
+.hd{max-width:940px;margin:0 auto;padding:0 22px;height:60px;
+  display:flex;align-items:center;gap:16px}
+.hd .brand{font-size:15px;letter-spacing:.12em;font-weight:600;white-space:nowrap}
+.hd .back{font-family:var(--sans);font-size:11.5px;letter-spacing:.12em;color:var(--ink-soft)}
+.lang{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{font-family:var(--sans);font-size:11px;letter-spacing:.1em;padding:6px 14px;
+  border:0;background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:.25s}
+.lang button.on{background:var(--matcha);color:var(--paper)}
+
+.wrap{max-width:940px;margin:0 auto;padding:0 22px 90px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:44px;padding-top:44px}
+@media (max-width:780px){.grid{grid-template-columns:1fr;gap:30px;padding-top:28px}}
+
+.stage{border:1px solid var(--line);background:var(--paper-deep);border-radius:2px;
+  aspect-ratio:1;overflow:hidden}
+.stage img{width:100%;height:100%;object-fit:cover}
+.thumbs{display:flex;gap:9px;margin-top:10px;flex-wrap:wrap}
+.thumbs img{width:62px;height:62px;object-fit:cover;border:1px solid var(--line);
+  border-radius:2px;cursor:pointer;opacity:.62;transition:.25s}
+.thumbs img.on,.thumbs img:hover{opacity:1;border-color:var(--gold)}
+
+.mei{font-size:clamp(28px,5vw,38px);letter-spacing:.14em;font-weight:500;line-height:1.4}
+.yomi{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--gold);margin-top:8px}
+.reason{font-size:13.5px;color:var(--ink-soft);margin-top:16px;padding-left:14px;
+  border-left:1px solid var(--gold);line-height:1.95}
+.desc{margin-top:26px;font-size:15px;line-height:2.15}
+.sekki{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+.sekki span{font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;color:var(--matcha);
+  border:1px solid rgba(74,93,58,.28);border-radius:999px;padding:3px 11px}
+.sekki-why{font-family:var(--sans);font-size:11.5px;color:var(--rikyu);margin-top:9px;line-height:1.8}
+
+dl{margin-top:32px;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:6.5em 1fr;gap:16px;padding:12px 2px;
+  border-bottom:1px solid var(--line);align-items:baseline}
+dt{font-family:var(--sans);font-size:11px;letter-spacing:.12em;color:var(--matcha)}
+dd{font-size:13.5px;line-height:1.95;color:var(--ink-soft)}
+@media (max-width:520px){.row{grid-template-columns:1fr;gap:3px}}
+
+.status{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);
+  font-family:var(--sans);font-size:12px;letter-spacing:.12em;color:var(--matcha)}
+.status.gone{color:var(--rikyu)}
+.btn{display:inline-block;font-family:var(--sans);font-size:12.5px;letter-spacing:.16em;
+  padding:14px 30px;border:1px solid var(--matcha);color:var(--matcha);
+  margin-top:16px;transition:.3s;border-radius:2px}
+.btn:hover{background:var(--matcha);color:var(--paper)}
+.note{font-family:var(--sans);font-size:11px;color:var(--rikyu);margin-top:14px;line-height:1.8}
+.msg{padding:80px 0;text-align:center;font-family:var(--sans);font-size:14px;color:var(--rikyu)}
+</style></head><body>
+
+<header><div class="hd">
+  <a class="brand" href="/index.html">悠三堂</a>
+  <a class="back" href="/stock.html" id="back">← 一覧</a>
+  <div class="lang">
+    <button id="bja" class="on" type="button">日本語</button>
+    <button id="ben" type="button">EN</button>
+  </div>
+</div></header>
+
+<div class="wrap"><div id="d"><p class="msg">読み込んでいます…</p></div></div>
+
 <script>
-const API="https://yusando-gallery.isozaki-f67.workers.dev";
-const id=new URLSearchParams(location.search).get("id");
-const yen = n => "¥" + n.toLocaleString("ja-JP");
-const INQUIRY = "https://yusando.com/pages/contact"; // 購入希望の送り先（Jotform等に変更可）
-fetch(API+"/api/items/"+id).then(r=>r.ok?r.json():null).then(i=>{
-  const d=document.getElementById("d");
-  if(!i){d.innerHTML='<p class="empty">この茶器は見つかりませんでした。</p>';return;}
-  document.title=`${i.mei||"茶器"}｜悠三堂`;
-  d.innerHTML=`
-   <div class="photos">${i.photos.map(p=>`<img src="${API}/photos/${p}" alt="${i.mei||""}">`).join("")}</div>
-   <div class="head">
-     <div><p class="reason">${i.mei_reason||""}</p></div>
-     <h2 class="mei">${i.mei||"無銘"}<small>${i.mei_yomi||""}</small></h2>
-   </div>
-   <p class="desc">${i.description||""}</p>
-   <dl>
-     <dt>種別</dt><dd>${i.category||"—"}</dd>
-     <dt>技法</dt><dd>${i.technique||"—"}</dd>
-     <dt>釉・土</dt><dd>${i.glaze||"—"}</dd>
-     <dt>産地</dt><dd>${i.kiln||"—"}</dd>
-     <dt>時代</dt><dd>${i.era||"—"}</dd>
-     <dt>状態</dt><dd>${i.condition||"—"}</dd>
-     <dt>箱</dt><dd>${i.has_box?"あり":"なし"}</dd>
-   </dl>
-   <p class="price">${yen(i.price)}${i.status==="sold"?"　売却済":""}</p>
-   ${i.status==="sold"?"":`<a class="buy" href="${INQUIRY}?item=${i.id}&mei=${encodeURIComponent(i.mei||"")}">この茶器について問い合わせる</a>`}
-   <a class="back" href="/stock.html">一覧へ戻る</a>`;
-});
+const API = "https://yusando-gallery.isozaki-f67.workers.dev";
+const INQUIRY = "https://yusando.com/pages/contact";
+const id = new URLSearchParams(location.search).get("id");
+
+/* 二十四節気の英語表記 */
+const SEKKI_EN = {"立春":"Risshun","雨水":"Usui","啓蟄":"Keichitsu","春分":"Shunbun",
+"清明":"Seimei","穀雨":"Kokuu","立夏":"Rikka","小満":"Shōman","芒種":"Bōshu",
+"夏至":"Geshi","小暑":"Shōsho","大暑":"Taisho","立秋":"Risshū","処暑":"Shosho",
+"白露":"Hakuro","秋分":"Shūbun","寒露":"Kanro","霜降":"Sōkō","立冬":"Rittō",
+"小雪":"Shōsetsu","大雪":"Taisetsu","冬至":"Tōji","小寒":"Shōkan","大寒":"Daikan"};
+
+/* 種別の英語表記 */
+const CAT_EN = {"茶碗":"Chawan — tea bowl","茶入":"Chaire — thick-tea caddy",
+"棗":"Natsume — thin-tea caddy","水指":"Mizusashi — water jar","建水":"Kensui — waste-water bowl",
+"蓋置":"Futaoki — lid rest","茶杓":"Chashaku — tea scoop","花入":"Hanaire — flower vessel",
+"香合":"Kōgō — incense container","釜・風炉":"Kama / Furo — kettle & brazier",
+"急須・宝瓶":"Kyūsu / Hōhin — teapot","湯冷まし":"Yuzamashi — cooling bowl",
+"湯呑・茶托":"Yunomi / Chataku — cup & saucer","菓子器":"Kashiki — sweets dish",
+"掛物":"Kakemono — hanging scroll","その他":"Other"};
+
+const T = {
+  ja: {back:"← 一覧", loading:"読み込んでいます…", notfound:"この茶器は見つかりませんでした。",
+       unnamed:"無銘", rows:["種別","技法","釉・土","産地","時代","状態","箱"],
+       box:["あり","なし"], ask:"お問い合わせください", gone:"お渡し済みです",
+       btn:"この茶器について問い合わせる",
+       note:"オンラインでの販売は行っておりません。お問い合わせより承ります。",
+       sekkiWhy:"この時期に"},
+  en: {back:"← All pieces", loading:"Loading…", notfound:"This piece could not be found.",
+       unnamed:"Unnamed", rows:["Type","Technique","Glaze & clay","Origin","Period","Condition","Box"],
+       box:["Yes","No"], ask:"Please enquire", gone:"No longer available",
+       btn:"Enquire about this piece",
+       note:"Online ordering is not available. We are glad to answer enquiries.",
+       sekkiWhy:"Suited to"}
+};
+
+let lang = localStorage.getItem("ysd_lang") || "ja";
+let item = null, shot = 0;
+
+const esc = (v) => String(v == null ? "" : v).replace(/[&<>"]/g,
+  (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+
+function setLang(l) {
+  lang = l;
+  localStorage.setItem("ysd_lang", l);
+  document.documentElement.lang = l;
+  document.getElementById("bja").classList.toggle("on", l === "ja");
+  document.getElementById("ben").classList.toggle("on", l === "en");
+  document.getElementById("back").textContent = T[l].back;
+  render();
+}
+document.getElementById("bja").onclick = () => setLang("ja");
+document.getElementById("ben").onclick = () => setLang("en");
+
+function render() {
+  const d = document.getElementById("d"), t = T[lang], en = lang === "en";
+  if (item === false) { d.innerHTML = '<p class="msg">' + esc(t.notfound) + "</p>"; return; }
+  if (!item) { d.innerHTML = '<p class="msg">' + esc(t.loading) + "</p>"; return; }
+  const i = item;
+  const pick = (k) => (en && i[k + "_en"]) ? i[k + "_en"] : i[k];
+
+  const title = (en && i.mei_en) ? i.mei_en : (i.mei || t.unnamed);
+  document.title = title + "｜悠三堂";
+  const sub = en ? [i.mei_romaji, i.mei].filter(Boolean).join(" · ") : (i.mei_yomi || "");
+
+  const photos = i.photos || [];
+  const stage = photos.length
+    ? '<div class="stage"><img id="big" src="' + API + "/photos/" + esc(photos[shot])
+      + '" alt="' + esc(title) + '"></div>'
+      + (photos.length > 1 ? '<div class="thumbs">' + photos.map((p, n) =>
+          '<img data-n="' + n + '" class="' + (n === shot ? "on" : "") + '" src="'
+          + API + "/photos/" + esc(p) + '" alt="">').join("") + "</div>" : "")
+    : '<div class="stage"></div>';
+
+  let sk = i.sekki;
+  if (typeof sk === "string") { try { sk = JSON.parse(sk); } catch (e) { sk = sk.split(/[,・]/); } }
+  const sekki = (Array.isArray(sk) && sk.length)
+    ? '<div class="sekki">' + sk.map((v) =>
+        "<span>" + esc(en ? (SEKKI_EN[v] || v) : v) + "</span>").join("") + "</div>"
+      + (pick("sekki_reason") ? '<p class="sekki-why">' + esc(pick("sekki_reason")) + "</p>" : "")
+    : "";
+
+  const cat = en ? (CAT_EN[i.category] || i.category) : i.category;
+  const vals = [cat, pick("technique"), pick("glaze"), pick("kiln"),
+                pick("era"), pick("condition"), i.has_box ? t.box[0] : t.box[1]];
+  const rows = t.rows.map((label, n) =>
+    '<div class="row"><dt>' + esc(label) + "</dt><dd>"
+    + esc(vals[n] || "—") + "</dd></div>").join("");
+
+  const sold = i.status === "sold";
+  const action = sold
+    ? '<p class="status gone">' + esc(t.gone) + "</p>"
+    : '<p class="status">' + esc(t.ask) + "</p>"
+      + '<a class="btn" href="' + INQUIRY + "?item=" + encodeURIComponent(i.id)
+      + "&mei=" + encodeURIComponent(i.mei || "") + '">' + esc(t.btn) + "</a>"
+      + '<p class="note">' + esc(t.note) + "</p>";
+
+  d.innerHTML = '<div class="grid"><div>' + stage + "</div><div>"
+    + '<h2 class="mei">' + esc(title) + "</h2>"
+    + (sub ? '<p class="yomi">' + esc(sub) + "</p>" : "")
+    + (pick("mei_reason") ? '<p class="reason">' + esc(pick("mei_reason")) + "</p>" : "")
+    + (pick("description") ? '<p class="desc">' + esc(pick("description")) + "</p>" : "")
+    + sekki + "<dl>" + rows + "</dl>" + action
+    + "</div></div>";
+
+  d.querySelectorAll(".thumbs img").forEach((el) => {
+    el.onclick = () => { shot = +el.dataset.n; render(); };
+  });
+}
+
+setLang(lang);
+fetch(API + "/api/items/" + encodeURIComponent(id))
+  .then((r) => (r.ok ? r.json() : null))
+  .then((i) => { item = i && !i.error ? i : false; render(); })
+  .catch(() => { item = false; render(); });
 </script></body></html>
