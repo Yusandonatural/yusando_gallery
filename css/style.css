@@ -8,6 +8,9 @@
   --rikyu:#8a8c78;
   --shu:#a53f2b;
   --gold:#b0965a;
+  /* ロゴ専用。本文の緑・金とは混ぜない（ブランド規則） */
+  --logo-ink:#1C1A17;
+  --logo-gold:#A98247;
   --line:#d8cfba;
   --serif:"Shippori Mincho","Cormorant Garamond",serif;
   --sans:"Zen Kaku Gothic New",sans-serif;
@@ -33,11 +36,36 @@ img,svg{display:block}
 }
 .nav-wrap{
   max-width:1120px;margin:0 auto;padding:0 22px;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  min-height:76px;padding-top:10px;padding-bottom:10px;
 }
-.brand{display:flex;align-items:baseline;gap:12px}
-.brand-mark{font-size:16.5px;letter-spacing:.1em;font-weight:600;white-space:nowrap}
-.brand-sub{font-family:var(--sans);font-size:9.5px;letter-spacing:.17em;color:var(--gold);white-space:nowrap}
+/* Cerendipity ロゴ ---------------------------------------------------------
+   C を茶碗の口縁に置き換えたワードマーク。画像にせず、Optima のテキスト＋
+   インライン SVG で組む（どの寸法でも滑らかで、文字として検索・読み上げに残る）。
+   Optima は macOS 同梱、Candara は Windows 同梱なので、自前配信をしなくても
+   多くの環境で意図した書体になる。 */
+.brand{display:flex;flex-direction:column;gap:3px;text-decoration:none}
+.brand-word{
+  font-family:"Optima","Optima nova",Candara,"Gill Sans","Gill Sans MT",Palatino,serif;
+  font-size:26px;letter-spacing:.055em;line-height:1;color:var(--logo-ink);
+  white-space:nowrap;display:block;
+}
+/* サイト全体の svg{display:block} が効くと C が改行して落ちるので戻す。
+   C は装飾ではなく文字なので、行の中に収まっていないといけない。 */
+.brand__c{display:inline-block;height:.88em;width:.88em;vertical-align:baseline;
+  margin-right:.02em;fill:currentColor}
+/* 継ぎは金。ただし小さくなると潰れるので、下の媒体クエリで墨に落とす */
+.brand__seam{fill:none;stroke:var(--logo-gold);stroke-width:2.6;stroke-linecap:round}
+.brand-ja{font-family:var(--sans);font-size:11px;letter-spacing:.16em;
+  color:var(--ink-soft);white-space:nowrap;display:block}
+a.brand:hover .brand-word{color:var(--matcha)}
+
+@media (max-width:640px){
+  /* シンボル高が 20px を切るので、継ぎを墨に落として潰れを防ぐ */
+  .brand-word{font-size:20px;letter-spacing:.08em}
+  .brand__seam{stroke:currentColor}
+  .brand-ja{font-size:10px;letter-spacing:.12em}
+}
 .nav-links{display:flex;gap:22px;font-family:var(--sans);font-size:12.5px;letter-spacing:.1em}
 .nav-links a{white-space:nowrap}
 .nav-links a{color:var(--ink-soft);padding:6px 0;border-bottom:1px solid transparent;transition:.25s}
@@ -45,12 +73,14 @@ img,svg{display:block}
 .nav-toggle{display:none;border:0;background:none;cursor:pointer;padding:8px}
 .nav-toggle span{display:block;width:22px;height:1.5px;background:var(--ink);margin:5px 0;transition:.3s}
 @media (max-width:1080px){
-  .brand-sub{display:none}
+  /* 和名は残す。狭くなったら字を詰めるだけにする */
+  .brand-ja{letter-spacing:.1em}
 }
 /* 細い画面では店名がハンバーガーを画面外へ押し出す。英語の
    「YUSANDO ANTIQUE GALLERY」が最も長い。店名を少し詰めて収める。 */
 @media (max-width:420px){
-  .brand-mark{font-size:14.5px;letter-spacing:.06em}
+  .brand-word{font-size:17px;letter-spacing:.06em}
+  .brand-ja{font-size:9px;letter-spacing:.08em}
   .nav-wrap{gap:8px}
 }
 /* ナビを畳む幅は言語で違う。日本語は項目名が長く（「炉と風炉のしつらえ」など）、
@@ -59,7 +89,7 @@ img,svg{display:block}
 @media (max-width:820px){
   .nav-toggle{display:block}
   .nav-links{
-    position:absolute;top:64px;left:0;right:0;background:var(--paper);
+    position:absolute;top:100%;left:0;right:0;background:var(--paper);
     flex-direction:column;gap:0;padding:8px 22px 18px;border-bottom:1px solid var(--line);
     display:none;
   }
@@ -69,7 +99,7 @@ img,svg{display:block}
 @media (max-width:1180px){
   html[lang="ja"] .nav-toggle{display:block}
   html[lang="ja"] .nav-links{
-    position:absolute;top:64px;left:0;right:0;background:var(--paper);
+    position:absolute;top:100%;left:0;right:0;background:var(--paper);
     flex-direction:column;gap:0;padding:8px 22px 18px;border-bottom:1px solid var(--line);
     display:none;
   }
@@ -767,4 +797,11 @@ a.ar-card:hover{transform:translateY(-3px)}
   .ar-nav{display:none}
   .ar-card{flex-basis:56vw;max-width:212px}
   .ar-track{gap:12px}
+}
+
+/* 320px のような細い画面では、仏語の長い語（étanchéité など）が
+   表の中で折り返せず外へ出る。その幅のときだけ語中での改行を許す。 */
+@media (max-width:400px){
+  .name-table th,.name-table td,
+  .cmp-table th,.cmp-table td{overflow-wrap:anywhere}
 }

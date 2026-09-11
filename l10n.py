@@ -19,11 +19,13 @@ LANGS = {
     "zh/": ("zh-Hant", "zh_TW",   "繁體中文",  "繁中"),
 }
 
+# 茶道具部門のブランド名として Cerendipity を立て、運営元の名は残す。
+# 「悠三堂」で探している人に届かなくなるのを避けるため、改名はしない。
 SITE_NAME = {
-    "":    "悠三堂古美術ギャラリー",
-    "en/": "Yusando Antique Gallery",
-    "fr/": "Yusando — Galerie d’Art Ancien",
-    "zh/": "悠三堂古美術藝廊",
+    "":    "Cerendipity｜悠三堂古美術ギャラリー",
+    "en/": "Cerendipity | Yusando Antique Gallery",
+    "fr/": "Cerendipity | Yusando — Galerie d’Art Ancien",
+    "zh/": "Cerendipity｜悠三堂古美術藝廊",
 }
 
 # The five pages that exist in every language. Anything outside this set is
@@ -154,13 +156,24 @@ def inject_head(path, prefix, page):
 
     m = re.search(r'<title>(.*?)</title>', html, re.S)
     title = re.sub(r'\s+', ' ', m.group(1)).strip() if m else SITE_NAME[prefix]
+    # 各ページの title は生成側が書いている。末尾のサイト名の手前に
+    # ブランド名を差し込み、80ページぶんを一箇所で揃える。
+    for _site in ("悠三堂古美術ギャラリー", "Yusando Antique Gallery",
+                  "悠三堂古美術藝廊", "Yusando"):
+        if _site in title and "Cerendipity" not in title:
+            title = title.replace(_site, f"Cerendipity｜{_site}", 1)
+            break
+    if "Cerendipity" not in title:
+        title = f"{title}｜Cerendipity"
+    html = re.sub(r'<title>.*?</title>', f'<title>{title}</title>', html,
+                  count=1, flags=re.S)
     m = re.search(r'<meta name="description" content="([^"]*)"', html)
     desc = m.group(1) if m else ""
     title, desc = title.replace('"', '&quot;'), desc.replace('"', '&quot;')
 
     code, oglocale, _e, _s = LANGS[prefix]
-    img = f'{SITE_URL}/assets/ogp.png' if prefix == "" \
-        else f'{SITE_URL}/assets/ogp-en.png'
+    # OG は Cerendipity のカード1枚に統一（言語別の作り分けはしていない）
+    img = f'{SITE_URL}/assets/cerendipity-og-1200x630.png'
 
     alts = "".join(
         f'<link rel="alternate" hreflang="{LANGS[p][0]}" href="{_loc(p + page)}">\n'
@@ -170,8 +183,11 @@ def inject_head(path, prefix, page):
         for p in alternates(page) if p != prefix)
 
     tags = (
-        f'<link rel="icon" type="image/svg+xml" href="{up}assets/favicon.svg">\n'
-        f'<link rel="apple-touch-icon" href="{up}assets/apple-touch-icon.png">\n'
+        f'<link rel="icon" type="image/svg+xml" href="{up}assets/cerendipity-favicon-32.svg" sizes="any">\n'
+        f'<link rel="icon" type="image/png" sizes="32x32" href="{up}assets/cerendipity-favicon-32.png">\n'
+        f'<link rel="icon" type="image/png" sizes="16x16" href="{up}assets/cerendipity-favicon-16.png">\n'
+        f'<link rel="apple-touch-icon" href="{up}assets/cerendipity-touch-180.png">\n'
+        # サイトの地色は生成りのままなので theme-color は据え置き（ブランド規則）
         f'<meta name="theme-color" content="#4a5d3a">\n'
         f'<link rel="canonical" href="{_loc(path)}">\n'
         + alts

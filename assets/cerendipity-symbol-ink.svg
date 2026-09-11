@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Cerendipity">
+  <path fill="#1C1A17" d="M86.0 25.6 A44 42.5 0 0 0 16.3 22.7 L23.6 28.8 A34.5 33 0 0 1 78.3 31.1 Z"/>
+  <path fill="#1C1A17" d="M11.9 28.75 A44 42.5 0 1 0 86.0 74.4 L78.3 68.9 A34.5 33 0 1 1 20.1 33.5 Z"/>
+  <path fill="none" stroke="#1C1A17" stroke-width="2.6" stroke-linecap="round" d="M20.83 24.74 A39.25 37.75 0 0 0 15.34 32.28"/>
+</svg>

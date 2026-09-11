@@ -45,9 +45,9 @@ def shell_fr(title, desc, body, root="../", current=""):
 {ico_sprite()}
 <header class="site-header">
   <div class="nav-wrap">
-    <a class="brand" href="{root}fr/index.html">
-      <span class="brand-mark">YUSANDO</span>
-      <span class="brand-sub">GALERIE D&rsquo;ART ANCIEN</span>
+    <a class="brand" href="{root}fr/index.html" aria-label="Cerendipity — Yusando, galerie d’art ancien">
+      <span class="brand-word"><svg class="brand__c" viewBox="0 0 100 100" aria-hidden="true"><path d="M86.0 25.6 A44 42.5 0 0 0 16.3 22.7 L23.6 28.8 A34.5 33 0 0 1 78.3 31.1 Z"/><path d="M11.9 28.75 A44 42.5 0 1 0 86.0 74.4 L78.3 68.9 A34.5 33 0 1 1 20.1 33.5 Z"/><path class="brand__seam" d="M20.83 24.74 A39.25 37.75 0 0 0 15.34 32.28"/></svg><span>erendipity</span></span>
+      <span class="brand-ja">Yusando — Galerie d’Art Ancien</span>
     </a>
     <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
       <span></span><span></span><span></span>
