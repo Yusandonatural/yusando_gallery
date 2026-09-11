@@ -576,3 +576,50 @@ a.article-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgb
   .hero-title{font-size:26px;letter-spacing:.08em;text-indent:.08em}
   .hero-kicker{letter-spacing:.3em;text-indent:.3em}
 }
+
+/* language switcher ------------------------------------------------------ */
+/* A native <select> sits transparent over a styled pill, so the list is the
+   OS picker (good on mobile) while the trigger matches the navigation. */
+.lang-sw{position:relative;display:inline-flex;align-items:center;margin-left:10px;flex:0 0 auto}
+.lang-sw-cur{
+  font-family:var(--sans);font-size:11px;letter-spacing:.12em;color:var(--gold);
+  border:1px solid var(--line);border-radius:999px;padding:5px 22px 5px 13px;
+  white-space:nowrap;transition:.25s;line-height:1;
+}
+.lang-sw::after{
+  content:"";position:absolute;right:11px;top:50%;width:5px;height:5px;
+  border-right:1px solid var(--gold);border-bottom:1px solid var(--gold);
+  transform:translateY(-70%) rotate(45deg);pointer-events:none;
+}
+.lang-sw select{
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;cursor:pointer;font-size:16px;  /* 16px stops iOS zooming on focus */
+  -webkit-appearance:none;appearance:none;border:0;
+}
+.lang-sw:hover .lang-sw-cur,
+.lang-sw select:focus-visible + .lang-sw-cur{color:var(--matcha);border-color:var(--matcha)}
+@media (max-width:860px){
+  /* the burger menu stacks the nav, so the switcher gets its own full-width row */
+  .nav-links .lang-sw{margin:10px 0 2px}
+  .lang-sw-cur{padding:7px 24px 7px 15px;font-size:12px}
+}
+
+/* "this page is English only" marker, used by the FR / ZH editions --------- */
+.en-only{
+  display:inline-block;vertical-align:middle;margin-left:6px;
+  font-family:var(--sans);font-size:8.5px;letter-spacing:.1em;line-height:1;
+  color:var(--gold);border:1px solid var(--line);border-radius:2px;
+  padding:2px 4px;transform:translateY(-1px);
+}
+
+/* Traditional Chinese edition ---------------------------------------------
+   Same roles, Chinese faces — so a line of 繁體字 keeps one consistent shape
+   instead of mixing substituted glyphs. Latin runs still fall to Garamond. */
+html[lang="zh-Hant"]{
+  --serif:"Noto Serif TC","Cormorant Garamond",serif;
+  --sans:"Noto Sans TC",sans-serif;
+}
+html[lang="zh-Hant"] .hero-title{letter-spacing:.06em}
+html[lang="zh-Hant"] .section-kicker,
+html[lang="zh-Hant"] .hero-kicker{letter-spacing:.28em;text-indent:.28em}
+html[lang="zh-Hant"] .btn{letter-spacing:.12em}

@@ -83,6 +83,7 @@ a.card:hover .frame{border-color:var(--gold)}
   .cat{font-size:9.5px;margin-top:7px}
   .ask{font-size:9.5px;padding-top:9px}
 }
+.note-link{color:var(--gold);border-bottom:1px solid currentColor;text-decoration:none;display:inline-block;margin-top:6px}
 </style></head><body>
 
 <header><div class="hd">
@@ -103,6 +104,7 @@ a.card:hover .frame{border-color:var(--gold)}
 
 <script>
 const API = "https://yusando-gallery.isozaki-f67.workers.dev";
+const INQUIRY = "https://form.jotform.com/262528014622047";
 
 const SEKKI_EN = {"立春":"Risshun","雨水":"Usui","啓蟄":"Keichitsu","春分":"Shunbun",
 "清明":"Seimei","穀雨":"Kokuu","立夏":"Rikka","小満":"Shōman","芒種":"Bōshu",
@@ -157,7 +159,8 @@ function draw() {
   const list = filter ? items.filter((i) => i.category === filter) : items;
   document.getElementById("list").innerHTML = cards(list)
     + '<p class="note">価格・状態はお問い合わせください。オンラインでの販売は行っておりません。<br>'
-    + "Please enquire about any piece. Online ordering is not available.</p>";
+    + "Please enquire about any piece. Online ordering is not available.<br>"
+    + '<a class="note-link" href="' + INQUIRY + '">お問い合わせフォーム / Enquiry form</a></p>';
   document.querySelectorAll(".tab").forEach((t) =>
     t.classList.toggle("on", (t.dataset.cat || "") === filter));
 }

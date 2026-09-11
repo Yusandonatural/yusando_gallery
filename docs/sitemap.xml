@@ -5,14 +5,8 @@
     <loc>https://gallery.yusando.com/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/"/>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/"/>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -21,14 +15,8 @@
     <loc>https://gallery.yusando.com/tools.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/tools.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/tools.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -37,14 +25,8 @@
     <loc>https://gallery.yusando.com/setup.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/setup.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/setup.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/setup.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/setup.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/setup.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/setup.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/setup.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -53,14 +35,8 @@
     <loc>https://gallery.yusando.com/guide.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/guide.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/guide.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/guide.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/guide.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/guide.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/guide.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/guide.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -69,28 +45,14 @@
     <loc>https://gallery.yusando.com/articles/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/articles/</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gallery.yusando.com/articles/chawan-types.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chawan-types.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chawan-types.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chawan-types.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/articles/chawan-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chawan-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chawan-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chawan-types.html"/>
@@ -106,23 +68,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gallery.yusando.com/en/articles/history.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/history.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/history.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/history.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://gallery.yusando.com/articles/chasen-types.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chasen-types.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chasen-types.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chasen-types.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/articles/chasen-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chasen-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chasen-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chasen-types.html"/>
@@ -138,23 +84,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gallery.yusando.com/en/articles/sekki.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/sekki.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/sekki.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/sekki.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://gallery.yusando.com/articles/evolution.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/evolution.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/evolution.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/evolution.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/articles/evolution.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/evolution.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/evolution.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/evolution.html"/>
@@ -170,23 +100,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gallery.yusando.com/en/articles/kama-types.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/kama-types.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/kama-types.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/kama-types.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://gallery.yusando.com/articles/chaire-types.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chaire-types.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chaire-types.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chaire-types.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/articles/chaire-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chaire-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chaire-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chaire-types.html"/>
@@ -202,23 +116,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gallery.yusando.com/en/articles/natsume-types.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/natsume-types.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/natsume-types.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/natsume-types.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://gallery.yusando.com/tools/chawan.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/chawan.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/chawan.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/chawan.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/tools/chawan.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/chawan.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/chawan.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/chawan.html"/>
@@ -234,23 +132,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gallery.yusando.com/en/tools/chasen.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/chasen.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/chasen.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/chasen.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://gallery.yusando.com/tools/chashaku.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/chashaku.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/chashaku.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/chashaku.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/tools/chashaku.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/chashaku.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/chashaku.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/chashaku.html"/>
@@ -266,23 +148,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gallery.yusando.com/en/tools/natsume.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/natsume.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/natsume.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/natsume.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://gallery.yusando.com/tools/kama.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/kama.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/kama.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/kama.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/tools/kama.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/kama.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/kama.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/kama.html"/>
@@ -298,23 +164,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://gallery.yusando.com/en/tools/hishaku.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/hishaku.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/hishaku.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/hishaku.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://gallery.yusando.com/tools/fukusa.html</loc>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/fukusa.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/fukusa.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/fukusa.html"/>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://gallery.yusando.com/en/tools/fukusa.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/fukusa.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/fukusa.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/fukusa.html"/>
@@ -330,10 +180,280 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://gallery.yusando.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/tools.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/setup.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/setup.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/guide.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/chawan-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chawan-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chawan-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chawan-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/history.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/history.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/history.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/history.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/chasen-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chasen-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chasen-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chasen-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/sekki.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/sekki.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/sekki.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/sekki.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/evolution.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/evolution.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/evolution.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/evolution.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/kama-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/kama-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/chaire-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chaire-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/articles/natsume-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/natsume-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/tools/chawan.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/chawan.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/chawan.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/chawan.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/tools/chasen.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/chasen.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/chasen.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/chasen.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/tools/chashaku.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/chashaku.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/chashaku.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/chashaku.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/tools/natsume.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/natsume.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/natsume.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/natsume.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/tools/kama.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/kama.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/kama.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/kama.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/tools/hishaku.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/hishaku.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/hishaku.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/hishaku.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/en/tools/fukusa.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/fukusa.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/fukusa.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/fukusa.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://gallery.yusando.com/en/tools/mizusashi.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools/mizusashi.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools/mizusashi.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools/mizusashi.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/fr/tools.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/fr/setup.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/setup.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/fr/guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/guide.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/fr/articles/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/zh/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/zh/tools.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/tools.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/tools.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/zh/setup.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/setup.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/setup.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/zh/guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/guide.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/zh/articles/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
