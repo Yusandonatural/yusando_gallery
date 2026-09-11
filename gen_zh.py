@@ -315,12 +315,16 @@ index_body = f'''
   </div>
 </section>
 
-<section class="section reveal" style="text-align:center">
-  <p class="section-kicker">藝廊</p>
-  <h2 class="section-title">本藝廊現有的茶道具</h2>
-  <div class="rule"></div>
-  <p class="section-lede">各件道具的頁面會顯示悠三堂藝廊現有的器物。若有讓您留意的一件，歡迎來信詢問；線上販售將於準備妥當後開放。</p>
-  <div style="margin-top:30px"><span class="btn" style="opacity:.5;cursor:default">線上販售 — 尚未開放</span></div>
+<section class="section reveal arrivals" data-arrivals data-ec-root="../">
+  <div class="section-head" style="margin-bottom:34px">
+    <p class="section-kicker">新入荷 — NEW ARRIVALS</p>
+    <h2 class="section-title">新近入藏的茶道具</h2>
+    <div class="rule"></div>
+    <p class="section-lede">剛入藏悠三堂藝廊的器物。若有讓您留意的一件，歡迎來信詢問；線上販售將於準備妥當後開放。</p>
+  </div>
+  <div class="ar-slot">
+    <p class="ar-loading">讀取中…</p>
+  </div>
 </section>
 '''
 w("zh/index.html", shell_zh(

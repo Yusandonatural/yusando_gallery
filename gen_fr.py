@@ -309,12 +309,16 @@ index_body = f'''
   </div>
 </section>
 
-<section class="section reveal" style="text-align:center">
-  <p class="section-kicker">GALERIE</p>
-  <h2 class="section-title">Les pièces que nous gardons</h2>
-  <div class="rule"></div>
-  <p class="section-lede">Chaque fiche d&rsquo;ustensile présente les pièces conservées à la galerie Yusando. Écrivez-nous au sujet de ce qui retient votre regard ; la vente en ligne suivra lorsqu&rsquo;elle sera prête.</p>
-  <div style="margin-top:30px"><span class="btn" style="opacity:.5;cursor:default">VENTE EN LIGNE — PAS ENCORE</span></div>
+<section class="section reveal arrivals" data-arrivals data-ec-root="../">
+  <div class="section-head" style="margin-bottom:34px">
+    <p class="section-kicker">NOUVEAUTÉS</p>
+    <h2 class="section-title">Entrées récemment à la galerie</h2>
+    <div class="rule"></div>
+    <p class="section-lede">Les pièces arrivées ces derniers temps à la galerie Yusando. Écrivez-nous au sujet de ce qui retient votre regard ; la vente en ligne suivra lorsqu&rsquo;elle sera prête.</p>
+  </div>
+  <div class="ar-slot">
+    <p class="ar-loading">Chargement…</p>
+  </div>
 </section>
 '''
 w("fr/index.html", shell_fr(

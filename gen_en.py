@@ -444,12 +444,16 @@ index_body = f'''
   </div>
 </section>
 
-<section class="section reveal" style="text-align:center">
-  <p class="section-kicker">GALLERY</p>
-  <h2 class="section-title">The Pieces We Hold</h2>
-  <div class="rule"></div>
-  <p class="section-lede">Each utensil page shows the pieces held in the Yusando gallery. Ask us about anything that catches your eye — online ordering will follow once it is ready.</p>
-  <div style="margin-top:30px"><span class="btn" style="opacity:.5;cursor:default">ONLINE ORDERING — NOT YET</span></div>
+<section class="section reveal arrivals" data-arrivals data-ec-root="../">
+  <div class="section-head" style="margin-bottom:34px">
+    <p class="section-kicker">NEW ARRIVALS</p>
+    <h2 class="section-title">Lately Come to the Gallery</h2>
+    <div class="rule"></div>
+    <p class="section-lede">Pieces newly arrived at the Yusando gallery. Ask us about anything that catches your eye — online ordering will follow once it is ready.</p>
+  </div>
+  <div class="ar-slot">
+    <p class="ar-loading">Loading…</p>
+  </div>
 </section>
 '''
 w("en/index.html", shell_en("Yusando Antique Gallery — Flat-Price Used Japanese Tea Utensils",

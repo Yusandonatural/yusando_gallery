@@ -47,6 +47,15 @@ img,svg{display:block}
 @media (max-width:1080px){
   .brand-sub{display:none}
 }
+/* 細い画面では店名がハンバーガーを画面外へ押し出す。英語の
+   「YUSANDO ANTIQUE GALLERY」が最も長い。店名を少し詰めて収める。 */
+@media (max-width:420px){
+  .brand-mark{font-size:14.5px;letter-spacing:.06em}
+  .nav-wrap{gap:8px}
+}
+/* ナビを畳む幅は言語で違う。日本語は項目名が長く（「炉と風炉のしつらえ」など）、
+   言語切替を足したぶんも加わって、1160px を下回ると横にはみ出す。
+   他の言語は 880px でも収まるので、日本語だけ早めに畳む。 */
 @media (max-width:820px){
   .nav-toggle{display:block}
   .nav-links{
@@ -56,6 +65,28 @@ img,svg{display:block}
   }
   .nav-links.open{display:flex}
   .nav-links a{padding:12px 0;border-bottom:1px solid var(--paper-deep)}
+}
+@media (max-width:1180px){
+  html[lang="ja"] .nav-toggle{display:block}
+  html[lang="ja"] .nav-links{
+    position:absolute;top:64px;left:0;right:0;background:var(--paper);
+    flex-direction:column;gap:0;padding:8px 22px 18px;border-bottom:1px solid var(--line);
+    display:none;
+  }
+  html[lang="ja"] .nav-links.open{display:flex}
+  html[lang="ja"] .nav-links a{padding:12px 0;border-bottom:1px solid var(--paper-deep)}
+  /* 畳んだときは切替も縦並びの一行に */
+  html[lang="ja"] .lang-sw{margin:4px 0 0;width:100%}
+  html[lang="ja"] .lang-sw summary{
+    width:100%;justify-content:space-between;padding:12px 0;font-size:12.5px;
+    border-bottom:1px solid var(--paper-deep);
+  }
+  html[lang="ja"] .lang-menu{
+    position:static;min-width:0;border:0;border-radius:0;box-shadow:none;
+    background:transparent;animation:none;
+  }
+  html[lang="ja"] .lang-menu .l-row{padding:11px 0 10px 14px}
+  html[lang="ja"] .lang-menu .is-current{background:transparent}
 }
 
 /* ================= shared ================= */
@@ -672,3 +703,66 @@ html[lang="zh-Hant"] .btn{letter-spacing:.12em}
 /* 在庫枠の免責。銘も所見も当店の見立てである旨を、器の邪魔をしない重さで */
 .st-disc{font-family:var(--sans);font-size:10.5px;line-height:1.8;color:var(--rikyu);
   margin-top:8px;max-width:46em}
+
+/* 新入荷カルーセル ---------------------------------------------------------
+   横に流して見せる。スマホでは次の札が少しだけ覗くようにして、
+   「まだ右にある」ことを矢印なしで伝える。 */
+.arrivals .ar-slot{margin-top:6px}
+.ar-loading,.ar-none{text-align:center;font-family:var(--sans);font-size:12.5px;
+  color:var(--rikyu);padding:34px 0}
+
+.ar-wrap{position:relative}
+.ar-track{
+  display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 2px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.ar-track::-webkit-scrollbar{display:none}
+.ar-track:focus-visible{outline:1px solid var(--matcha);outline-offset:4px}
+.ar-card{
+  flex:0 0 236px;scroll-snap-align:start;display:flex;flex-direction:column;
+  transition:transform .4s ease;
+}
+a.ar-card:hover{transform:translateY(-3px)}
+.ar-card .st-frame{flex:0 0 auto}
+.ar-body{display:flex;flex-direction:column;padding:12px 2px 0;flex:1}
+.ar-sku{font-family:var(--sans);font-size:9.5px;letter-spacing:.18em;color:var(--rikyu)}
+.ar-mei{font-size:16px;letter-spacing:.12em;line-height:1.5;margin-top:3px}
+.ar-sub{font-family:var(--sans);font-size:10px;letter-spacing:.16em;color:var(--gold);margin-top:3px}
+.ar-cat{font-family:var(--sans);font-size:11px;color:var(--ink-soft);margin-top:7px}
+.ar-ask{font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;color:var(--matcha);
+  margin-top:auto;padding-top:10px}
+.ar-card.sold .ar-ask{color:var(--rikyu)}
+.ar-card.sold .st-frame img{filter:grayscale(.9);opacity:.68}
+
+/* 矢印は枠の外に出す。端に来たら消える（押せるのに動かない状態を作らない） */
+.ar-nav{
+  position:absolute;top:calc(50% - 46px);z-index:5;width:38px;height:38px;
+  border:1px solid var(--line);border-radius:50%;background:var(--paper);
+  cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;
+}
+.ar-nav::before{
+  content:"";width:8px;height:8px;border-right:1px solid var(--ink-soft);
+  border-bottom:1px solid var(--ink-soft);transition:border-color .25s;
+}
+.ar-nav.prev{left:-19px}
+.ar-nav.prev::before{transform:translateX(2px) rotate(135deg)}
+.ar-nav.next{right:-19px}
+.ar-nav.next::before{transform:translateX(-2px) rotate(-45deg)}
+.ar-nav:hover{background:var(--matcha);border-color:var(--matcha)}
+.ar-nav:hover::before{border-color:var(--paper)}
+.ar-nav:focus-visible{outline:1px solid var(--matcha);outline-offset:3px}
+/* display:flex は作者スタイルなので、ブラウザ既定の [hidden]{display:none} に勝ってしまう。
+   端に来た矢印を本当に消すため、明示的に打ち消す。 */
+.ar-nav[hidden]{display:none}
+
+.ar-more{text-align:center;margin-top:26px}
+.ar-more a{font-family:var(--sans);font-size:12px;letter-spacing:.16em;color:var(--matcha);
+  border-bottom:1px solid rgba(74,93,58,.3);padding-bottom:3px}
+.ar-more a:hover{border-bottom-color:var(--matcha)}
+
+@media (max-width:900px){
+  /* 指で送るので矢印は出さない。次の札を覗かせて、送れることを伝える */
+  .ar-nav{display:none}
+  .ar-card{flex-basis:62vw;max-width:260px}
+  .ar-track{gap:14px}
+}

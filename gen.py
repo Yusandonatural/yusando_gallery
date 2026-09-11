@@ -727,12 +727,16 @@ index_body = f'''
   </div>
 </section>
 
-<section class="section reveal" style="text-align:center">
-  <p class="section-kicker">ギャラリーの道具 — GALLERY</p>
-  <h2 class="section-title">EC連携は、準備中です</h2>
-  <div class="rule"></div>
-  <p class="section-lede">各道具のページには、悠三堂ギャラリーにある道具が並びます。気になるものはお問い合わせください。オンラインでのお求めは準備が整いしだいご案内します。</p>
-  <div style="margin-top:30px"><span class="btn" style="opacity:.5;cursor:default">オンライン販売は準備中</span></div>
+<section class="section reveal arrivals" data-arrivals data-ec-root="">
+  <div class="section-head" style="margin-bottom:34px">
+    <p class="section-kicker">新入荷 — NEW ARRIVALS</p>
+    <h2 class="section-title">ギャラリーに加わった道具</h2>
+    <div class="rule"></div>
+    <p class="section-lede">悠三堂ギャラリーに入ったばかりの茶道具です。気になるものはお問い合わせください。オンラインでのお求めは、準備が整いしだいご案内します。</p>
+  </div>
+  <div class="ar-slot">
+    <p class="ar-loading">読み込んでいます…</p>
+  </div>
 </section>
 '''
 
@@ -1125,6 +1129,10 @@ window.CHADOGU_EC = {
     kakemono: "掛物"
   },
   // 二十四節気の英語表記(英語ページのチップ用)
+  catEn: {"茶碗":"Chawan","茶入":"Chaire","棗":"Natsume","水指":"Mizusashi",
+    "建水":"Kensui","蓋置":"Futaoki","茶杓":"Chashaku","花入":"Hanaire","香合":"Kōgō",
+    "釜・風炉":"Kama / Furo","急須・宝瓶":"Kyūsu / Hōhin","湯冷まし":"Yuzamashi",
+    "湯呑・茶托":"Yunomi / Chataku","菓子器":"Kashiki","掛物":"Kakemono","その他":"Other"},
   sekkiEn: {"立春":"Risshun","雨水":"Usui","啓蟄":"Keichitsu","春分":"Shunbun","清明":"Seimei","穀雨":"Kokuu","立夏":"Rikka","小満":"Shōman","芒種":"Bōshu","夏至":"Geshi","小暑":"Shōsho","大暑":"Taisho","立秋":"Risshū","処暑":"Shosho","白露":"Hakuro","秋分":"Shūbun","寒露":"Kanro","霜降":"Sōkō","立冬":"Rittō","小雪":"Shōsetsu","大雪":"Taisetsu","冬至":"Tōji","小寒":"Shōkan","大寒":"Daikan"}
 };
 
@@ -1249,6 +1257,120 @@ window.CHADOGU_EC = {
     note('在庫を取得できませんでした: ' + (e && e.message ? e.message : e));
   });
 })();
+
+// ---- 新入荷カルーセル ------------------------------------------------------
+// トップの「準備中」の枠に、登録したばかりの道具を横並びで出す。
+// 在庫が0件のとき・取得できないときは、準備中の文面に戻す（空の棚を見せない）。
+(function () {
+  var slot = document.querySelector('[data-arrivals] .ar-slot');
+  if (!slot) return;
+  var sec = slot.closest('[data-arrivals]');
+  var root = sec.getAttribute('data-ec-root') || '';
+  var lang = document.documentElement.lang || 'ja';
+  var en = lang === 'en';
+  var MAX = 12;
+
+  var S = {
+    ja: { all: 'すべての道具を見る', ask: 'お問い合わせください', gone: 'お渡し済み',
+          none: 'ただいま準備中です。まもなくご案内します。',
+          prev: '前へ', next: '次へ', unnamed: '無銘' },
+    en: { all: 'See all pieces', ask: 'Please enquire', gone: 'No longer available',
+          none: 'Pieces will appear here shortly.',
+          prev: 'Previous', next: 'Next', unnamed: 'Unnamed' },
+    fr: { all: 'Voir toutes les pièces', ask: 'Nous écrire', gone: 'Plus disponible',
+          none: 'Les pièces paraîtront ici sous peu.',
+          prev: 'Précédent', next: 'Suivant', unnamed: 'Sans nom' },
+    'zh-Hant': { all: '查看全部茶道具', ask: '歡迎詢問', gone: '已交付',
+          none: '目前準備中，近期將為您呈上。',
+          prev: '上一個', next: '下一個', unnamed: '無銘' }
+  };
+  var T = S[lang] || S.ja;
+
+  var esc = function (v) {
+    return String(v == null ? '' : v).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  };
+  var quiet = function (msg) {
+    slot.innerHTML = '<p class="ar-none">' + esc(msg) + '</p>';
+  };
+
+  var EP = (window.CHADOGU_EC && window.CHADOGU_EC.endpoint) || '';
+  if (!EP) { quiet(T.none); return; }
+
+  fetch(EP + '/api/items').then(function (r) {
+    if (!r.ok) throw new Error(r.status);
+    return r.json();
+  }).then(function (all) {
+    // API は新しい順に返す。売却済みも「こういうものが入ります」の見本になるので残す。
+    var items = (all || []).filter(function (i) { return i.status !== 'hidden'; }).slice(0, MAX);
+    if (!items.length) { quiet(T.none); return; }
+
+    var cards = items.map(function (i) {
+      var sold = i.status === 'sold';
+      var photo = (i.photos && i.photos[0])
+        ? '<img loading="lazy" alt="' + esc(i.mei) + '" src="'
+          + EP + '/photos/' + esc(i.photos[0]) + '">'
+        : '<span class="st-nophoto"></span>';
+      // 種別は、漢字が読める言語（日本語・繁体字）はそのまま、
+      // 読めない言語（英語・仏語）はローマ字表記に置き換える。
+      var roman = lang === 'en' || lang === 'fr';
+      var cat = i.category
+        ? ((roman && window.CHADOGU_EC && CHADOGU_EC.catEn
+            && CHADOGU_EC.catEn[i.category]) || i.category) : '';
+      // 銘は訳さない。英語ページではローマ字を主に
+      var mei = (en && i.mei_romaji) ? i.mei_romaji : (i.mei || T.unnamed);
+      var sub = en ? i.mei : i.mei_romaji;
+      return '<a class="ar-card' + (sold ? ' sold' : '') + '" href="'
+        + root + 'item.html?id=' + encodeURIComponent(i.id) + '">'
+        + '<span class="st-frame">' + photo
+        + (sold ? '<span class="st-badge">' + esc(T.gone) + '</span>' : '') + '</span>'
+        + '<span class="ar-body">'
+        + (i.sku ? '<span class="ar-sku">' + esc(i.sku) + '</span>' : '')
+        + '<span class="ar-mei">' + esc(mei) + '</span>'
+        + (sub ? '<span class="ar-sub">' + esc(sub) + '</span>' : '')
+        + (cat ? '<span class="ar-cat">' + esc(cat) + '</span>' : '')
+        + '<span class="ar-ask">' + esc(sold ? T.gone : T.ask) + '</span>'
+        + '</span></a>';
+    }).join('');
+
+    slot.innerHTML =
+      '<div class="ar-wrap">'
+      + '<button class="ar-nav prev" type="button" aria-label="' + esc(T.prev) + '"></button>'
+      + '<div class="ar-track" tabindex="0">' + cards + '</div>'
+      + '<button class="ar-nav next" type="button" aria-label="' + esc(T.next) + '"></button>'
+      + '</div>'
+      + '<p class="ar-more"><a href="' + root + 'stock.html">' + esc(T.all) + ' →</a></p>';
+
+    var track = slot.querySelector('.ar-track');
+    var prev = slot.querySelector('.ar-nav.prev');
+    var next = slot.querySelector('.ar-nav.next');
+
+    // 1カード分だけ送る。端では矢印を消す（押せるのに動かない状態を作らない）
+    var step = function () {
+      var c = track.querySelector('.ar-card');
+      return c ? c.getBoundingClientRect().width + 18 : track.clientWidth * 0.8;
+    };
+    prev.addEventListener('click', function () {
+      track.scrollBy({ left: -step(), behavior: 'smooth' });
+    });
+    next.addEventListener('click', function () {
+      track.scrollBy({ left: step(), behavior: 'smooth' });
+    });
+    var sync = function () {
+      var max = track.scrollWidth - track.clientWidth - 2;
+      prev.hidden = track.scrollLeft <= 2;
+      next.hidden = track.scrollLeft >= max;
+    };
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  }).catch(function (e) {
+    console.warn('[arrivals] 新入荷を取得できませんでした:', e);
+    quiet(T.none);
+  });
+})();
+
 ''')
 
 import shutil
