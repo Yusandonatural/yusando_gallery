@@ -68,6 +68,10 @@ h1{font-size:24px;letter-spacing:.14em;font-weight:500;margin-top:36px}
   color:var(--ink-soft);cursor:pointer;transition:.2s}
 .mini:hover{border-color:var(--matcha);color:var(--matcha)}
 .mini:disabled{opacity:.4;cursor:default}
+.mini.add{cursor:pointer}
+.shots{font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;color:var(--rikyu);
+  align-self:center;margin-right:2px}
+.shots.few{color:var(--gold)}
 
 .footbar{position:fixed;left:0;right:0;bottom:0;background:rgba(247,243,234,.97);
   border-top:1px solid var(--line);backdrop-filter:blur(8px);z-index:30}
@@ -113,6 +117,7 @@ h1{font-size:24px;letter-spacing:.14em;font-weight:500;margin-top:36px}
       <option value="">すべて</option>
       <option value="published">公開中</option>
       <option value="hidden">非公開</option>
+      <option value="few">写真が3枚未満</option>
     </select>
     <button class="btn" id="load">読み込む</button>
   </div>

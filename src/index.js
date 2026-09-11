@@ -20,6 +20,7 @@ const authed = (request, env) => {
   const t = request.headers.get("x-upload-token") || new URL(request.url).searchParams.get("token");
   return !!env.UPLOAD_TOKEN && t === env.UPLOAD_TOKEN;
 };
+const MAX_PHOTOS = 5;   // Claude に渡す枚数の上限
 const CATEGORIES = ["茶碗","茶入","棗","水指","建水","蓋置","茶杓","花入","香合",
   "釜・風炉","急須・宝瓶","湯冷まし","湯呑・茶托","菓子器","掛物","その他"];
 const tiers = (env) => (env.PRICE_TIERS || "3000,5000,7000,10000").split(",").map((n) => parseInt(n.trim(), 10));
@@ -159,7 +160,7 @@ async function upload(request, env) {
   const json = jsonWith(request);
   if (!authed(request, env)) return json({ error: "合言葉が違います" }, 401);
   const form = await request.formData();
-  const files = form.getAll("photos").filter((f) => f && f.size > 0).slice(0, 5);
+  const files = form.getAll("photos").filter((f) => f && f.size > 0).slice(0, MAX_PHOTOS);
   if (!files.length) return json({ error: "写真が1枚もありません" }, 400);
   const forcedTier = parseInt(form.get("tier") || "", 10);
   const rawCat = (form.get("category") || "").trim();
@@ -183,12 +184,12 @@ async function upload(request, env) {
 }
 
 // 写真を R2 に置き、同時に解析用の base64 も作る。
-async function storePhotos(id, files, env) {
+async function storePhotos(id, files, env, from = 0) {
   const keys = [], images = [];
   for (const [i, f] of files.entries()) {
     const buf = await f.arrayBuffer();
     const type = f.type || "image/jpeg";
-    const key = `${id}/${i + 1}.${type.split("/")[1] || "jpg"}`;
+    const key = `${id}/${from + i + 1}.${type.split("/")[1] || "jpg"}`;
     await env.PHOTOS.put(key, buf, { httpMetadata: { contentType: type } });
     keys.push(key);
     images.push({ type: "image", source: { type: "base64", media_type: type, data: toBase64(buf) } });
@@ -205,7 +206,7 @@ async function createDraft(request, env) {
   const json = jsonWith(request);
   if (!authed(request, env)) return json({ error: "合言葉が違います" }, 401);
   const form = await request.formData();
-  const files = form.getAll("photos").filter((f) => f && f.size > 0).slice(0, 5);
+  const files = form.getAll("photos").filter((f) => f && f.size > 0).slice(0, MAX_PHOTOS);
   if (!files.length) return json({ error: "写真が1枚もありません" }, 400);
   const tooBig = files.find((f) => f.size > 4.5 * 1024 * 1024);
   if (tooBig) return json({ error: `写真が大きすぎます（${(tooBig.size/1048576).toFixed(1)}MB）` }, 413);
@@ -257,6 +258,33 @@ async function analyzeItem(request, id, env) {
     await updateRow(id, { analysis_status: "failed", analysis_error: String(e.message || e).slice(0, 300) }, env);
     return json({ id, error: e.message, detail: e.detail, retryable: !!e.retryable }, e.status || 502);
   }
+}
+
+// あとから写真を足す。まず正面だけで全点を登録しておき、日を改めて上面・下面を
+// 撮り足す、という進め方ができるようにするためのもの。既にある写真は消さず、
+// 続きの番号で足す。解析はやり直さない（費用がかかるうえ、手で直した文章を
+// 上書きしてしまうため）。読み直したいときは /analyze を明示的に呼ぶ。
+async function addPhotos(request, id, env) {
+  const json = jsonWith(request);
+  if (!authed(request, env)) return json({ error: "合言葉が違います" }, 401);
+  const row = await env.DB.prepare("SELECT id, photos FROM items WHERE id=? OR sku=?")
+    .bind(id, id.toUpperCase()).first();
+  if (!row) return json({ error: "not found" }, 404);
+
+  const form = await request.formData();
+  const files = form.getAll("photos").filter((f) => f && f.size > 0);
+  if (!files.length) return json({ error: "写真がありません" }, 400);
+  const existing = JSON.parse(row.photos || "[]");
+  if (existing.length + files.length > MAX_PHOTOS)
+    return json({ error: `写真は1点につき${MAX_PHOTOS}枚までです（現在${existing.length}枚）` }, 400);
+  const tooBig = files.find((f) => f.size > 4.5 * 1024 * 1024);
+  if (tooBig) return json({ error: `写真が大きすぎます（${(tooBig.size/1048576).toFixed(1)}MB）` }, 413);
+
+  const { keys } = await storePhotos(row.id, files, env, existing.length);
+  const all = existing.concat(keys);
+  await env.DB.prepare("UPDATE items SET photos=? WHERE id=?")
+    .bind(JSON.stringify(all), row.id).run();
+  return json({ id: row.id, photos: all.length, added: keys.length });
 }
 
 // まとめて公開・非公開・削除。解析の済んでいない行は公開しない。
@@ -382,6 +410,8 @@ export default {
     if (pathname === "/api/items" && m === "GET") return listItems(request, env);
     const analyze = pathname.match(/^\/api\/items\/([\w-]+)\/analyze$/);
     if (analyze && m === "POST") return analyzeItem(request, analyze[1], env);
+    const addph = pathname.match(/^\/api\/items\/([\w-]+)\/photos$/);
+    if (addph && m === "POST") return addPhotos(request, addph[1], env);
     const item = pathname.match(/^\/api\/items\/([\w-]+)$/);
     if (item && m === "GET") return getItem(request, item[1], env);
     if (item && m === "PATCH") return patchItem(request, item[1], env);

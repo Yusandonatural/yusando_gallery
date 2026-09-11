@@ -24,14 +24,16 @@ async function load() {
   note("読み込んでいます…");
   const q = new URLSearchParams();
   if (batch) q.set("batch", batch);
-  if ($("filter").value) q.set("status", $("filter").value);
+  // 「写真が少ない」はサーバ側の status ではないので、取ってから絞る
+  if ($("filter").value && $("filter").value !== "few") q.set("status", $("filter").value);
   try {
     const res = await fetch(`${API}/api/items?${q}`, { headers: { "x-upload-token": token() } });
     if (res.status === 401) { note("合言葉が違います", "err"); return; }
     if (!res.ok) throw new Error("エラー " + res.status);
     items = await res.json();
     picked.clear();
-    note(batch ? `まとめて登録した分（${esc(batch)}）を表示しています。` : "");
+      if ($("filter").value === "few") items = items.filter((i) => (i.photos || []).length < 3);
+  note(batch ? `まとめて登録した分（${esc(batch)}）を表示しています。` : "");
     draw();
   } catch (e) {
     note("読み込めませんでした — " + esc(e.message), "err");
@@ -50,6 +52,7 @@ function draw() {
 }
 
 function card(i) {
+  const n = (i.photos || []).length;
   const failed = i.analysis_status === "failed";
   const pending = i.analysis_status === "pending";
   const warn = i.same_object === 0;
@@ -87,8 +90,12 @@ function card(i) {
         </select>
       </div>
       <div class="acts">
+        <span class="shots${n < 3 ? " few" : ""}">写真 ${n} 枚${n < 3 ? "（正面のみ）" : ""}</span>
+        <label class="mini add">写真を足す
+          <input type="file" accept="image/*" multiple data-add="${i.id}" hidden>
+        </label>
         <a class="mini" href="/item.html?id=${encodeURIComponent(i.id)}" target="_blank" rel="noopener">詳細を見る</a>
-        <button class="mini" data-act="analyze" data-id="${i.id}"${pending || failed ? "" : " disabled"}>もう一度読み取る</button>
+        <button class="mini" data-act="analyze" data-id="${i.id}">${pending || failed ? "読み取る" : "もう一度読み取る"}</button>
       </div>
     </div></div>`;
 }
@@ -121,6 +128,47 @@ $("list").addEventListener("change", async (e) => {
     note("保存できませんでした — " + esc(err.message), "err");
   } finally { sel.disabled = false; }
 });
+
+// 正面だけ先に登録しておいて、上面・下面をあとから足す進め方のための口。
+// 足しただけでは読み直さない（費用がかかり、手で直した文章も消えるため）。
+// 読み直したいときは、そのあと「もう一度読み取る」を押す。
+$("list").addEventListener("change", async (e) => {
+  const inp = e.target.closest("input[data-add]");
+  if (!inp || !inp.files.length) return;
+  const id = inp.dataset.add;
+  const box = inp.closest(".acts").querySelector(".add");
+  const was = box.firstChild.nodeValue;
+  box.firstChild.nodeValue = "送っています…";
+  try {
+    const fd = new FormData();
+    for (const f of [...inp.files].slice(0, 4)) fd.append("photos", await shrink(f));
+    const res = await fetch(`${API}/api/items/${id}/photos`, {
+      method: "POST", headers: { "x-upload-token": token() }, body: fd,
+    });
+    const j = await res.json();
+    if (!res.ok) throw new Error(j.error || "エラー " + res.status);
+    note(`${j.added} 枚を足しました（合計 ${j.photos} 枚）。内容に反映するには「もう一度読み取る」を押してください。`, "ok");
+    await load();
+  } catch (err) {
+    note("足せませんでした — " + esc(err.message), "err");
+    box.firstChild.nodeValue = was;
+  } finally { inp.value = ""; }
+});
+
+// 送る前にこの端末で縮小する（bulk.js と同じ扱い）
+async function shrink(file, max = 1600) {
+  const img = await new Promise((res, rej) => {
+    const i = new Image();
+    i.onload = () => res(i); i.onerror = rej; i.src = URL.createObjectURL(file);
+  });
+  const s = Math.min(1, max / Math.max(img.width, img.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+  c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  URL.revokeObjectURL(img.src);
+  const blob = await new Promise((r) => c.toBlob(r, "image/jpeg", 0.85));
+  return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".jpg", { type: "image/jpeg" });
+}
 
 $("list").addEventListener("click", async (e) => {
   const b = e.target.closest("button[data-act='analyze']");

@@ -95,32 +95,67 @@ async function take(list) {
   $("exifnote").innerHTML = noExif
     ? `${noExif} 枚に撮影時刻が入っていませんでした（ファイルの更新日時で代用しています）。組がずれていたら下で直してください。`
     : "すべての写真から撮影時刻を読みました。";
-  regroup();
+  syncMode();
   step(2);
 }
 
 /* ========================================================== グループ分け == */
-// 器を入れ替えるときには自然に手が止まる。その間を区切りとみなす。
+// 分け方は2通り。決まった枚数（正面・上面・下面の3枚など）で機械的に切るか、
+// 器を入れ替えるときに自然に空く間で切るか。
 function regroup() {
-  const gap = +$("gap").value * 1000;
   groups = [];
+  const byCount = $("mode").value === "count";
+  const per = +$("per").value;
+  const gap = +$("gap").value * 1000;
   let cur = null;
+
   photos.forEach((p, i) => {
-    const newGroup = !cur || (photos[i - 1] && p.time - photos[i - 1].time > gap)
-      || cur.photos.length >= MAX_PER_ITEM;
-    if (newGroup) { cur = { photos: [], category: "", tier: "" }; groups.push(cur); }
+    const gapHere = i > 0 && p.time - photos[i - 1].time > gap;
+    const full = cur && cur.photos.length >= (byCount ? per : MAX_PER_ITEM);
+    if (!cur || full || (!byCount && gapHere)) {
+      cur = { photos: [], category: "", tier: "", odd: false };
+      groups.push(cur);
+    } else if (byCount && gapHere) {
+      // 枚数で切っているのに、組の途中で間が空いた。撮り忘れか撮り足しの合図。
+      cur.odd = true;
+    }
     cur.photos.push(i);
   });
+
+  // 逆に、組の変わり目なのに間が空いていないところも怪しい。
+  // ただし1枚ずつのときは、すべての写真が組の変わり目なので見ても意味がない。
+  if (byCount && per > 1) {
+    let idx = 0;
+    groups.forEach((g, gi) => {
+      idx += g.photos.length;
+      const next = photos[idx];
+      if (gi < groups.length - 1 && next && next.time - photos[idx - 1].time <= gap)
+        g.odd = groups[gi + 1].odd = true;
+    });
+    // 最後の組が半端なら、どこかで枚数がずれている
+    const last = groups[groups.length - 1];
+    if (last && last.photos.length !== per && groups.length > 1) last.odd = true;
+  }
   drawGroups();
 }
 
+function syncMode() {
+  const byCount = $("mode").value === "count";
+  $("modeCount").hidden = !byCount;
+  $("modeTime").hidden = byCount;
+  regroup();
+}
+$("mode").addEventListener("change", syncMode);
+$("per").addEventListener("change", regroup);
 $("gap").addEventListener("input", () => {
   $("gapv").textContent = $("gap").value + " 秒";
   regroup();
 });
 
 function drawGroups() {
-  $("gcount").textContent = `${groups.length} 点 / 写真 ${photos.length} 枚`;
+  const odd = groups.filter((g) => g.odd).length;
+  $("gcount").textContent = `${groups.length} 点 / 写真 ${photos.length} 枚`
+    + (odd ? `　確認 ${odd} 件` : "");
   $("groups").innerHTML = groups.map((g, gi) => {
     const cells = g.photos.map((pi, k) => {
       const p = photos[pi];
@@ -136,9 +171,10 @@ function drawGroups() {
     }).join("");
     const opts = (sel) => CATEGORIES.map((c) =>
       `<option value="${c}"${c === sel ? " selected" : ""}>${c}</option>`).join("");
-    return `<div class="group">
+    return `<div class="group${g.odd ? " odd" : ""}">
       <div class="g-head">
         <b>${gi + 1} 点目</b><span class="n">写真 ${g.photos.length} 枚</span>
+        ${g.odd ? '<span class="g-flag">撮影の間隔とずれています</span>' : ""}
         <span class="sp">
           <button class="mini" data-act="merge" data-g="${gi}" ${gi === 0 ? "disabled" : ""}>前の組と合わせる</button>
           <button class="mini warn" data-act="rmgroup" data-g="${gi}">この組を外す</button>
@@ -177,18 +213,19 @@ $("groups").addEventListener("click", (e) => {
     if (!groups[gi].photos.length) groups.splice(gi, 1);
   } else if (act === "prev") {
     const [pi] = groups[gi].photos.splice(k, 1);
-    if (gi === 0) groups.unshift({ photos: [], category: "", tier: "" });
+    if (gi === 0) groups.unshift({ photos: [], category: "", tier: "", odd: false });
     const to = gi === 0 ? 0 : gi - 1;
     groups[to].photos.push(pi);
     if (groups[gi + (gi === 0 ? 1 : 0)] && !groups[gi + (gi === 0 ? 1 : 0)].photos.length)
       groups.splice(gi + (gi === 0 ? 1 : 0), 1);
   } else if (act === "next") {
     const [pi] = groups[gi].photos.splice(k, 1);
-    if (gi === groups.length - 1) groups.push({ photos: [], category: "", tier: "" });
+    if (gi === groups.length - 1) groups.push({ photos: [], category: "", tier: "", odd: false });
     groups[gi + 1].photos.unshift(pi);
     if (!groups[gi].photos.length) groups.splice(gi, 1);
   } else return;
   groups = groups.filter((g) => g.photos.length);
+  if (gi < groups.length) groups[gi].odd = false;   // 手で直した組は疑わない
   drawGroups();
 });
 
