@@ -30,11 +30,13 @@ header{border-bottom:1px solid var(--line);background:rgba(247,243,234,.94);
 .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:44px;padding-top:44px}
 @media (max-width:780px){.grid{grid-template-columns:1fr;gap:30px;padding-top:28px}}
 
-.stage{border:1px solid var(--line);background:var(--paper-deep);border-radius:2px;
-  aspect-ratio:1;overflow:hidden}
-.stage img{width:100%;height:100%;object-fit:cover}
+/* 実物を見る場所なので、ここは特に切らない。器のまわりに間をとる */
+.stage{border:1px solid var(--line);background:var(--paper);border-radius:2px;
+  aspect-ratio:1;overflow:hidden;padding:6%}
+.stage img{width:100%;height:100%;object-fit:contain}
 .thumbs{display:flex;gap:9px;margin-top:10px;flex-wrap:wrap}
-.thumbs img{width:62px;height:62px;object-fit:cover;border:1px solid var(--line);
+.thumbs img{width:62px;height:62px;object-fit:contain;background:var(--paper);
+  padding:4px;border:1px solid var(--line);
   border-radius:2px;cursor:pointer;opacity:.62;transition:.25s}
 .thumbs img.on,.thumbs img:hover{opacity:1;border-color:var(--gold)}
 

@@ -51,13 +51,14 @@ header{border-bottom:1px solid var(--line);background:rgba(247,243,234,.94);
 
 .card{display:flex;flex-direction:column;height:100%;transition:transform .4s ease}
 a.card:hover{transform:translateY(-3px)}
-.frame{position:relative;aspect-ratio:1;overflow:hidden;background:var(--paper-deep);
-  border:1px solid var(--line);border-radius:2px}
-.frame img{width:100%;height:100%;object-fit:cover;
+/* 器を切らずに全体を収める。余りは紙色の余白で受ける（css/style.css と同じ考え） */
+.frame{position:relative;aspect-ratio:1;overflow:hidden;background:var(--paper);
+  border:1px solid var(--line);border-radius:2px;padding:6%}
+.frame img{width:100%;height:100%;object-fit:contain;
   transition:transform .6s cubic-bezier(.2,.6,.2,1)}
 a.card:hover .frame img{transform:scale(1.045)}
 a.card:hover .frame{border-color:var(--gold)}
-.badge{position:absolute;left:0;bottom:0;font-family:var(--sans);font-size:9.5px;
+.badge{position:absolute;left:0;bottom:0;margin:0 0 -1px -1px;font-family:var(--sans);font-size:9.5px;
   letter-spacing:.16em;color:var(--paper);background:rgba(43,42,38,.82);padding:5px 12px;line-height:1.5}
 .badge i{display:block;font-style:normal;font-size:8.5px;opacity:.8}
 .card.sold .frame img{filter:grayscale(.9);opacity:.68}

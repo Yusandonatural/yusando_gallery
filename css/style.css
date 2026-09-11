@@ -276,10 +276,14 @@ a.tool-card:hover .ico{color:var(--gold)}
   transition:transform .4s ease}
 a.stock-card:hover{transform:translateY(-3px)}
 
-/* 正方形に切り抜く。枠は紙色の余白で受ける */
+/* 正方形の枠に収める。cover で切り抜くと、横長の写真では茶碗の左右が、
+   縦長の写真では口縁や高台が切れてしまう。器そのものが商品なので、
+   切らずに全体を見せ、余った分は紙色の余白として受ける。
+   内側の padding が、器のまわりの「間」になる。 */
 .st-frame{display:block;position:relative;aspect-ratio:1;overflow:hidden;
-  background:var(--paper);border:1px solid var(--line);border-radius:2px}
-.st-frame img{width:100%;height:100%;object-fit:cover;display:block;
+  background:var(--paper);border:1px solid var(--line);border-radius:2px;
+  padding:6%}
+.st-frame img{width:100%;height:100%;object-fit:contain;display:block;
   transition:transform .6s cubic-bezier(.2,.6,.2,1)}
 a.stock-card:hover .st-frame img{transform:scale(1.045)}
 a.stock-card:hover .st-frame{border-color:var(--gold)}
