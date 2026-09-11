@@ -29,7 +29,9 @@ SITE_NAME = {
 # The five pages that exist in every language. Anything outside this set is
 # JA/EN only, so a FR/ZH page linking to it falls back to English.
 CORE = ["index.html", "tools.html", "setup.html", "guide.html",
-        "articles/index.html"]
+        "articles/index.html"] + [f"tools/{s}.html" for s in
+        ("chawan", "chasen", "chashaku", "natsume",
+         "kama", "hishaku", "fukusa", "mizusashi")]
 
 
 # --------------------------------------------------------------- switcher --

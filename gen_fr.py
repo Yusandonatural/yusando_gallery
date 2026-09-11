@@ -8,7 +8,7 @@ japonais d'abord, la traduction en appui.
 """
 import os
 from gen import FONTS, ROOT
-from icons import sprite as ico_sprite, icon as ico
+from icons import sprite as ico_sprite, icon as ico, parts_icon
 
 
 def w(path, content):
@@ -587,3 +587,272 @@ print("pages françaises écrites")
 
 PAGES_FR = ["index.html", "tools.html", "setup.html", "guide.html",
             "articles/index.html"]
+
+
+# ======================================================== fiches détaillées ==
+# Les repères numérotés sur les schémas (parts_dots) et l'ordre des ustensiles
+# sont communs à toutes les éditions : on les reprend de l'édition anglaise
+# plutôt que de les recopier, pour qu'un ajustement ne se fasse qu'une fois.
+from gen_en import TOOLS_EN, LV_EN  # noqa: E402
+
+DOTS = {t["slug"]: t["parts_dots"] for t in TOOLS_EN}
+
+DETAIL_FR = {
+"chawan": dict(
+  tags=["Ustensile principal", "Céramique", "Choisi selon la saison"],
+  names=[("Nom", "Chawan 茶碗 (« bol à thé »)"),
+         ("Grands fours", "Raku, Hagi, Karatsu, Shino, tenmoku et d’autres encore"),
+         ("Selon la saison", "Été : hira-jawan, bas et ouvert / Hiver : tsutsu-jawan, profond, qui garde la chaleur")],
+  history=["L’histoire du chawan commence avec les bols tenmoku chinois, importés en même temps que le thé. À l’époque de Muromachi, ces karamono (objets venus de Chine) tenaient le premier rang ; mais à mesure que le thé wabi prenait forme, le goût s’est déplacé vers les bols coréens, puis vers les céramiques japonaises.",
+    "À l’ère de Momoyama, le potier Chōjirō répondit à l’esthétique wabi de Sen no Rikyū par le bol raku — façonné entièrement à la main, sans tour. Le dicton « Raku d’abord, Hagi ensuite, Karatsu en troisième » classe les fours japonais les plus aimés du thé, et les bols de chacun d’eux passent encore aujourd’hui de main en main."],
+  parts=[("Kuchi-zukuri (lèvre)", "Le bord ; son épaisseur et sa courbe changent la sensation à la boisson"),
+         ("Mikomi (intérieur)", "Le fond intérieur — il lui faut la largeur juste pour fouetter"),
+         ("Dō (panse)", "La paroi, où se lit le « paysage » de la glaçure"),
+         ("Koshi (hanche)", "La courbe vers le pied ; c’est elle qui assied le bol dans la main"),
+         ("Kōdai (pied)", "L’anneau de pied taillé, là où la main du potier se voit le mieux")],
+  usage=[("Regarder", "Prenez-le à deux mains, tenu bas au-dessus du tatami. Cherchez le shōmen — la « face » du bol."),
+         ("Recevoir le thé", "Tournez le bol pour ne pas boire par sa face ; videz-le en deux gorgées et demie environ."),
+         ("Nettoyer", "Eau chaude seule, jamais de détergent. Séchez complètement avant de ranger.")],
+  checks=[("Fêlures et éclats", "Examinez le bord : petits éclats (hotsu) et fentes de glaçure (nyū). Certains sont prisés comme paysage — faites préciser l’état."),
+          ("Restaurations", "Une reprise à la laque d’or (kintsugi) ne fait pas nécessairement baisser la valeur, mais l’usage en salle de thé dépend de sa qualité."),
+          ("Boîte signée", "Un tomobako (boîte signée du potier) ou une inscription de maître de thé change beaucoup l’estimation."),
+          ("Pied et terre", "La taille du pied et la terre laissée nue sont les indices majeurs du four et de l’authenticité.")]),
+
+"chasen": dict(
+  tags=["Ustensile principal", "Travail du bambou", "Consommable"],
+  names=[("Nom", "Chasen 茶筅 (« fouet à thé »)"),
+         ("Types", "Kazuho (environ 72 brins), 80, 100, 120 brins ; araho, à brins épais, pour le thé épais"),
+         ("Selon l’école", "Omotesenke : bambou fumé / Urasenke : bambou blanc / Mushakōji : bambou noir")],
+  history=["On attribue l’invention du chasen à l’époque de Muromachi, à Takayama dans la province de Nara, à la demande de Murata Jukō, l’un des pères du thé. Depuis cinq siècles, Takayama demeure « le village du fouet », ses techniques se transmettant à l’intérieur des familles.",
+    "Une seule longueur de bambou est fendue en cent brins ou davantage d’un unique couteau, puis chaque brin est courbé vers l’intérieur ou l’extérieur à l’eau chaude — un travail de main qu’aucune machine ne remplace. Le chasen reste un Artisanat traditionnel reconnu du Japon."],
+  parts=[("Hosaki (brins)", "Les pointes qui fouettent, en une couronne intérieure et une extérieure"),
+         ("Fil kagari", "Le fil qui lie les brins extérieurs, noir le plus souvent"),
+         ("Fushi (nœud)", "Le nœud du bambou, entre les brins et le manche"),
+         ("E (manche)", "La prise ; le bambou diffère selon l’école")],
+  usage=[("Chasen-tōshi", "Pendant le temae, le fouet est rincé à l’eau chaude et ses brins inspectés."),
+         ("Fouetter", "Fouettez vite, en traçant un « m » depuis le poignet, puis relevez par un « の » léger."),
+         ("Sécher", "Rincez après usage et laissez sécher à l’air, brins vers le haut ; un support (kusenaoshi) lui garde sa forme.")],
+  checks=[("Achetez-le neuf pour l’usage", "Il touche la bouche et s’use : un fouet destiné à servir doit être neuf. L’occasion est surtout du vieux stock jamais utilisé."),
+          ("État des brins", "Des brins cassés ou écartés fouettent mal ; de bons brins s’incurvent doucement vers l’intérieur."),
+          ("Provenance", "Les fouets de Takayama l’emportent sur les importations de série, en équilibre comme en tenue."),
+          ("Accord avec l’école", "Vérifiez que la couleur du bambou convient à votre école.")]),
+
+"chashaku": dict(
+  tags=["Ustensile principal", "Travail du bambou", "Porte un nom poétique"],
+  names=[("Nom", "Chashaku 茶杓 (« cuillère à thé »)"),
+         ("Mei", "Le nom poétique que lui donne son auteur — souvent un mot de saison ou une formule zen"),
+         ("Accessoires", "Le tomozutsu (étui signé) et la boîte pèsent lourd dans la valeur")],
+  history=["La cuillère descend des spatules chinoises en ivoire, mais le thé wabi l’a refaite en bambou ; sa forme actuelle se fixe du temps de Takeno Jōō et de Sen no Rikyū. Les cuillères de Rikyū lui-même — au premier rang « Namida » (Larmes), taillée avant sa mort — émeuvent encore les gens de thé.",
+    "C’est le seul ustensile que les maîtres de thé taillent couramment eux-mêmes. La place du nœud distingue les moto-bushi, naka-bushi et fushi-nashi ; et avec un nom et un étui inscrit, un éclat de bambou devient la voix de la réunion."],
+  parts=[("Kaisaki (pointe)", "L’extrémité courbée qui prend le thé"),
+         ("Hi (gouttière)", "Le sillon naturel du bambou — un point d’appréciation"),
+         ("Fushi (nœud)", "Le nœud près du milieu ; naka-bushi est le plus répandu"),
+         ("Kiridome (talon)", "La coupe du bout du manche, où se lit la main de l’auteur")],
+  usage=[("Purifier", "Essuyée au fukusa au début du temae — un geste du cœur, non un simple nettoyage."),
+         ("Prélever", "Environ une cuillerée et demie, soit deux grammes, pour un bol de thé léger."),
+         ("Faire admirer", "Présentée aux invités pour l’examen ; ne touchez jamais la pointe à mains nues.")],
+  checks=[("Nom et étui", "La valeur tient à l’étui signé et à la boîte. Une cuillère seule vaut bien moins."),
+          ("Cassures et vrillettes", "Examinez la pointe (éclats) et la tige (piqûres d’insectes) ; certaines sont reprises à la laque."),
+          ("Le paysage du bambou", "Sillon, moucheture et patine relèvent du goût — choisissez ce qui vous plaît."),
+          ("L’auteur", "Les cuillères des grands maîtres atteignent des prix sans rapport avec celles d’atelier.")]),
+
+"natsume": dict(
+  tags=["Ustensile principal", "Laque", "Pour le thé léger"],
+  names=[("Nom", "Natsume 棗 (« jujube »)"),
+         ("Tailles", "Grand (ō-natsume), moyen, petit"),
+         ("Finitions", "Noir uni shin-nuri, tame-nuri, décors d’or maki-e, incrustations de nacre")],
+  history=["Le natsume est une invention japonaise, attribuée au laqueur Haneda Gorō, de l’époque de Muromachi. Face au chaire de céramique réservé au thé épais, ce récipient léger et laqué s’est imposé pour le thé léger.",
+    "Du noir uni que préférait Rikyū aux boîtes plus tardives où les quatre saisons sont peintes en maki-e d’or, cet objet tenant dans la paume concentre l’essentiel de l’art japonais de la laque."],
+  parts=[("Futa / kō (couvercle)", "La face supérieure — le champ d’honneur du maki-e"),
+         ("Aikuchi (jointure)", "Là où le couvercle rencontre le corps ; sa précision signe la qualité"),
+         ("Dō (corps)", "Le flanc doucement renflé"),
+         ("Soko (fond)", "Il peut porter la signature de l’auteur")],
+  usage=[("Manier", "Posez-le sur la paume gauche et purifiez le couvercle au fukusa, selon les gestes prescrits."),
+         ("Remplir", "Dressez le matcha en petite montagne, sans tasser ; tamisez-le juste avant l’usage."),
+         ("Entretenir", "Ne lavez jamais à l’eau. Essuyez au chiffon doux et sec, et rangez dans sa boîte de bois.")],
+  checks=[("État de la laque", "Cherchez fissures, écaillages et ternissement. Une décoloration par le soleil est irréversible."),
+          ("Ajustement du couvercle", "Le couvercle d’une belle boîte se pose dans un soupir. Un jeu ou un cliquetis doit alerter."),
+          ("Usure du maki-e", "Le décor d’or s’efface à l’usage — agrandissez les photos pour vérifier que les traits tiennent."),
+          ("Boîte et auteur", "Une boîte signée, et une origine comme Wajima ou Yamanaka, orientent le prix.")]),
+
+"kama": dict(
+  tags=["Ustensile principal", "Fonte de fer", "Ro et furo"],
+  names=[("Nom", "Kama 茶釜 (« bouilloire à thé »)"),
+         ("Origines réputées", "Ashiya (Chikuzen), Tenmyō (Shimotsuke), Kyoto"),
+         ("Selon la saison", "Hiver : grande bouilloire dans le foyer encastré / Été : plus petite, sur le brasero")],
+  history=["Les bouilloires de thé s’épanouissent à partir du XIVᵉ siècle en deux grands centres : Ashiya, renommé pour ses reliefs élégants, et Tenmyō, aimé pour sa peau rugueuse. Ces deux noms désignent encore les plus belles pièces anciennes.",
+    "À l’ère de Momoyama s’élèvent les fondeurs de Kyoto, au Sanjō Kamanza, et Tsuji Yojirō, fondeur de Rikyū, définit la bouilloire wabi. Dite « valoir une province et un château », la kama donne le ton de toute la pièce."],
+  parts=[("Tsumami et futa (bouton et couvercle)", "Couvercles de bronze ou de fer ; le bouton est un détail à savourer"),
+         ("Kuchi (bouche)", "Là où l’on puise ; les formes vont de l’uba-guchi à la bouche large"),
+         ("Kantsuki (oreilles)", "Les attaches qui reçoivent les anneaux de levage"),
+         ("Dō / hada (corps et peau)", "Le paysage de la fonte — grêle (arare) et autres semis"),
+         ("Soko (fond)", "Il s’use le premier ; les vieilles bouilloires ont souvent un fond refait")],
+  usage=[("Conduire l’eau", "Menez l’eau jusqu’au stade du matsukaze, au charbon ou sur un foyer électrique."),
+         ("Puiser", "Puisez sans bruit au hishaku ; le maniement du couvercle a ses propres règles."),
+         ("Sécher", "Videz après usage et laissez sécher entièrement par la chaleur résiduelle — jamais humide.")],
+  checks=[("Essai d’étanchéité", "Remplissez une nuit entière et guettez le suintement. De petites fuites se colmatent parfois."),
+          ("Rouille", "Une rouille de surface se maîtrise ; une corrosion profonde à l’intérieur, non. Le dépôt minéral, lui, est une vertu."),
+          ("Fond refait", "Courant sur les pièces anciennes, et nullement un défaut s’il est l’œuvre d’un fondeur."),
+          ("Couvercle et anneaux", "Vérifiez si le couvercle d’origine, les anneaux et le trépied accompagnent la bouilloire.")]),
+
+"hishaku": dict(
+  tags=["Ustensile principal", "Travail du bambou", "Ro et furo"],
+  names=[("Nom", "Hishaku 柄杓 (« louche »)"),
+         ("Selon la saison", "Ro : coupe plus grande, bout taillé sur la face interne / Furo : coupe plus petite, taillé sur la face externe"),
+         ("À noter", "Les louches de bassin de jardin (tsukubai) sont un autre objet")],
+  history=["Les louches à eau sont d’anciens objets rituels, mais le thé a porté la louche de bambou au cœur du temae, avec des dimensions qui changent entre la saison du foyer et celle du brasero.",
+    "Une louche de bambou blanc toute neuve est en elle-même un geste d’accueil — sa pâleur nette honore l’invité, et le long usage donne à la coupe une chaude couleur d’ambre."],
+  parts=[("Gō (coupe)", "Le réservoir qui tient l’eau"),
+         ("Tsukigata", "L’échancrure en croissant où la coupe rejoint le manche"),
+         ("E (manche)", "La longue tige, au nœud placé selon la règle"),
+         ("Kiridome (coupe du bout)", "Biseautée en sens inverse pour le ro et pour le furo")],
+  usage=[("La tenue", "Tenue en « louche-miroir », comme si l’on y regardait son propre cœur."),
+         ("Puiser et verser", "Versez d’un seul filet ; ce qui reste ne retourne jamais dans la bouilloire."),
+         ("Hiki-bishaku", "À la saison du brasero, la louche se retire doigts tendus — un geste réputé pour sa grâce.")],
+  checks=[("Neuve pour servir", "La propreté passe avant tout au thé ; tenez une louche d’occasion pour un objet d’exercice ou de présentation."),
+          ("Fentes et voile", "Un rangement trop sec fend la coupe ; vérifiez que le manche n’a pas gauchi."),
+          ("Ro ou furo", "Reconnaissez-la à la coupe du bout et à la taille du godet, et accordez-la à votre saison de pratique."),
+          ("Sashi-tōshi", "Les louches dont coupe et manche sont d’une seule pièce tiennent le premier rang ; sinon, jugez la précision de l’assemblage.")]),
+
+"fukusa": dict(
+  tags=["Ustensile principal", "Textile", "Porté par l’hôte"],
+  names=[("Nom", "Fukusa 帛紗"),
+         ("Dimensions", "Environ 27 × 28 cm ; la soie shioze est l’usage"),
+         ("Couleurs d’usage", "Violet pour les hommes, rouge ou vermillon pour les femmes (variable selon l’école) ; dashibukusa et kobukusa sont d’autres objets")],
+  history=["On attribue la forme du fukusa à Sōon, épouse de Rikyū, qui l’aurait conçu pour purifier les ustensiles. Porté à la ceinture de l’hôte, il est devenu l’insigne même de celui qui fait le thé.",
+    "Au-delà de la soie shioze unie, les kobukusa et dashibukusa tissés des fameux motifs meibutsu-gire accompagnent le bol dans le thé épais — toute une histoire du textile pliée dans un petit carré."],
+  parts=[("Wasa (pli)", "Le bord plié, côté de référence pour le maniement"),
+         ("Mimi (lisières)", "Les côtés en lisière franche"),
+         ("Kado (coins)", "Là où les doigts prennent, dans la suite des plis"),
+         ("Ji (étoffe)", "La soie shioze ; sa tenue décide du maniement")],
+  usage=[("Le porter", "Glissé à la ceinture, côté gauche — la marque de l’hôte."),
+         ("Le plier", "La suite du shihō-sabaki époussette l’étoffe, puis la plie pour essuyer boîte et cuillère."),
+         ("L’entretenir", "La soie déteste l’eau. Quand il est souillé, remplacez-le : c’est un consommable.")],
+  checks=[("Préférez le neuf", "Une étoffe qui purifie s’achète neuve."),
+          ("En occasion", "Les kobukusa en meibutsu-gire font exception — un marché ancien très riche. Faites préciser le nom du motif et l’époque."),
+          ("La tenue de la soie", "Une étoffe molle et fatiguée se plie mal et gâche la pratique."),
+          ("Couleur d’école", "Accordez-vous à l’usage de couleur de votre école et de votre rôle.")]),
+
+"mizusashi": dict(
+  tags=["Ustensile principal", "Céramique et autres", "Pivot de la composition"],
+  names=[("Nom", "Mizusashi 水指 (« jarre d’eau fraîche »)"),
+         ("Matériaux", "Céramique, bois cintré, verre, métal"),
+         ("Couvercles", "Tomobuta (d’origine) ou nuributa (remplacement laqué)")],
+  history=["Le mizusashi était d’abord un ustensile de cuisine, promu à la salle de thé. Les jarres à graines de Shigaraki et les pots de Bizen adoptés par le mitate — l’œil qui trouve la beauté dans l’ordinaire — expriment parfaitement l’esprit wabi.",
+    "Du céladon chinois au Shino et à l’Oribe, du bois cintré au verre d’été, aucun ustensile n’offre un choix aussi large ; on le prend selon la saison et le degré de formalité de la réunion."],
+  parts=[("Futa (couvercle)", "D’origine ou laqué ; chacun a son maniement"),
+         ("Kuchi (bouche)", "Large ou étroite — ce qui change la portée de la louche"),
+         ("Dō (corps)", "La scène où se déploie le paysage de la glaçure"),
+         ("Soko (fond)", "Une assise stable sur le tatami compte")],
+  usage=[("Poser", "Porté jusqu’à la place de l’hôte, c’est lui qui compose la scène."),
+         ("Rafraîchir", "Vers la fin, une louchée rafraîchit la bouilloire."),
+         ("Les couvercles", "Essuyez à sec les couvercles laqués ; ouvrez doucement ceux d’origine, en prenant garde aux éclats.")],
+  checks=[("Couvercle abîmé", "C’est le couvercle qui souffre d’abord — cherchez éclats et relaquages."),
+          ("Fêlures et fuites", "Il tient de l’eau : les fêlures comptent pour de bon. Demandez s’il a été essayé à l’eau."),
+          ("Couvercle de remplacement", "Un couvercle laqué de remplacement est courant et n’est pas en soi un défaut."),
+          ("Boîte et provenance", "Une boîte signée ou une histoire documentée élève la valeur de présentation comme le prix.")]),
+}
+
+
+def detail_fr(t, i):
+    d = DETAIL_FR[t["slug"]]
+    prev_t, next_t = TOOLS_FR[(i - 1) % len(TOOLS_FR)], TOOLS_FR[(i + 1) % len(TOOLS_FR)]
+    names_rows = "".join(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in d["names"])
+    parts_items = "".join(
+        f'<li><span class="p-num">{n}</span><div><span class="p-name">{p}</span><br>'
+        f'<span class="p-note">{note}</span></div></li>'
+        for n, (p, note) in enumerate(d["parts"], 1))
+    steps = "".join(
+        f'<div class="step"><span class="step-no">{n + 1}</span>'
+        f'<div class="step-body"><h3>{h}</h3><p>{p}</p></div></div>'
+        for n, (h, p) in enumerate(d["usage"]))
+    checks = "".join(f'<div class="check-cell"><h3>{h}</h3><p>{p}</p></div>' for h, p in d["checks"])
+    hist = "".join(f"<p>{p}</p>" for p in d["history"])
+    tags = (f'<span class="tag lv-tag-inline lv{t["level"]}">{LV_FR[t["level"]][0]} {LV_FR[t["level"]][1]}</span>'
+            + "".join(f'<span class="tag">{x}</span>' for x in d["tags"]))
+    art = TYPES_ARTICLE_FR.get(t["slug"])
+    more = (f'<div class="types-link reveal"><a href="{en("articles/" + art[0], 2)}">'
+            f'<span class="tl-k">EN SAVOIR PLUS{EN_TAG}</span><span class="tl-n">{art[1]}</span>'
+            f'<span class="tl-s">{art[2]}</span></a></div>') if art else ""
+
+    body = f'''
+<div class="detail-hero">
+  <div class="detail-hero-inner">
+    <div>
+      <p class="crumbs"><a href="../index.html">Accueil</a> / <a href="../tools.html">Ustensiles</a> / {t["name"]}</p>
+      <h1 class="detail-title">{t["name"]}</h1>
+      <p class="detail-yomi">{t["jp"]} — {t["fr"]}</p>
+      <p class="detail-lede">{t["lede"]}</p>
+      <div class="detail-tags">{tags}</div>
+    </div>
+    <div class="detail-art">{ico(t["slug"], "ico--hero")}</div>
+  </div>
+</div>
+
+<div class="detail-body">
+  <section class="d-sec reveal">
+    <h2>Nom et types <span class="en-sub">名前と種類</span></h2>
+    <div class="d-rule"></div>
+    <table class="name-table">{names_rows}</table>
+  </section>
+  <section class="d-sec reveal">
+    <h2>Histoire <span class="en-sub">歴史</span></h2>
+    <div class="d-rule"></div>
+    {hist}
+  </section>
+  <section class="d-sec reveal">
+    <h2>Les parties <span class="en-sub">部位の名称</span></h2>
+    <div class="d-rule"></div>
+    <div class="parts-wrap">
+      <div class="parts-fig">{parts_icon(t["slug"], DOTS[t["slug"]])}</div>
+      <ol class="parts-list">{parts_items}</ol>
+    </div>
+  </section>
+  <section class="d-sec reveal">
+    <h2>Comment s&rsquo;en servir <span class="en-sub">使い方</span></h2>
+    <div class="d-rule"></div>
+    <div class="steps">{steps}</div>
+  </section>
+  <section class="d-sec reveal">
+    <h2>Acheter d&rsquo;occasion <span class="en-sub">中古で選ぶポイント</span></h2>
+    <div class="d-rule"></div>
+    <div class="check-grid">{checks}</div>
+  </section>
+  <section class="d-sec reveal">
+    <h2>Pièces disponibles <span class="en-sub">この道具の在庫</span></h2>
+    <div class="d-rule"></div>
+    <div class="shop-stub" data-ec-category="{t["slug"]}" data-ec-root="../../" data-ec-name="{t["name"]}">
+      <div class="listing-slot" id="listings-{t["slug"]}"></div>
+      <h3>À la galerie Yusando</h3>
+      <p>Les pièces de cette sorte conservées à la galerie apparaîtront ici.</p>
+      <button class="btn" disabled>VOIR LES PIÈCES — BIENTÔT</button>
+    </div>
+  </section>
+</div>
+
+{more}
+<nav class="pn">
+  <a href="{prev_t["slug"]}.html">← {prev_t["name"]}</a>
+  <a href="../tools.html">TOUS LES USTENSILES</a>
+  <a href="{next_t["slug"]}.html">{next_t["name"]} →</a>
+</nav>
+'''
+    return shell_fr(
+        f'{t["name"]} ({t["fr"]}) — histoire, parties et usage | Yusando',
+        f'Le {t["fr"].lower()} ({t["name"]}, {t["jp"]}) : son histoire, le nom de ses parties, '
+        f'la manière de s’en servir et ce qu’il faut vérifier à l’achat d’occasion.',
+        body, root="../../", current="tools")
+
+
+TYPES_ARTICLE_FR = {
+ "chawan": ("chawan-types.html", "Les types de chawan", "Raku, Hagi, Karatsu et au-delà — lignées et formes"),
+ "chasen": ("chasen-types.html", "Les types de chasen", "Nombre de brins, couleur du bambou, écoles"),
+ "kama": ("kama-types.html", "Les types de kama", "Ashiya, Tenmyō, Kyoto, et toutes les formes"),
+ "natsume": ("natsume-types.html", "Les types de natsume", "Tailles, laques, et la famille des boîtes à thé léger"),
+}
+
+for i, t in enumerate(TOOLS_FR):
+    w(f'fr/tools/{t["slug"]}.html', detail_fr(t, i))
+
+PAGES_FR += [f'tools/{t["slug"]}.html' for t in TOOLS_FR]
+print("fiches françaises écrites")
