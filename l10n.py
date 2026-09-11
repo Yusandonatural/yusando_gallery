@@ -233,6 +233,11 @@ def finish(pages_by_lang):
         ver[name] = hashlib.md5(
             open(os.path.join(ROOT, "js", f"{name}.js"), encoding="utf-8")
             .read().encode()).hexdigest()[:8]
+    # スタイルシートにも同じ仕掛けが要る。JS だけ番号を付けていたため、
+    # 新しい JS が作った要素に古い CSS が当たり、レイアウトが崩れていた。
+    css_v = hashlib.md5(
+        open(os.path.join(ROOT, "css", "style.css"), encoding="utf-8")
+        .read().encode()).hexdigest()[:8]
 
     write_lang_js()
     seen = []
@@ -249,6 +254,8 @@ def finish(pages_by_lang):
             for name, v in ver.items():
                 src = re.sub(rf'js/{name}\.js(\?v=[0-9a-f]+)?',
                              f'js/{name}.js?v={v}', src)
+            src = re.sub(r'css/style\.css(\?v=[0-9a-f]+)?',
+                         f'css/style.css?v={css_v}', src)
             open(full, "w", encoding="utf-8").write(smarten(src, prefix))
             inject_head(path, prefix, page)
             seen.append((prefix, page))

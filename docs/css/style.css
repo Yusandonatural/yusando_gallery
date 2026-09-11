@@ -707,36 +707,38 @@ html[lang="zh-Hant"] .btn{letter-spacing:.12em}
 /* 新入荷カルーセル ---------------------------------------------------------
    横に流して見せる。スマホでは次の札が少しだけ覗くようにして、
    「まだ右にある」ことを矢印なしで伝える。 */
-.arrivals .ar-slot{margin-top:6px}
+.arrivals{padding-top:70px;padding-bottom:70px}
+.arrivals .section-head{margin-bottom:26px!important}
+.arrivals .ar-slot{margin-top:0}
 .ar-loading,.ar-none{text-align:center;font-family:var(--sans);font-size:12.5px;
   color:var(--rikyu);padding:34px 0}
 
 .ar-wrap{position:relative}
 .ar-track{
-  display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
-  padding:4px 2px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 2px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
 }
 .ar-track::-webkit-scrollbar{display:none}
 .ar-track:focus-visible{outline:1px solid var(--matcha);outline-offset:4px}
 .ar-card{
-  flex:0 0 236px;scroll-snap-align:start;display:flex;flex-direction:column;
+  flex:0 0 190px;scroll-snap-align:start;display:flex;flex-direction:column;
   transition:transform .4s ease;
 }
 a.ar-card:hover{transform:translateY(-3px)}
 .ar-card .st-frame{flex:0 0 auto}
-.ar-body{display:flex;flex-direction:column;padding:12px 2px 0;flex:1}
+.ar-body{display:flex;flex-direction:column;padding:10px 2px 0;flex:1}
 .ar-sku{font-family:var(--sans);font-size:9.5px;letter-spacing:.18em;color:var(--rikyu)}
-.ar-mei{font-size:16px;letter-spacing:.12em;line-height:1.5;margin-top:3px}
+.ar-mei{font-size:15px;letter-spacing:.1em;line-height:1.45;margin-top:2px}
 .ar-sub{font-family:var(--sans);font-size:10px;letter-spacing:.16em;color:var(--gold);margin-top:3px}
-.ar-cat{font-family:var(--sans);font-size:11px;color:var(--ink-soft);margin-top:7px}
-.ar-ask{font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;color:var(--matcha);
-  margin-top:auto;padding-top:10px}
+.ar-cat{font-family:var(--sans);font-size:10.5px;color:var(--ink-soft);margin-top:5px}
+.ar-ask{font-family:var(--sans);font-size:10px;letter-spacing:.1em;color:var(--matcha);
+  margin-top:auto;padding-top:8px}
 .ar-card.sold .ar-ask{color:var(--rikyu)}
 .ar-card.sold .st-frame img{filter:grayscale(.9);opacity:.68}
 
 /* 矢印は枠の外に出す。端に来たら消える（押せるのに動かない状態を作らない） */
 .ar-nav{
-  position:absolute;top:calc(50% - 46px);z-index:5;width:38px;height:38px;
+  position:absolute;top:calc(50% - 40px);z-index:5;width:38px;height:38px;
   border:1px solid var(--line);border-radius:50%;background:var(--paper);
   cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;
 }
@@ -755,7 +757,7 @@ a.ar-card:hover{transform:translateY(-3px)}
    端に来た矢印を本当に消すため、明示的に打ち消す。 */
 .ar-nav[hidden]{display:none}
 
-.ar-more{text-align:center;margin-top:26px}
+.ar-more{text-align:center;margin-top:20px}
 .ar-more a{font-family:var(--sans);font-size:12px;letter-spacing:.16em;color:var(--matcha);
   border-bottom:1px solid rgba(74,93,58,.3);padding-bottom:3px}
 .ar-more a:hover{border-bottom-color:var(--matcha)}
@@ -763,6 +765,6 @@ a.ar-card:hover{transform:translateY(-3px)}
 @media (max-width:900px){
   /* 指で送るので矢印は出さない。次の札を覗かせて、送れることを伝える */
   .ar-nav{display:none}
-  .ar-card{flex-basis:62vw;max-width:260px}
-  .ar-track{gap:14px}
+  .ar-card{flex-basis:56vw;max-width:212px}
+  .ar-track{gap:12px}
 }
