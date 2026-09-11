@@ -177,10 +177,12 @@ async function upload(request, env) {
   catch (e) { return json({ error: e.message, detail: e.detail }, e.status || 502); }
 
   const f = analysisFields(ai, text, forcedTier, forcedCategory, env);
+  // AI が書いたものをそのまま世に出さない。まず下書きとして残し、
+  // 人が upload.html の編集欄で確かめて「公開する」を押してから published にする。
   const cols = ["id", "created_at", "status", "photos", ...Object.keys(f)];
-  const vals = [id, new Date().toISOString(), "published", JSON.stringify(keys), ...Object.keys(f).map((k) => f[k])];
+  const vals = [id, new Date().toISOString(), "draft", JSON.stringify(keys), ...Object.keys(f).map((k) => f[k])];
   const sku = await insertWithSku(cols, vals, env);
-  return json({ id, sku, mei: ai.mei, price: f.price, tier: f.tier, url: `/item.html?id=${id}` });
+  return json({ id, sku, status: "draft", mei: ai.mei, price: f.price, tier: f.tier, url: `/item.html?id=${id}` });
 }
 
 // 写真を R2 に置き、同時に解析用の base64 も作る。

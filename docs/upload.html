@@ -97,6 +97,26 @@ select:focus,input:focus{outline:0;border-color:var(--matcha)}
 .msg a{color:var(--matcha);border-bottom:1px solid rgba(74,93,58,.35)}
 .done h2{font-size:20px;letter-spacing:.12em;font-weight:500;margin-bottom:8px}
 .done .price{font-size:16px;color:var(--matcha);margin-top:6px}
+
+/* --- AIの下書きを人が直す画面 --- */
+.rev{margin-top:30px}
+.rev-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:1px solid var(--line)}
+.rev-head h2{font-size:21px;letter-spacing:.12em;font-weight:500}
+.rev-head .sku{font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;
+  color:var(--rikyu);border:1px solid var(--line);border-radius:2px;padding:2px 8px}
+.rev-head .price{margin-left:auto;font-family:var(--sans);font-size:12.5px;color:var(--matcha)}
+.rev-lede{font-family:var(--sans);font-size:12.5px;line-height:1.9;color:var(--ink-soft);
+  margin:14px 0 20px}
+.rev-shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));
+  gap:8px;margin-bottom:22px}
+.rev-shots img{width:100%;aspect-ratio:1;object-fit:cover;border:1px solid var(--line);
+  border-radius:4px;background:#fff}
+/* このページの .btn.solid は幅100%。操作列では横に並べたいので戻す。 */
+.ed-bar .btn,.ed-bar .btn.solid{width:auto;padding:11px 24px;font-size:12.5px;letter-spacing:.14em}
+.rev-after{font-family:var(--sans);font-size:12.5px;line-height:1.9;margin-top:20px;
+  padding-top:16px;border-top:1px solid var(--line)}
+.rev-after a{color:var(--matcha);border-bottom:1px solid rgba(74,93,58,.35)}
 [hidden]{display:none!important}
 </style></head><body>
 
@@ -111,8 +131,8 @@ select:focus,input:focus{outline:0;border-color:var(--matcha)}
 
 <div class="wrap">
   <h1>茶器を登録する</h1>
-  <p class="lede">写真を選ぶと、AIが銘・説明・等級を考えて掲載します。1〜5枚まで。<br>
-    ライブラリから選んでも、その場で撮っても構いません。</p>
+  <p class="lede">写真を選ぶと、AIが銘・説明・等級を考えます。1〜5枚まで。<br>
+    書かれた内容を確かめ、直してから公開します。すぐには公開されません。</p>
 
   <form id="form">
 
@@ -189,6 +209,7 @@ select:focus,input:focus{outline:0;border-color:var(--matcha)}
   <div id="msg"></div>
 </div>
 
+<script src="/js/edit.js"></script>
 <script>
 const API = "https://yusando-gallery.isozaki-f67.workers.dev";
 const MAX = 5;
@@ -274,6 +295,70 @@ async function shrink(file) {
   return new File([blob], (file.name || "photo").replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" });
 }
 
+/* ---------- AIの下書きを人が直す ---------- */
+// 登録した直後は status='draft'。ここで直してから「公開する」を押すと
+// はじめて掲載される。押さずに離れても下書きは残り、/drafts.html から続けられる。
+async function review(j, token) {
+  const res = await fetch(API + "/api/items/" + j.id, { headers: { "x-upload-token": token } });
+  const item = await res.json().catch(() => null);
+  if (!item || item.error) {
+    note("登録はできましたが、内容を読み込めませんでした。下書き一覧から直してください（" + j.sku + "）", "err");
+    return;
+  }
+
+  $("msg").innerHTML =
+    '<div class="rev">'
+    + '<div class="rev-head"><h2></h2><span class="sku"></span><span class="price"></span></div>'
+    + '<p class="rev-lede">AIが写真から書いた下書きです。<b>まだ公開されていません。</b><br>'
+    + '事実と違うところ、言い回しが気になるところを直してから公開してください。</p>'
+    + '<div class="rev-shots"></div>'
+    + '<div id="editor"></div>'
+    + '<p class="rev-after" hidden></p>'
+    + '</div>';
+  $("msg").className = "";
+  $("msg").querySelector("h2").textContent = item.mei || "（銘なし）";
+  $("msg").querySelector(".sku").textContent = item.sku || "";
+  $("msg").querySelector(".price").textContent =
+    "等級 " + item.tier + "　¥" + Number(item.price || 0).toLocaleString("ja-JP");
+  $("msg").querySelector(".rev-shots").innerHTML =
+    (item.photos || []).map((k) => '<img src="' + API + "/photos/" + encodeURIComponent(k) + '" alt="">').join("");
+
+  const after = $("msg").querySelector(".rev-after");
+  YSD_EDIT.render($("editor"), item, {
+    token: () => token,
+    extraHtml: '<button class="btn solid" data-pub type="button">公開する</button>',
+  });
+
+  const pub = $("editor").querySelector("[data-pub]");
+  pub.addEventListener("click", async () => {
+    // 直した欄が残っていれば、先に保存してから公開する。
+    const save = $("editor").querySelector("[data-save]");
+    if (save && !save.disabled) { save.click(); await new Promise((r) => setTimeout(r, 900)); }
+    pub.disabled = true; pub.textContent = "公開しています…";
+    try {
+      const r = await fetch(API + "/api/items/" + item.id, {
+        method: "PATCH",
+        headers: { "x-upload-token": token, "content-type": "application/json" },
+        body: JSON.stringify({ status: "published" }),
+      });
+      if (!r.ok) throw new Error("エラー " + r.status);
+      pub.textContent = "公開しました";
+      after.hidden = false;
+      after.innerHTML = '公開しました。<a href="/item.html?id=' + item.id + '">掲載ページを見る →</a>'
+        + '　<a href="/upload.html">続けて登録する</a>';
+      after.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    } catch (e) {
+      pub.disabled = false; pub.textContent = "公開する";
+      after.hidden = false;
+      after.textContent = "公開できませんでした — " + (e && e.message ? e.message : e);
+    }
+  });
+
+  after.hidden = false;
+  after.innerHTML = 'あとで直す場合は<a href="/drafts.html">下書き一覧</a>から続けられます。'
+    + '　<a href="/upload.html">続けて登録する</a>';
+}
+
 /* ---------- 送信 ---------- */
 $("form").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -303,14 +388,8 @@ $("form").addEventListener("submit", async (e) => {
     if (!res.ok) throw new Error(j.error || ("エラー " + res.status));
 
     $("form").hidden = true;
-    $("msg").innerHTML =
-      '<div class="msg ok done"><h2></h2><p class="price"></p>' +
-      '<p style="margin-top:12px"><a id="lnk" href="#">掲載ページを見る →</a>　' +
-      '<a href="/upload.html">続けて登録する</a></p></div>';
-    $("msg").querySelector("h2").textContent = (j.mei || "登録しました");
-    $("msg").querySelector(".price").textContent =
-      "等級 " + j.tier + "　¥" + Number(j.price || 0).toLocaleString("ja-JP");
-    $("lnk").href = j.url || ("/item.html?id=" + j.id);
+    btn.textContent = label;
+    await review(j, token);
   } catch (err) {
     note("登録できませんでした: " + (err && err.message ? err.message : err), "err");
     btn.disabled = false;

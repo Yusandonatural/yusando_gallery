@@ -93,6 +93,14 @@ h1{font-size:24px;letter-spacing:.14em;font-weight:500;margin-top:36px}
 .msg.err{border-color:rgba(165,63,43,.4);color:var(--shu)}
 .msg.ok{border-color:rgba(74,93,58,.4)}
 .msg a{color:var(--matcha);border-bottom:1px solid rgba(74,93,58,.35)}
+
+/* --- カードの中に開く編集欄 --- */
+.editbox{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+/* 編集欄の操作列は sticky だが、下に固定の操作バーがあるので隠れてしまう。
+   カードの中では普通に流す。 */
+.editbox .ed-bar{position:static;background:transparent;padding:14px 0 0}
+.editbox .ed-bar .btn{padding:9px 20px;font-size:12px}
+.mini.on{border-color:var(--matcha);color:var(--matcha);background:#f2f4ee}
 [hidden]{display:none!important}
 </style></head><body>
 
@@ -107,7 +115,7 @@ h1{font-size:24px;letter-spacing:.14em;font-weight:500;margin-top:36px}
 
 <div class="wrap">
   <h1>下書きを確認する</h1>
-  <p class="lede">AIが読み取った内容です。銘や説明は各ページで直せます。<br>
+  <p class="lede">AIが読み取った内容です。「内容を直す」を押すと、銘・説明・所見をその場で直せます。<br>
     写真の組み合わせに疑いがあるものには印が付いています。確かめてから公開してください。</p>
 
   <div class="tools">
@@ -134,5 +142,6 @@ h1{font-size:24px;letter-spacing:.14em;font-weight:500;margin-top:36px}
   <button class="btn solid" id="pub">まとめて公開する</button>
 </div></div>
 
+<script src="/js/edit.js"></script>
 <script src="/js/drafts.js"></script>
 </body></html>

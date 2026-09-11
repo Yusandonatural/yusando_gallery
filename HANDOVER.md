@@ -54,7 +54,7 @@ yusando_gallery/
     ├── css/ assets/ sitemap.xml robots.txt CNAME
 ```
 
-**生成物と手書きの区別が大事。** `docs/` の中で `item.html / stock.html / upload.html / bulk.html / drafts.html / style.css / js/bulk.js / js/drafts.js` は手書きで、`build.py` は触らない。それ以外は `build.py` が毎回上書きする。手書きの側を直すときは直接編集する。
+**生成物と手書きの区別が大事。** `docs/` の中で `item.html / stock.html / upload.html / bulk.html / drafts.html / style.css / js/bulk.js / js/drafts.js / js/edit.js` は手書きで、`build.py` は触らない。それ以外は `build.py` が毎回上書きする。手書きの側を直すときは直接編集する。
 
 ---
 
@@ -137,7 +137,7 @@ cover_hash              表紙写真のSHA-256。二重登録よけ
 現在7件、全部 `茶碗`・`published`。品番 Y-0001〜0007。
 
 ### 登録の流れ
-**1点ずつ**（`upload.html`）：写真1〜5枚を選ぶ → 端末で長辺1600pxに縮小 → `/api/upload` → 即公開。
+**1点ずつ**（`upload.html`）：写真1〜5枚を選ぶ → 端末で長辺1600pxに縮小 → `/api/upload` → **下書き**として登録 → その場で編集欄が開く → 直して「公開する」で published。即公開はしない。押さずに離れても下書きは残り、`drafts.html` から続けられる。
 
 **まとめて**（`bulk.html` → `drafts.html`）：
 1. 写真を全部選ぶ。EXIF の撮影時刻を読み、間隔（既定30秒）が空いたところで組に分ける
@@ -147,6 +147,13 @@ cover_hash              表紙写真のSHA-256。二重登録よけ
 5. チェックして「まとめて公開」
 
 途中でタブを閉じても下書きはD1に残る。`bulk.html` を開き直すと「続きから読み取る」が出る（`localStorage` の `yusando_last_batch`）。
+
+### AIが書いたものを人が直す
+`docs/js/edit.js`（`window.YSD_EDIT.render(container, item, opts)`）が編集フォームの唯一の定義。`upload.html`（登録直後）と `drafts.html`（「内容を直す」）の両方がこれを呼ぶ。画面ごとに欄を書くと必ず食い違うので、欄を増やすときは `edit.js` の `FIELDS` に1行足す（`patchItem` の allowlist にも同じ名前を足すこと）。
+
+- 銘／説明／所見／英語（折りたたみ）／分類（種別・等級・二十四節気）
+- **変えた欄だけ** PATCH する。触っていない欄まで送ると、別画面での編集を古い値で上書きしてしまう。
+- 直した欄は枠が金色になり、操作列に「N 箇所を直しました」と出る。
 
 ### 費用の目安
 1点＝写真4枚で入力約11,000トークン・出力約1,200トークン → **約5円**。100点で500円強。写真を1024pxにすると約3割減。

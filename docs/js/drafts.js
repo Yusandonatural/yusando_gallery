@@ -96,7 +96,9 @@ function card(i) {
         </label>
         <a class="mini" href="/item.html?id=${encodeURIComponent(i.id)}" target="_blank" rel="noopener">詳細を見る</a>
         <button class="mini" data-act="analyze" data-id="${i.id}">${pending || failed ? "読み取る" : "もう一度読み取る"}</button>
+        <button class="mini" data-act="edit" data-id="${i.id}"${pending ? " disabled" : ""}>内容を直す</button>
       </div>
+      <div class="editbox" data-editbox="${i.id}" hidden></div>
     </div></div>`;
 }
 
@@ -169,6 +171,59 @@ async function shrink(file, max = 1600) {
   const blob = await new Promise((r) => c.toBlob(r, "image/jpeg", 0.85));
   return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".jpg", { type: "image/jpeg" });
 }
+
+// AI が書いた銘・説明・所見を人が直す欄。カードの中で開く。
+// 保存のたびに一覧を読み直すと編集欄が閉じてしまうので、再取得はせず、
+// そのカードの見出しと抜粋だけ書き換える。
+$("list").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-act='edit']");
+  if (!b) return;
+  const id = b.dataset.id;
+  const box = $("list").querySelector(`[data-editbox="${id}"]`);
+  if (!box) return;
+  if (!box.hidden) {
+    box.hidden = true; box.innerHTML = "";
+    b.classList.remove("on"); b.textContent = "内容を直す";
+      return;
+  }
+  const item = items.find((x) => x.id === id);
+  if (!item) return;
+  if (!token()) { note("合言葉を入れてください", "err"); return; }
+  box.hidden = false;
+  b.classList.add("on"); b.textContent = "編集を閉じる";
+  YSD_EDIT.render(box, item, {
+    token,
+    extraHtml: item.status === "draft"
+      ? '<button class="btn solid" data-act="pub1" data-id="' + id + '" type="button">この1点を公開する</button>'
+      : "",
+    onSaved: (it) => {
+      const card = box.closest(".card");
+      card.querySelector(".mei").textContent = it.mei || "（未読み取り）";
+      const desc = card.querySelector(".desc");
+      if (desc) desc.textContent = it.description || "";
+    },
+  });
+});
+
+$("list").addEventListener("click", async (e) => {
+  const b = e.target.closest("button[data-act='pub1']");
+  if (!b) return;
+  const id = b.dataset.id;
+  b.disabled = true; b.textContent = "公開しています…";
+  try {
+    const res = await fetch(`${API}/api/items/${id}`, {
+      method: "PATCH",
+      headers: { "x-upload-token": token(), "content-type": "application/json" },
+      body: JSON.stringify({ status: "published" }),
+    });
+    if (!res.ok) throw new Error("エラー " + res.status);
+    note("公開しました。", "ok");
+    await load();
+  } catch (err) {
+    note("公開できませんでした — " + esc(err.message), "err");
+    b.disabled = false; b.textContent = "この1点を公開する";
+  }
+});
 
 $("list").addEventListener("click", async (e) => {
   const b = e.target.closest("button[data-act='analyze']");
