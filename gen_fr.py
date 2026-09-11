@@ -209,6 +209,8 @@ def minor_card_fr(m):
 
 
 # ------------------------------------------------------------------ index --
+TRANSLATED_FR = set(['chawan-types.html', 'history.html', 'chasen-types.html'])
+
 ARTICLES_FR = [
  ("chawan-types.html", "GUIDE", "Les types de bols",
   "Raku, Hagi et Karatsu ; tenmoku et ido. Lignées, fours et formes, mis en ordre pour choisir."),
@@ -230,11 +232,19 @@ ARTICLES_FR = [
 
 
 def article_cards_fr(depth=1):
-    return "".join(
-        f'<a class="article-card reveal" href="{en("articles/" + href, depth)}">'
-        f'<p class="a-kicker">{kicker}</p><h3>{title}{EN_TAG}</h3>'
-        f'<p>{desc}</p><p class="tool-more">LIRE (EN) →</p></a>'
-        for href, kicker, title, desc in ARTICLES_FR)
+    # 訳し終えた記事は自言語へ、まだのものは英語版へ。EN のバッジもそれに合わせる。
+    out = ""
+    for href, kicker, title, desc in ARTICLES_FR:
+        done = href in TRANSLATED_FR
+        # トップ（depth=1）からは articles/ を挟む。索引（depth=2）からは直接。
+        link = (("articles/" + href) if depth == 1 else href) \
+            if done else en("articles/" + href, depth)
+        tag = "" if done else EN_TAG
+        more = "LIRE →" if done else "LIRE (EN) →"
+        out += (f'<a class="article-card reveal" href="{link}">'
+                f'<p class="a-kicker">{kicker}</p><h3>{title}{tag}</h3>'
+                f'<p>{desc}</p><p class="tool-more">{more}</p></a>')
+    return out
 
 
 index_body = f'''
@@ -860,3 +870,138 @@ for i, t in enumerate(TOOLS_FR):
 
 PAGES_FR += [f'tools/{t["slug"]}.html' for t in TOOLS_FR]
 print("fiches françaises écrites")
+
+
+# ================================================================= lectures ==
+# Les articles de fond partagent la même charpente que l'édition anglaise ;
+# seul le texte change. Les liens vers les pages non traduites restent en
+# anglais, signalés par la puce EN.
+def article_shell_fr(title, desc, kicker, h1, lede, body_secs):
+    body = f'''
+<div class="article-hero">
+  <p class="crumbs"><a href="../index.html">Accueil</a> / <a href="index.html">Lectures</a> / {h1}</p>
+  <p class="section-kicker">{kicker}</p>
+  <h1 class="article-title">{h1}</h1>
+  <p class="article-lede">{lede}</p>
+</div>
+<div class="detail-body">
+{body_secs}
+</div>
+<nav class="pn">
+  <a href="index.html">← TOUTES LES LECTURES</a>
+  <a href="../tools.html">LES USTENSILES</a>
+</nav>
+'''
+    return shell_fr(f'{title} | Yusando', desc, body, root="../../", current="articles")
+
+
+def sec_fr(title, jp, inner):
+    return f'''<section class="d-sec reveal">
+  <h2>{title} <span class="en-sub">{jp}</span></h2>
+  <div class="d-rule"></div>
+  {inner}
+</section>'''
+
+
+def tcard_fr(name, sub, desc, tip):
+    return (f'<div class="type-card"><h3>{name}</h3><p class="t-sub">{sub}</p>'
+            f'<p>{desc}</p><p class="t-tip">{tip}</p></div>')
+
+
+def tl_fr(era, years, h, p):
+    return (f'<div class="tl-item"><div class="tl-era">{era}<small>{years}</small></div>'
+            f'<div class="tl-body"><h3>{h}</h3><p>{p}</p></div></div>')
+
+
+_L = 'style="color:var(--matcha);border-bottom:1px solid rgba(74,93,58,.3)"'
+
+# ---- 1 : les types de bols ------------------------------------------------
+a1 = (
+sec_fr("Trois lignées", "三つの系譜", '''
+  <p>Les bols à thé se répartissent en trois grandes lignées, selon leur lieu de naissance : les <strong>karamono</strong> venus de Chine, les <strong>kōraimono</strong> de la péninsule coréenne, et les <strong>wamono</strong> faits au Japon. Les pièces chinoises occupèrent longtemps le sommet de la hiérarchie ; mais à mesure que le thé wabi se répandait, la beauté sans apprêt des bols coréens et japonais gagna le cœur des gens de thé.</p>
+  <p>Une formule à retenir : <strong>« Raku d’abord, Hagi ensuite, Karatsu en troisième »</strong> — le classement consacré des trois fours japonais les plus aimés du thé.</p>''')
++ sec_fr("Les principaux types", "主要な種類", '<div class="type-grid">'
++ tcard_fr("Raku", "KYOTO", "Façonné à la main sans tour et cuit pièce par pièce, créé par Chōjirō pour le goût wabi de Rikyū. Noir ou rouge, léger dans la main, merveilleux pour fouetter.", "Les pièces d’étude abondent : un excellent premier bol.")
++ tcard_fr("Hagi", "YAMAGUCHI", "Une terre tendre sous une glaçure couleur de nèfle. Le thé s’infiltre dans le tressaillage et le visage du bol change à l’usage — « les sept déguisements de Hagi ».", "Regardez jusqu’où la patine du tressaillage est allée.")
++ tcard_fr("Karatsu", "SAGA", "Une terre rêche et vigoureuse, rehaussée d’un décor de fer à l’allure rustique. E-garatsu, madara-garatsu, chōsen-garatsu : une variété dont on ne se lasse pas.", "Solide et facile à aimer, pour le bol de tous les jours.")
++ tcard_fr("Shino", "MINO", "La première céramique blanche du Japon : une épaisse glaçure feldspathique qui rougit là où le feu l’a touchée. Le Trésor national « Unohanagaki » est un Shino.", "Sa chaleur convient aux mois d’hiver.")
++ tcard_fr("Oribe", "MINO", "Glaçure verte au cuivre et formes hardiment gauchies, au goût de Furuta Oribe — le grand excentrique du thé.", "La déformation est le propos : choisissez selon la prise en main.")
++ tcard_fr("Tenmoku", "KARAMONO", "Glaçure chinoise d’un noir de fer, semée d’étoiles ou de gouttes d’huile. Il n’existe que trois yōhen tenmoku — tous au Japon, tous Trésors nationaux.", "Les belles répliques modernes abondent ; sur socle, le rang est plus formel.")
++ tcard_fr("Ido", "KŌRAIMONO", "Des bols coréens du quotidien, élevés par l’œil du thé : forme généreuse, glaçure de nèfle, et le kairagi en peau de requin sur le pied. Le « Kizaemon Ido » est Trésor national.", "C’est le retrait du kairagi sur le pied qui décide les connaisseurs.")
++ tcard_fr("Kyō-yaki", "KYOTO", "L’élégance polychrome ouverte par Ninsei et Kenzan — les quatre saisons peintes sur le bol. Un vaste champ de créateurs contemporains.", "Accordez le motif peint à la saison où vous l’emploierez.")
++ '</div>')
++ sec_fr("Choisir par la forme", "形で選ぶ", f'''
+  <table class="name-table">
+    <tr><th>Hira (bas)</th><td>Large et ouvert, pour l’été : le thé refroidit vite et paraît frais.</td></tr>
+    <tr><th>Tsutsu (cylindre)</th><td>Bol d’hiver, profond, qui garde la chaleur dans les mains.</td></tr>
+    <tr><th>Wan-nari</th><td>La forme ordinaire du bol, à son aise en toute saison.</td></tr>
+    <tr><th>Han-zutsu</th><td>Entre les deux — pour les bords frais du printemps et de l’automne.</td></tr>
+    <tr><th>Tenmoku-nari</th><td>La forme conique chinoise, réservée aux temae les plus formels.</td></tr>
+    <tr><th>Kutsu-gata</th><td>La forme gauchie « en soulier » qu’aimait Oribe — pleine de mouvement.</td></tr>
+  </table>
+  <p style="margin-top:18px">Dans le doute, commencez par un seul bol wan-nari ; les formes de saison viendront après. La <a href="../tools/chawan.html" {_L}>fiche du chawan</a> détaille les parties et les points à vérifier en occasion.</p>'''))
+
+w("fr/articles/chawan-types.html", article_shell_fr(
+  "Les types de bols à thé — Raku, Hagi, Karatsu et au-delà",
+  "Les types de bols à thé par lignée (karamono, kōraimono, wamono), par four (Raku, Hagi, Karatsu, Shino, Oribe, tenmoku, ido) et par forme.",
+  "LECTURES — GUIDE", "Les types de bols à thé",
+  "Raku, Hagi et Karatsu ; Shino et Oribe ; tenmoku et ido. Trois axes — la lignée, le four et la forme — mettent de l’ordre dans les grands noms.",
+  a1))
+
+# ---- 2 : une histoire de la voie du thé -----------------------------------
+a2 = (
+sec_fr("Mille ans", "千年の流れ", '''
+  <p>L’histoire de la voie du thé commence par une tasse de remède. Le thé passe de Chine, se répand avec le zen, rencontre un sens japonais de la beauté des objets, et devient cet art composite qu’on appelle chanoyu. Les grandes lignes, époque par époque :</p>
+  <div class="tl">'''
++ tl_fr("Nara–Heian", "VIIIᵉ–XIIᵉ s.", "Le thé atteint le Japon", "Les ambassades vers la Chine des Tang et les moines Saichō et Kūkai rapportent le thé — des briques compressées que l’on râpe et fait bouillir, remède et boisson rituelle pour la cour et le clergé.")
++ tl_fr("Kamakura", "XIIᵉ–XIVᵉ s.", "Eisai et le thé en poudre", "Eisai, fondateur du zen Rinzai, importe la méthode du thé battu et vante ses vertus dans le Kissa Yōjōki. Les rites de thé s’enracinent dans les temples ; les guerriers s’amusent aux concours de dégustation tōcha.")
++ tl_fr("Muromachi", "XIVᵉ–XVᵉ s.", "Le thé de shoin et les trésors chinois", "Les shoguns Ashikaga donnent un thé d’apparat au milieu d’objets chinois prisés. Contre cette splendeur, Murata Jukō trouve la beauté dans les choses simples — « un beau cheval attaché à une hutte de chaume » — et ouvre la voie du wabi.")
++ tl_fr("Momoyama", "XVIᵉ s.", "Rikyū achève le thé wabi", "De Takeno Jōō à Sen no Rikyū : la hutte de deux nattes, le bol raku, le vase de bambou — une esthétique du retranchement. Le thé s’enlace à la politique de Nobunaga et de Hideyoshi, et les ustensiles deviennent inestimables.")
++ tl_fr("Edo", "XVIIᵉ–XIXᵉ s.", "Les trois maisons et le thé des daimyo", "Les arrière-petits-fils de Rikyū fondent les écoles Omote, Ura et Mushakōji Senke ; Kobori Enshū et d’autres maîtres daimyo cultivent une « rusticité raffinée ». Le système des iemoto se forme et le thé gagne les gens de la ville.")
++ tl_fr("Meiji–Taishō", "XIXᵉ–XXᵉ s.", "Les collectionneurs modernes", "Le thé vacille dans la hâte d’occidentalisation, puis trouve de nouveaux protecteurs chez les collectionneurs industriels. Il entre dans les programmes scolaires et se répand largement comme un art d’agrément féminin.")
++ tl_fr("Shōwa–aujourd’hui", "XXᵉ s.–", "Le thé s’ouvre au monde", "Le Livre du thé d’Okakura Tenshin porte cet esprit au loin. Les musées exposent les grands bols, la pratique s’étend hors du Japon — et les vieux ustensiles continuent de rencontrer des mains nouvelles.")
++ '</div>')
++ sec_fr("L’histoire vue par les ustensiles", "道具から見る歴史", f'''
+  <p>L’histoire du thé est l’histoire de ses ustensiles : le désir du tenmoku, la découverte des bols coréens, l’invention du raku, la cuillère et le vase de bambou. Le sens de la beauté de chaque époque survit dans les pièces qui circulent encore aujourd’hui.</p>
+  <p>Prendre en main un ustensile ancien, c’est toucher cette histoire de mille ans. Parcourez <a href="../tools.html" {_L}>les ustensiles</a> et trouvez la pièce qui vous parle.</p>'''))
+
+w("fr/articles/history.html", article_shell_fr(
+  "Une histoire de la voie du thé en sept époques",
+  "L’histoire du chanoyu, de l’arrivée du thé à l’époque de Nara jusqu’aux trois écoles Senke et à nos jours, en passant par Eisai, Jukō et Rikyū.",
+  "LECTURES — HISTOIRE", "Une histoire de la voie du thé",
+  "Une tasse de remède est devenue, en mille ans, une Voie. L’histoire du thé et de ses ustensiles, en sept époques.",
+  a2))
+
+
+# ---- 3 : les types de fouets ----------------------------------------------
+a3 = (
+sec_fr("Par le nombre de brins", "穂数で選ぶ", '''
+  <p>La variable principale d’un fouet est son <strong>nombre de brins</strong> — en combien d’éclisses le bambou est fendu. Moins de brins donne plus de raideur ; davantage de brins donne une mousse plus fine.</p>
+  <table class="name-table">
+    <tr><th>Araho (16–48)</th><td>Brins épais et résistants, pour pétrir le thé épais.</td></tr>
+    <tr><th>Kazuho (64–72)</th><td>Le polyvalent — il convient au thé léger comme au thé épais. Le premier fouet naturel.</td></tr>
+    <tr><th>80 brins</th><td>Une mousse fine sans effort, pour le thé léger ; la référence à l’exercice.</td></tr>
+    <tr><th>100 / 120 brins</th><td>Des brins délicats donnent la mousse la plus douce — accueillant pour un débutant, mais fragile.</td></tr>
+  </table>''')
++ sec_fr("Couleur du bambou et école", "竹の色と流派", '<div class="type-grid">'
++ tcard_fr("Shiratake (blanc)", "URASENKE, etc.", "Bambou pâli — le plus répandu dans le commerce. L’Urasenke préfère les pointes recourbées vers l’intérieur.", "La plupart des fouets vendus sont en bambou blanc ; les plus faciles à trouver.")
++ tcard_fr("Susutake (fumé)", "OMOTESENKE", "Bambou couleur d’ambre, fumé des décennies durant au-dessus des foyers de ferme — devenu rare et recherché.", "Le vrai susutake coûte cher ; méfiez-vous des imitations teintées.")
++ tcard_fr("Shichiku (noir)", "MUSHAKŌJI SENKE", "Bambou naturellement sombre, dit « pourpre », à l’allure tendue et élégante.", "Certains le choisissent pour le seul plaisir des yeux — nul ne vous en tiendra rigueur.")
++ '</div>'
++ '<p style="margin-top:18px">Si vous appartenez à une école, accordez-vous à son bambou. Sinon, un kazuho ou un 80 brins en bambou blanc est le choix tranquille.</p>')
++ sec_fr("Provenance et qualité", "産地と品質", '''
+  <p>Presque tous les fouets faits au Japon viennent de <strong>Takayama</strong>, à Ikoma dans la préfecture de Nara — « le village du chasen » depuis cinq cents ans, et Artisanat traditionnel reconnu par l’État. Un bambou, un couteau, cent brins courbés un à un à l’eau chaude : tout est fait à la main.</p>
+  <p>Il existe des fouets d’importation meilleur marché, mais la régularité, la tenue et la sensation au fouettage diffèrent. Pour un usage quotidien, un fouet de Takayama se rembourse.</p>''')
++ sec_fr("Entretien et remplacement", "手入れと替えどき", f'''
+  <p>Le fouet est un consommable. Quand les brins cassent ou que la courbe s’affaisse, il a fait son temps. Rincez-le à l’eau chaude après usage, laissez-le sécher à l’ombre brins vers le haut, et posez-le sur un support à fouet. En mai, les vieux fouets sont honorés et mis au repos lors des cérémonies du chasen-kuyō.</p>
+  <p>Par hygiène, achetez neufs les fouets destinés à servir. Voyez aussi la <a href="../tools/chasen.html" {_L}>fiche du chasen</a>.</p>'''))
+
+w("fr/articles/chasen-types.html", article_shell_fr(
+  "Les types de fouets à thé — brins, bambou, écoles",
+  "Comment choisir un chasen : le nombre de brins (kazuho, 80, 100), les couleurs de bambou selon l’école, et l’artisanat de Takayama.",
+  "LECTURES — GUIDE", "Les types de fouets à thé",
+  "Kazuho ou 80 brins, bambou blanc ou fumé. Même le plus petit ustensile obéit à une logique — en voici les trois axes.",
+  a3))
+
+PAGES_FR += [f"articles/{a}" for a in
+    ['chawan-types.html', 'history.html', 'chasen-types.html']]

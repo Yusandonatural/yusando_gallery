@@ -31,7 +31,10 @@ SITE_NAME = {
 CORE = ["index.html", "tools.html", "setup.html", "guide.html",
         "articles/index.html"] + [f"tools/{s}.html" for s in
         ("chawan", "chasen", "chashaku", "natsume",
-         "kama", "hishaku", "fukusa", "mizusashi")]
+         "kama", "hishaku", "fukusa", "mizusashi")] + [
+        # 仏語・繁体字に訳し終えた読みもの。残りを訳したらここに足す。
+        f"articles/{a}" for a in
+        ("chawan-types.html", "history.html", "chasen-types.html")]
 
 
 # --------------------------------------------------------------- switcher --

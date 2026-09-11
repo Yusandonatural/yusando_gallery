@@ -78,7 +78,7 @@ dict(slug="chawan", level=1, name="Chawan", jp="茶碗", en="Tea Bowl", num="01"
          ("By season","Summer: shallow, open hira-jawan / Winter: deep tsutsu-jawan that keeps tea warm")],
   history=["The story of the chawan begins with Chinese tenmoku bowls, imported along with tea itself. In the Muromachi period these karamono (Chinese pieces) held the highest rank, but as wabi tea took shape, taste shifted toward Korean bowls and finally to Japanese wares.",
     "In the Momoyama era, the potter Chōjirō answered Sen no Rikyū's wabi aesthetic with the Raku bowl — shaped entirely by hand, without a wheel. The saying \"first Raku, second Hagi, third Karatsu\" ranks the beloved Japanese tea kilns, and bowls from all of them are still cherished in tea people's hands today."],
-  parts_dots=[(124,34),(80,46),(38,56),(62,80),(80,96)],
+  # parts_dots は gen.py から取る（下の DOTS_JA で上書き）
   parts=[("Kuchi-zukuri (rim)","The lip; its thickness and curve change the feel of drinking"),
          ("Mikomi (interior)","The inner well — needs the right breadth for whisking"),
          ("Dō (body)","The side wall, where the glaze \"landscape\" shows"),
@@ -99,7 +99,7 @@ dict(slug="chasen", level=1, name="Chasen", jp="茶筅", en="Tea Whisk", num="02
          ("By school","Omotesenke: smoked bamboo / Urasenke: white bamboo / Mushakōji: black bamboo")],
   history=["The chasen is said to have been devised in the Muromachi period in Takayama, Nara, at the request of tea pioneer Murata Jukō. For five centuries since, Takayama has remained \"the village of the whisk,\" its techniques passed down within families.",
     "One length of bamboo is split into a hundred or more tines with a single knife, then each tine is bent inward or outward in hot water — handwork no machine can replace. It remains a designated Traditional Craft of Japan."],
-  parts_dots=[(80,12),(89,59),(80,77),(80,94)],
+  # parts_dots は gen.py から取る（下の DOTS_JA で上書き）
   parts=[("Hosaki (tines)","The whisking tips, in an inner and outer ring"),
          ("Kagari thread","The thread binding the outer tines, usually black"),
          ("Fushi (node)","The bamboo node between tines and handle"),
@@ -119,7 +119,7 @@ dict(slug="chashaku", level=1, name="Chashaku", jp="茶杓", en="Tea Scoop", num
          ("Accessories","The tomozutsu (maker-inscribed tube) and box strongly affect value")],
   history=["The scoop derives from Chinese ivory tea spoons, but wabi tea remade it in bamboo; its present form settled around the time of Takeno Jōō and Sen no Rikyū. Rikyū's own scoops — above all \"Namida\" (Tears), carved before his death — still move tea people today.",
     "It is the one utensil tea masters habitually carve themselves. The node's position divides scoops into moto-bushi, naka-bushi and fushi-nashi, and with a name and inscribed tube, a sliver of bamboo becomes the voice of the gathering."],
-  parts_dots=[(131,29),(100,56),(67,81),(24,89)],
+  # parts_dots は gen.py から取る（下の DOTS_JA で上書き）
   parts=[("Kaisaki (tip)","The curved end that scoops the tea"),
          ("Hi (groove)","The natural channel of the bamboo — a point of appreciation"),
          ("Fushi (node)","The node near the middle; naka-bushi is most common"),
@@ -139,7 +139,7 @@ dict(slug="natsume", level=1, name="Natsume", jp="棗", en="Tea Caddy", num="04"
          ("Finishes","Plain black shin-nuri, tame-nuri, maki-e gold designs, mother-of-pearl")],
   history=["The natsume is a Japanese invention, attributed to the Muromachi-era lacquerer Haneda Gorō. Against the ceramic chaire used for thick tea, the light lacquered natsume became the standard container for thin tea.",
     "From Rikyū's preferred plain black to later caddies painted with the four seasons in gold maki-e, the palm-sized vessel concentrates the essence of Japanese lacquer craft."],
-  parts_dots=[(80,30),(108,52),(80,72),(80,93)],
+  # parts_dots は gen.py から取る（下の DOTS_JA で上書き）
   parts=[("Futa / kō (lid & crown)","The top face — the showpiece for maki-e"),
          ("Aikuchi (joint)","Where lid meets body; precision here is the mark of quality"),
          ("Dō (body)","The gently swelling side"),
@@ -159,7 +159,7 @@ dict(slug="kama", level=2, name="Kama", jp="茶釜", en="Iron Kettle", num="05",
          ("By season","Winter: large kettle in the sunken hearth / Summer: smaller kettle on the brazier")],
   history=["Tea kettles flourished from the 14th century at two great centers: Ashiya, famed for elegant relief designs, and Tenmyō, loved for its rugged skin. Both names still stand for the finest old kettles.",
     "In the Momoyama era the Kyoto casters of Sanjō Kamanza rose, and Rikyū's kettle-maker Tsuji Yojirō defined the wabi kettle. Ranked \"worth a province and a castle,\" the kama sets the tone of the whole room."],
-  parts_dots=[(80,23),(101,43),(43,63),(80,74),(80,93)],
+  # parts_dots は gen.py から取る（下の DOTS_JA で上書き）
   parts=[("Tsumami & futa (knob & lid)","Lids of bronze or iron; the knob is a detail to savor"),
          ("Kuchi (mouth)","Where water is drawn; shapes vary from uba-guchi to wide"),
          ("Kantsuki (lugs)","The ears that take the rings for lifting"),
@@ -180,7 +180,7 @@ dict(slug="hishaku", level=2, name="Hishaku", jp="柄杓", en="Water Ladle", num
          ("Note","Garden (tsukubai) ladles are a different item")],
   history=["Water ladles are ancient ritual objects, but tea refined the bamboo hishaku into a centerpiece of the procedure, with dimensions that change between hearth and brazier seasons.",
     "A fresh white-bamboo ladle is itself hospitality — its clean pallor honors the guest, and long use turns the cup a warm amber."],
-  parts_dots=[(46,80),(64,64),(102,46),(138,27)],
+  # parts_dots は gen.py から取る（下の DOTS_JA で上書き）
   parts=[("Gō (cup)","The vessel that holds the water"),
          ("Tsukigata","The crescent cut where cup meets handle"),
          ("E (handle)","The long stem with its fixed node position"),
@@ -200,7 +200,7 @@ dict(slug="fukusa", level=2, name="Fukusa", jp="帛紗", en="Silk Cloth", num="0
          ("Color custom","Purple for men, red or vermilion for women (varies by school); dashibukusa and kobukusa are separate items")],
   history=["The fukusa's form is credited to Sōon, wife of Rikyū, who devised it for purifying utensils. Worn at the host's waist, it became the very badge of the person making tea.",
     "Beyond plain shioze silk, kobukusa and dashibukusa woven with famous meibutsu-gire patterns accompany the bowl in thick tea — a whole history of textiles folded into one small square."],
-  parts_dots=[(78,30),(120,48),(41,84),(80,60)],
+  # parts_dots は gen.py から取る（下の DOTS_JA で上書き）
   parts=[("Wasa (fold)","The folded edge, the reference side for handling"),
          ("Mimi (edges)","The raw selvedge sides"),
          ("Kado (corners)","Where the fingers take hold in the folding sequence"),
@@ -220,7 +220,7 @@ dict(slug="mizusashi", level=2, name="Mizusashi", jp="水指", en="Water Jar", n
          ("Lids","Tomobuta (matching) or nuributa (lacquered replacement)")],
   history=["The mizusashi began as kitchen ware promoted to the tea room. Shigaraki seed jars and Bizen pots taken up by \"mitate\" — the eye that finds beauty in the ordinary — express the wabi spirit perfectly.",
     "From Chinese celadon to Shino and Oribe, bentwood and summer glass, no utensil offers a wider choice; it is selected to suit the season and formality of each gathering."],
-  parts_dots=[(80,28),(110,33),(80,62),(80,90)],
+  # parts_dots は gen.py から取る（下の DOTS_JA で上書き）
   parts=[("Futa (lid)","Matching or lacquered; each has its own handling"),
          ("Kuchi (mouth)","Wide or narrow — affecting the ladle's reach"),
          ("Dō (body)","The stage for the glaze landscape"),
@@ -265,6 +265,13 @@ MINOR_EN = [
  dict(slug="chatsubo", level=3, name="Chatsubo", jp="茶壺", en="Leaf-Tea Jar",
       desc="The great jar of leaf tea. Its seal is cut at the November kuchikiri gathering and the leaf ground to matcha — where the tea year begins."),
 ]
+
+# 部位図の番号の位置は、アイコンそのものと同じ 24×24 の座標系で決まる。
+# 言語ごとに持つと必ずずれるので、日本語版の定義を唯一の出どころにする。
+from gen import TOOLS as _TOOLS_JA  # noqa: E402
+DOTS_JA = {t["slug"]: t["parts_dots"] for t in _TOOLS_JA}
+for _t in TOOLS_EN:
+    _t["parts_dots"] = DOTS_JA[_t["slug"]]
 
 DETAIL_SLUGS_EN = {t["slug"] for t in TOOLS_EN}
 ALL_BY_SLUG_EN = {t["slug"]: t for t in TOOLS_EN + MINOR_EN}
