@@ -215,7 +215,7 @@ def minor_card_zh(m):
 
 
 # ------------------------------------------------------------------ index --
-TRANSLATED_ZH = set(['chawan-types.html', 'history.html', 'chasen-types.html'])
+TRANSLATED_ZH = set(['chawan-types.html', 'history.html', 'chasen-types.html', 'kama-types.html', 'chaire-types.html', 'natsume-types.html'])
 
 ARTICLES_ZH = [
  ("chawan-types.html", "指南", "茶碗的種類",
@@ -1007,5 +1007,28 @@ w("zh/articles/chasen-types.html", article_shell_zh(
   "數穗或八十本立，白竹或煤竹。即使是最小的一件道具，挑選也自有其道理——以下是三個軸線。",
   a3))
 
-PAGES_ZH += [f"articles/{a}" for a in
-    ['chawan-types.html', 'history.html', 'chasen-types.html']]
+# ---- 4-6：釜／茶入／棗 ----------------------------------------------------
+from types_articles import kama_body_zh, chaire_body_zh, natsume_body_zh  # noqa: E402
+
+w("zh/articles/kama-types.html", article_shell_zh(
+  "釜的種類 — 蘆屋、天明與京釜",
+  "依產地（蘆屋、天明、京都）、器形與鑄肌整理釜的種類，並說明爐用與風爐用的差別。",
+  "專文 — 指南", "釜的種類",
+  "蘆屋、天明與京釜。這件曾被說成「值一國」的道具，依產地、器形與肌理排出次序。",
+  kama_body_zh(sec_zh, tcard_zh)))
+
+w("zh/articles/chaire-types.html", article_shell_zh(
+  "茶入的種類 — 肩衝、茄子、文琳",
+  "依出身（唐物、島物、和物）與器形整理濃茶用的茶入，並附仕覆、牙蓋與箱書的指引。",
+  "專文 — 指南", "茶入的種類",
+  "肩衝、茄子、文琳、大海。一旦記住器形的名字，這只盛濃茶的小罐便會有趣得多。",
+  chaire_body_zh(sec_zh, tcard_zh)))
+
+w("zh/articles/natsume-types.html", article_shell_zh(
+  "棗的種類 — 大小與漆的塗法",
+  "依大小與漆的塗法（真塗、溜塗、蒔繪、螺鈿）整理棗，並介紹薄茶器這一整個家族。",
+  "專文 — 指南", "棗的種類",
+  "中棗或平棗，素黑或蒔金。挑選這只握在掌中的小漆器，自有一套尺度。",
+  natsume_body_zh(sec_zh, tcard_zh)))
+
+PAGES_ZH += [f"articles/{a}" for a in ['chawan-types.html', 'history.html', 'chasen-types.html', 'kama-types.html', 'chaire-types.html', 'natsume-types.html']]

@@ -101,6 +101,8 @@
     <loc>https://gallery.yusando.com/articles/kama-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/kama-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/kama-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/kama-types.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -109,6 +111,8 @@
     <loc>https://gallery.yusando.com/articles/chaire-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chaire-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/chaire-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chaire-types.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -117,6 +121,8 @@
     <loc>https://gallery.yusando.com/articles/natsume-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/natsume-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/natsume-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/natsume-types.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -301,6 +307,8 @@
     <loc>https://gallery.yusando.com/en/articles/kama-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/kama-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/kama-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/kama-types.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -309,6 +317,8 @@
     <loc>https://gallery.yusando.com/en/articles/chaire-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chaire-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/chaire-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chaire-types.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -317,6 +327,8 @@
     <loc>https://gallery.yusando.com/en/articles/natsume-types.html</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/natsume-types.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/natsume-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/natsume-types.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -562,6 +574,36 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://gallery.yusando.com/fr/articles/kama-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/kama-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/fr/articles/chaire-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chaire-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/fr/articles/natsume-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/natsume-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://gallery.yusando.com/zh/</loc>
     <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/"/>
@@ -718,6 +760,36 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/chasen-types.html"/>
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/chasen-types.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chasen-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/zh/articles/kama-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/kama-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/kama-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/zh/articles/chaire-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/chaire-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/chaire-types.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://gallery.yusando.com/zh/articles/natsume-types.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://gallery.yusando.com/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gallery.yusando.com/en/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://gallery.yusando.com/fr/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://gallery.yusando.com/zh/articles/natsume-types.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://gallery.yusando.com/articles/natsume-types.html"/>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

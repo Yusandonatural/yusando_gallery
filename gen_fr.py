@@ -209,7 +209,7 @@ def minor_card_fr(m):
 
 
 # ------------------------------------------------------------------ index --
-TRANSLATED_FR = set(['chawan-types.html', 'history.html', 'chasen-types.html'])
+TRANSLATED_FR = set(['chawan-types.html', 'history.html', 'chasen-types.html', 'kama-types.html', 'chaire-types.html', 'natsume-types.html'])
 
 ARTICLES_FR = [
  ("chawan-types.html", "GUIDE", "Les types de bols",
@@ -1003,5 +1003,28 @@ w("fr/articles/chasen-types.html", article_shell_fr(
   "Kazuho ou 80 brins, bambou blanc ou fumé. Même le plus petit ustensile obéit à une logique — en voici les trois axes.",
   a3))
 
-PAGES_FR += [f"articles/{a}" for a in
-    ['chawan-types.html', 'history.html', 'chasen-types.html']]
+# ---- 4-6 : kama / chaire / natsume ----------------------------------------
+from types_articles import kama_body_fr, chaire_body_fr, natsume_body_fr  # noqa: E402
+
+w("fr/articles/kama-types.html", article_shell_fr(
+  "Les types de kama — Ashiya, Tenmyō et Kyoto",
+  "Les types de bouilloires par origine (Ashiya, Tenmyō, Kyoto), par forme, par peau de fonte, et la différence entre les kama de ro et de furo.",
+  "LECTURES — GUIDE", "Les types de kama",
+  "Ashiya, Tenmyō et les bouilloires de Kyoto. L’ustensile qu’on disait valoir une province, rangé par origine, forme et peau.",
+  kama_body_fr(sec_fr, tcard_fr)))
+
+w("fr/articles/chaire-types.html", article_shell_fr(
+  "Les types de chaire — katatsuki, nasu, bunrin",
+  "Les boîtes à thé épais par origine (chinoise, sud-est asiatique, japonaise) et par forme, avec un guide des pochettes, couvercles d’ivoire et boîtes.",
+  "LECTURES — GUIDE", "Les types de chaire",
+  "Katatsuki, nasu, bunrin, taikai. Le petit pot du thé épais devient bien plus intéressant une fois les noms de formes en place.",
+  chaire_body_fr(sec_fr, tcard_fr)))
+
+w("fr/articles/natsume-types.html", article_shell_fr(
+  "Les types de natsume — tailles et finitions de laque",
+  "Le natsume par la taille et la finition de la laque (noir uni, tame-nuri, maki-e, raden), ainsi que la famille élargie des boîtes à thé léger.",
+  "LECTURES — GUIDE", "Les types de natsume",
+  "Moyen ou plat, noir uni ou doré. Une mesure pour choisir la petite boîte laquée qui tient dans la paume.",
+  natsume_body_fr(sec_fr, tcard_fr)))
+
+PAGES_FR += [f"articles/{a}" for a in ['chawan-types.html', 'history.html', 'chasen-types.html', 'kama-types.html', 'chaire-types.html', 'natsume-types.html']]

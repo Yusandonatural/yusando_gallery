@@ -363,3 +363,330 @@ sec("BUYING SECONDHAND", "中古で選ぶ", f'''
     <tr><th>Box & maker</th><td>A signed box, and origins such as Wajima or Yamanaka, guide the price.</td></tr>
   </table>
   <p style="margin-top:18px">Parts and handling are on the <a href="../tools/natsume.html" {LINK}>natsume page</a>.</p>'''))
+
+
+# =========================================================== français / 繁體 ==
+# Mêmes articles, mêmes helpers (sec, tcard) — seul le texte change.
+
+def natsume_body_fr(sec, tcard):
+    return (
+sec("PAR LA TAILLE", "大きさで選ぶ", '''
+  <p>Le natsume est le récipient laqué du thé léger, nommé d’après sa ressemblance avec le fruit du jujubier. La taille vient d’abord, et il y en a trois : <strong>dans le doute, prenez le moyen</strong> — c’est la référence, et il convient à tous les temae.</p>
+  <table class="name-table">
+    <tr><th>Ō-natsume (grand)</th><td>Une allure imposante ; on l’emploie parfois à la place d’un chaire pour le thé épais.</td></tr>
+    <tr><th>Naka-natsume (moyen)</th><td>La taille ordinaire, et la plus répandue. Celle par laquelle commencer.</td></tr>
+    <tr><th>Ko-natsume (petit)</th><td>Petit et attachant — pour le meuble de voyage et les petites pièces.</td></tr>
+    <tr><th>Hira-natsume (plat)</th><td>Bas et large. Il donne une impression de fraîcheur au thé léger, à la saison du brasero.</td></tr>
+    <tr><th>Shiribari</th><td>Renflé à la base. Il se pose fermement, d’un air posé.</td></tr>
+  </table>''')
++
+sec("LAQUE ET DÉCOR", "塗りと意匠", '<div class="type-grid">'
++ tcard("Shin-nuri", "Noir uni",
+        "Couche sur couche de laque noire, et rien d’autre. Le goût élémentaire de Rikyū, à son aise dans toute pièce et toute saison — et comme aucun ornement ne vient couvrir, la qualité de la laque se voit franchement.",
+        "Pour une première boîte, le noir uni ne trompe jamais.")
++ tcard("Tame-nuri", "Vermillon dessous",
+        "Un fond vermillon sous une couche translucide. À l’usage, le rouge du dessous commence à transparaître. Particulièrement beau à la lumière d’une lampe.",
+        "Une finition qui mûrit — elle mérite qu’on vive avec.")
++ tcard("Maki-e", "Or et argent",
+        "Des motifs tracés à la poudre d’or et d’argent — la technique emblématique de la laque japonaise, et le grand terrain d’honneur du natsume. Fleurs de saison et paysages.",
+        "Accordez la saison du motif au jour de la réunion.")
++ tcard("Raden", "Nacre",
+        "De minces lames de coquillage incrustées dans la laque, bleues et changeantes à mesure que la lumière bouge. Elles prennent vie lors d’une réunion du soir.",
+        "Vérifiez soigneusement qu’aucune nacre ne se soulève ou ne manque.")
++ tcard("Ikkanbari", "Papier et laque",
+        "Du papier superposé puis laqué — très léger, d’une surface wabi discrète. La technique de Hiki Ikkan, l’un des dix artisans des Senke.",
+        "Extrêmement léger, et particulièrement sensible à l’humidité.")
++ tcard("Kiji", "Bois nu",
+        "À peine fini, de sorte que le fil du bois reste visible. Convient à une pièce sobre, ou aux semaines austères du nagori.",
+        "Sensible aux variations d’humidité — rangez-le avec soin.")
++ '</div>')
++
+sec("LES AUTRES BOÎTES À THÉ LÉGER", "棗以外の薄茶器", '''
+  <p>Le natsume n’est pas le seul récipient du thé léger. La famille s’appelle <strong>usuchaki</strong>, et les noms changent avec la forme ; le natsume en est simplement le plus répandu.</p>
+  <table class="name-table">
+    <tr><th>Nakatsugi</th><td>Cylindrique, le couvercle rejoignant le corps en son milieu. L’autre forme fondamentale.</td></tr>
+    <tr><th>Fubuki</th><td>Un nakatsugi dont les arêtes du haut et du bas sont abattues. Nommé d’après la neige qui tourbillonne.</td></tr>
+    <tr><th>Kinrinji</th><td>Un cylindre à couvercle profond, que l’on dit descendre de l’empereur Go-Daigo.</td></tr>
+    <tr><th>Oshiroi-toki</th><td>Pris par mitate à un pot de fard. Petit et charmant.</td></tr>
+    <tr><th>Yakki</th><td>Venu d’un pot à remèdes. Une stature élancée, bien droite.</td></tr>
+    <tr><th>Zungiri</th><td>Coupé net et plat au sommet. Une forme décidée, sans bavure.</td></tr>
+  </table>'''))
+
+
+def natsume_body_zh(sec, tcard):
+    return (
+sec("依大小挑選", "大きさで選ぶ", '''
+  <p>棗是盛裝薄茶抹茶的漆器，因形似棗子的果實而得名。首先要看的是大小，主要有三種：<strong>拿不定主意時，就取中棗</strong>——它是基準，任何點前都能應付。</p>
+  <table class="name-table">
+    <tr><th>大棗</th><td>器度堂堂；有時也代替茶入盛裝濃茶。</td></tr>
+    <tr><th>中棗</th><td>標準的尺寸，也最容易取得。入門就從它開始。</td></tr>
+    <tr><th>小棗</th><td>小巧可愛——適合旅簞笥與小間。</td></tr>
+    <tr><th>平棗</th><td>矮而寬。在風爐的季節盛薄茶，看來格外清涼。</td></tr>
+    <tr><th>尻張</th><td>底部微微鼓起。放得穩當，有一份沉著之氣。</td></tr>
+  </table>''')
++
+sec("塗法與紋樣", "塗りと意匠", '<div class="type-grid">'
++ tcard("真塗", "素黑",
+        "一層又一層的黑漆，此外別無他物。是利休最根本的趣味，任何茶室、任何季節都自在——而且沒有紋樣可以遮掩，漆的好壞一望即知。",
+        "作為第一只茶器，素黑絕不會出錯。")
++ tcard("溜塗", "底下的朱色",
+        "朱色的底，罩上半透明的面漆。隨著使用，底下的紅會漸漸透出來。在燈火下尤其美。",
+        "是一種會熟成的塗法——值得長久相處。")
++ tcard("蒔繪", "金銀",
+        "以金銀粉描繪的紋樣——日本漆藝的代表技法，也是棗大顯身手之處。四季的花草與風景。",
+        "請讓紋樣的節令，配合茶會當天的時節。")
++ tcard("螺鈿", "貝殼",
+        "將薄薄的貝片嵌入漆中，隨光線移動而泛出藍色的虹彩。在夜咄的茶會上最為生動。",
+        "請仔細確認貝片有無翹起或脫落。")
++ tcard("一閑張", "紙與漆",
+        "以紙層層裱糊後上漆——極輕，表面帶著安靜的侘味。出自千家十職之一飛來一閑的技法。",
+        "極輕，但也格外怕潮。")
++ tcard("木地", "素木",
+        "只作最低限度的處理，讓木紋透出來。適合樸素的茶室，或是名殘那幾週的清簡。",
+        "對濕度的變化敏感——收藏時請留意。")
++ '</div>')
++
+sec("棗以外的薄茶器", "棗以外の薄茶器", '''
+  <p>盛裝薄茶的器物不只有棗。這一整個家族稱為<strong>薄茶器</strong>，名稱隨器形而異；棗只是其中最為普及的一種。</p>
+  <table class="name-table">
+    <tr><th>中次</th><td>筒形，蓋與身在腰部中段相接。另一種基本的形制。</td></tr>
+    <tr><th>吹雪</th><td>將中次的上下邊緣削去稜角者。因風雪捲揚之貌而得名。</td></tr>
+    <tr><th>金輪寺</th><td>筒形而蓋深，相傳源自後醍醐天皇。</td></tr>
+    <tr><th>白粉解</th><td>由妝粉容器見立而來。小巧而有趣味。</td></tr>
+    <tr><th>藥器</th><td>由藥罐而來。器形細長而挺立。</td></tr>
+    <tr><th>寸切</th><td>頂部平平切斷。形制果斷而俐落。</td></tr>
+  </table>'''))
+
+
+def chaire_body_fr(sec, tcard):
+    return (
+sec("TROIS ORIGINES", "三つの出自", '''
+  <p>Le chaire est le petit pot qui garde le matcha du thé épais, et il compte parmi les ustensiles les plus formels. C’est l’origine qui fixe ce rang : <strong>karamono</strong> (de Chine), <strong>shimamono</strong> (d’Asie du Sud-Est) et <strong>wamono</strong> (du Japon), dans cet ordre.</p>
+  <table class="name-table">
+    <tr><th>Karamono</th><td>De fabrication chinoise, et dits valoir une province. Les formes katatsuki, nasu et bunrin en descendent.</td></tr>
+    <tr><th>Shimamono</th><td>De Luçon, d’Annam et d’ailleurs en Asie du Sud-Est — au rang intermédiaire entre les pièces chinoises et japonaises.</td></tr>
+    <tr><th>Wamono</th><td>Faits au Japon, Seto en tête, puis Bizen, Shigaraki, Takatori, Zeze et Tanba.</td></tr>
+  </table>''')
++
+sec("PAR LA FORME", "形で選ぶ", '<div class="type-grid">'
++ tcard("Katatsuki", "Épaules carrées",
+        "Des épaules qui se détachent à l’horizontale. Le rang le plus élevé et le plus nombreux du répertoire transmis — Hatsuhana, Narashiba et Nitta sont les « trois grands katatsuki ».",
+        "Dans l’hésitation, commencez ici : la stature se compose sans peine.")
++ tcard("Nasu", "Aubergine",
+        "Petit et rond comme le fruit dont il porte le nom. Le Tsukumogami Nasu, passé entre les mains de Nobunaga et de Hideyoshi, est le plus fameux.",
+        "Petit et attachant ; il tient bien dans une main menue.")
++ tcard("Bunrin", "Pomme",
+        "Bunrin est un vieux mot pour la pomme. Doucement arrondi, un peu plus grand que le nasu, d’une présence remarquablement gracieuse.",
+        "On le distingue du nasu à la bouche et au renflement de la panse.")
++ tcard("Taikai", "Bouche large, aplati",
+        "Bouche large et corps bas. Sa posture détendue permet aussi de l’employer comme boîte à thé léger ; l’uchiumi en est la version réduite.",
+        "La bouche large rend le prélèvement facile.")
++ tcard("Tsurukubi", "Col de grue",
+        "La bouche étirée, longue et mince comme un col de grue. Sa stature droite et fuselée est tout le propos.",
+        "Le col étroit demande de l’habitude avec la pochette.")
++ tcard("Hyōtan et shiribukura", "Gourde et base renflée",
+        "La gourde est resserrée à la taille ; le shiribukura se renfle fortement vers le bas. L’un et l’autre apportent du mouvement à une composition.",
+        "On choisit ces formes marquées pour répondre au thème d’une réunion.")
++ '</div>')
++
+sec("LA POCHETTE DE SOIE ET LES ACCESSOIRES", "仕覆と付属", '''
+  <p>Un chaire se garde dans un <strong>shifuku</strong>, une pochette à cordon cousue dans un <strong>meibutsu-gire</strong> — brocarts, damas et tissus rayés historiques. Une boîte de haut rang peut posséder plusieurs pochettes, et plus ses accessoires subsistent, plus l’estimation monte.</p>
+  <table class="name-table">
+    <tr><th>Shifuku</th><td>La pochette de soie. Le nom et l’époque de l’étoffe pèsent réellement.</td></tr>
+    <tr><th>Gebuta</th><td>Le couvercle d’ivoire, doré à la feuille par-dessous selon l’usage. L’ajustement compte.</td></tr>
+    <tr><th>Hikiya</th><td>L’étui de bois tourné, lui-même gardé dans une boîte intérieure et une boîte extérieure.</td></tr>
+    <tr><th>Inscriptions de boîte</th><td>Authentifications écrites d’un grand maître ou d’un connaisseur — la base de l’attribution.</td></tr>
+  </table>''')
++
+sec("CHAIRE OU NATSUME", "茶入と棗のちがい", f'''
+  <p>La différence tient à <strong>l’usage et au rang</strong>. Le chaire est de céramique et contient le <strong>thé épais</strong> ; le natsume est de laque et contient le <strong>thé léger</strong>. Le chaire est d’un rang plus élevé, et les gestes qui l’entourent — ôter la pochette, le présenter à l’examen — sont d’autant plus formels.</p>
+  <p>Pour une première boîte, le natsume est bien plus facile à manier. Prenez un chaire lorsque vous passerez au thé épais. Voyez <a href="natsume-types.html" {LINK}>Les types de natsume</a>.</p>''')
++
+sec("ACHETER D’OCCASION", "中古で選ぶ", f'''
+  <table class="name-table">
+    <tr><th>Le couvercle d’ivoire</th><td>Souvent perdu. Vérifiez qu’il se pose net, sans jour.</td></tr>
+    <tr><th>Paysage de glaçure</th><td>La « cascade » de glaçure qui descend de l’épaule est ce qu’il faut regarder — agrandissez les photographies.</td></tr>
+    <tr><th>État de la pochette</th><td>Usure, tissu aminci, cordons manquants. Demandez si le tissage porte un nom.</td></tr>
+    <tr><th>Boîtes et provenance</th><td>Étui, boîte intérieure, boîte extérieure, inscriptions — un ensemble complet élève nettement la valeur.</td></tr>
+  </table>
+  <p style="margin-top:18px">Le chaire figure aussi dans <a href="../tools.html" {LINK}>la liste des ustensiles</a>.</p>'''))
+
+
+def chaire_body_zh(sec, tcard):
+    return (
+sec("三種出身", "三つの出自", '''
+  <p>茶入是盛裝濃茶抹茶的小罐，在所有道具之中屬於格調最高的一類。決定這份格調的，是它的出身：<strong>唐物</strong>（中國）、<strong>島物</strong>（東南亞）、<strong>和物</strong>（日本），依此為序。</p>
+  <table class="name-table">
+    <tr><th>唐物</th><td>中國所製，素有「值一國」之譽。肩衝、茄子、文琳等器形皆源自於此。</td></tr>
+    <tr><th>島物</th><td>來自呂宋、安南等東南亞各地——地位介於唐物與和物之間。</td></tr>
+    <tr><th>和物</th><td>日本所製，以瀨戶為首，其次有備前、信樂、高取、膳所與丹波。</td></tr>
+  </table>''')
++
+sec("依器形挑選", "形で選ぶ", '<div class="type-grid">'
++ tcard("肩衝", "方肩",
+        "肩部向水平方向張出。在傳世品中格調最高、數量也最多——「初花」「楢柴」「新田」合稱天下三肩衝。",
+        "若拿不定主意就從它入手：姿態容易與其他道具相配。")
++ tcard("茄子", "茄子形",
+        "小而渾圓，如其名所指的果實。經織田信長與豐臣秀吉之手的「九十九髮茄子」最負盛名。",
+        "小巧可愛；手小的人也好拿。")
++ tcard("文琳", "蘋果形",
+        "「文琳」是蘋果的古稱。柔和渾圓，比茄子稍大，姿態格外優雅。",
+        "與茄子的分別，在於口部與腹部隆起的方式。")
++ tcard("大海", "廣口而扁",
+        "口寬而器身低。那份從容的姿態，也可以當作薄茶器使用；較小的版本稱為「內海」。",
+        "口寬，舀取時較為順手。")
++ tcard("鶴首", "鶴的頸子",
+        "口部拉得細長，一如鶴的頸子。挺立而漸收的姿態，正是它的看點。",
+        "頸細，穿脫仕覆需要一些熟練。")
++ tcard("瓢簞・尻膨", "葫蘆與下腹鼓起",
+        "瓢簞在腰部收束；尻膨則在下方強烈鼓起。兩者都能為取合帶來動勢。",
+        "形制鮮明者，多是為了呼應茶會的主題而選。")
++ '</div>')
++
+sec("仕覆與附件", "仕覆と付属", '''
+  <p>茶入收在<strong>仕覆</strong>之中——那是以<strong>名物裂</strong>縫製的束口袋，用的是歷代的金襴、緞子與間道。格調高的茶入可能配有數個仕覆，而附件保存得越齊全，估價也越高。</p>
+  <table class="name-table">
+    <tr><th>仕覆</th><td>絲質的袋。布的名稱與年代，分量相當重。</td></tr>
+    <tr><th>牙蓋</th><td>象牙製的蓋，依慣例在內側貼金箔。密合與否很要緊。</td></tr>
+    <tr><th>挽家</th><td>旋木製成的容器，其本身又收在內箱與外箱之中。</td></tr>
+    <tr><th>箱書</th><td>家元或鑑賞家所寫的鑑定文字——是判定來歷的依據。</td></tr>
+  </table>''')
++
+sec("茶入與棗的分別", "茶入と棗のちがい", f'''
+  <p>分別在於<strong>用途與格調</strong>。茶入是陶製的，盛<strong>濃茶</strong>；棗是漆製的，盛<strong>薄茶</strong>。茶入的格調較高，圍繞它的動作——脫下仕覆、奉出拜見——也相應地更為正式。</p>
+  <p>作為第一件茶器，棗要好操作得多。等進入濃茶的階段，再取用茶入即可。請參見<a href="natsume-types.html" {LINK}>棗的種類</a>。</p>''')
++
+sec("選購二手時", "中古で選ぶ", f'''
+  <table class="name-table">
+    <tr><th>象牙的蓋</th><td>時常佚失。請確認蓋子能否毫無縫隙地落穩。</td></tr>
+    <tr><th>釉的景色</th><td>自肩部流下的釉「瀑布」最值得細看——請放大照片確認。</td></tr>
+    <tr><th>仕覆的狀態</th><td>磨損、布質變薄、緒繩缺失。請詢問所用的裂是否有名。</td></tr>
+    <tr><th>箱與來歷</th><td>挽家、內箱、外箱、箱書——一整套齊全，價值會大幅提升。</td></tr>
+  </table>
+  <p style="margin-top:18px">茶入也收錄在<a href="../tools.html" {LINK}>茶道具一覽</a>之中。</p>'''))
+
+
+def kama_body_fr(sec, tcard):
+    return (
+sec("TROIS CENTRES", "三つの産地", '''
+  <p>On dit de la bouilloire qu’elle « vaut une province et un château » — aucun ustensile ne pèse plus lourd dans la pièce. Les kama se répartissent en trois grandes lignées : les deux centres anciens d’<strong>Ashiya</strong> et de <strong>Tenmyō</strong>, et les bouilloires de <strong>Kyoto</strong>, qui s’élèvent à l’ère de Momoyama.</p>
+  <p>La kama donne le ton de toute la réunion, et le bruit de son eau — le <em>matsukaze</em>, vent dans les pins — est la voix même de la salle de thé.</p>''')
++
+sec("LES PRINCIPAUX TYPES", "主要な釜の種類", '<div class="type-grid">'
++ tcard("Ashiya", "CHIKUZEN (Fukuoka), XIVᵉ–XVIᵉ s.",
+        "Le grand centre des origines. Corps shinnari de forme formelle, surface lisse dite « peau de silure », et reliefs finement fondus de pin, de bambou et de prunier. La plupart des bouilloires classées Biens culturels importants sont d’Ashiya.",
+        "Un véritable Ashiya ancien est de qualité muséale ; le marché regorge de copies.")
++ tcard("Tenmyō", "SHIMOTSUKE (Tochigi), XIVᵉ–XVIᵉ s.",
+        "La rivale et le contraire d’Ashiya : une peau de fonte rugueuse et grenue, une stature sans ornement. Rikyū en aimait l’austérité — Ashiya le calme, Tenmyō l’inquiet.",
+        "La peau rugueuse est un caractère ; apprenez à la distinguer de la rouille.")
++ tcard("Bouilloires de Kyoto", "KYŌGAMA — à partir de Momoyama",
+        "Les fondeurs se rassemblent au Sanjō Kamanza, à Kyoto. Tsuji Yojirō, le fondeur de Rikyū, définit la bouilloire wabi, et depuis l’époque d’Edo la famille Ōnishi porte cette lignée jusqu’à nous.",
+        "La production actuelle se trouve facilement — commencez ici pour l’usage quotidien.")
++ tcard("Bouilloires de Yojirō", "Au goût de Rikyū",
+        "Travaillant sur les instructions de Rikyū, Tsuji Yojirō produisit les formes amidadō et shiribari, devenues les formes de référence de tout ce qui suivit. L’ornement retranché jusqu’à la stature seule.",
+        "Les copies « d’après Yojirō » servent couramment à l’exercice.")
++ tcard("Famille Ōnishi", "L’un des dix artisans des Senke",
+        "Les fondeurs héréditaires des maisons Sen. Des générations ont fait des bouilloires au goût de chaque grand maître, et les pièces à boîte authentifiée tiennent bien leur valeur.",
+        "Les inscriptions de boîte déplacent sensiblement le prix.")
++ tcard("Bouilloires modernes", "Pour foyers électriques",
+        "On trouve aujourd’hui des bouilloires légères conçues pour les réchauds électriques, et des bouilloires d’exercice fabriquées en série. Pour l’usage pratique, le choix est large et les prix raisonnables.",
+        "Un réchaud électrique et une petite bouilloire : le départ le plus simple chez soi.")
++ '</div>')
++
+sec("PAR LA FORME", "形で選ぶ", '''
+  <table class="name-table">
+    <tr><th>Shinnari</th><td>Épaules carrées se resserrant vers le pied — la forme formelle héritée d’Ashiya, et la plus haute en rang.</td></tr>
+    <tr><th>Amidadō</th><td>Bouche large, corps rond. Facile à puiser ; la bouilloire d’exercice ordinaire.</td></tr>
+    <tr><th>Fuji</th><td>Évasée vers le pied comme le mont Fuji. Remarquablement stable.</td></tr>
+    <tr><th>Unryū</th><td>Élancée et haute — pour les petites pièces et la disposition nakaoki.</td></tr>
+    <tr><th>Hira</th><td>Basse et large. L’eau refroidit vite ; convient à la saison du brasero.</td></tr>
+    <tr><th>Tsutsu</th><td>Cylindrique. Facile à placer dans une pièce étroite, à la saison du foyer.</td></tr>
+    <tr><th>Shiribari</th><td>Fortement renflée à la base — la forme signature de Yojirō.</td></tr>
+    <tr><th>Semehimo</th><td>Un bandeau en relief ceignant l’épaule comme une corde liée. Une forme formelle.</td></tr>
+  </table>''')
++
+sec("PEAU ET DÉTAILS", "肌と見どころ", '''
+  <table class="name-table">
+    <tr><th>Arare</th><td>Des clous de grêle semés sur le corps. Plus leur alignement est régulier, plus grande est l’habileté.</td></tr>
+    <tr><th>Namazu-hada</th><td>La « peau de silure », lisse et comme humide, qui est la marque d’Ashiya.</td></tr>
+    <tr><th>Ara-hada</th><td>La surface grossière et grenue que l’on prise dans le travail de Tenmyō.</td></tr>
+    <tr><th>Uba-guchi</th><td>Une bouche qui plonge vers l’intérieur — un profil wabi très aimé des gens de thé.</td></tr>
+    <tr><th>Kantsuki</th><td>Les attaches qui reçoivent les anneaux : masques de démon, collines lointaines, lions.</td></tr>
+    <tr><th>Jimon</th><td>Motifs en relief fondus dans le corps ; le travail fin d’Ashiya est le plus admiré.</td></tr>
+  </table>''')
++
+sec("RO ET FURO", "炉用と風炉用", f'''
+  <p>Les bouilloires changent de taille avec la saison. Une kama de <strong>ro</strong> est grande, environ un shaku de diamètre ; une kama de <strong>furo</strong> est plus petite. Il existe des bouilloires qui servent aux deux, mais une pièce à la mesure de sa saison s’assied tout simplement mieux.</p>
+  <p>Bouilloire, brasero, cadre du foyer et planche doivent s’équilibrer en échelle. La page <a href="../setup.html" {LINK}>Ro et furo</a> traite cela en détail.</p>''')
++
+sec("ACHETER D’OCCASION", "中古で選ぶ", f'''
+  <table class="name-table">
+    <tr><th>Essai d’étanchéité</th><td>Remplissez une nuit entière et guettez le suintement. De petites fuites se colmatent parfois.</td></tr>
+    <tr><th>Rouille</th><td>Une rouille de surface se maîtrise ; une corrosion profonde à l’intérieur, non. Le dépôt minéral, lui, est une vertu.</td></tr>
+    <tr><th>Le fond</th><td>Les vieilles bouilloires ont couramment un fond refait — nullement un défaut s’il est l’œuvre d’un fondeur.</td></tr>
+    <tr><th>Couvercle et anneaux</th><td>Couvercle d’origine ou de remplacement ? Vérifiez si les anneaux et le trépied l’accompagnent.</td></tr>
+  </table>
+  <p style="margin-top:18px">Les parties et le maniement sont traités sur la <a href="../tools/kama.html" {LINK}>fiche du kama</a>.</p>'''))
+
+
+def kama_body_zh(sec, tcard):
+    return (
+sec("三大產地", "三つの産地", '''
+  <p>釜素有「值一國一城」之譽——茶室之中，沒有一件道具比它更有分量。釜可分為三大系譜：古老的兩處產地<strong>蘆屋</strong>與<strong>天明</strong>，以及桃山時代崛起的<strong>京釜</strong>。</p>
+  <p>釜為整場茶會定下基調，而釜中的水聲——所謂<em>松風</em>——正是茶室自身的聲音。</p>''')
++
+sec("主要的釜", "主要な釜の種類", '<div class="type-grid">'
++ tcard("蘆屋釜", "筑前（福岡）・14–16世紀",
+        "最早的大產地。器身多為格調端正的真形，表面是光潤的「鯰肌」，並鑄有松竹梅等細緻的浮雕紋樣。被指定為重要文化財的釜，多半出自蘆屋。",
+        "真正的古蘆屋已屬博物館等級；市面上多為仿作。")
++ tcard("天明釜", "下野（栃木）・14–16世紀",
+        "蘆屋的對手，也是它的反面：鑄肌粗糙帶砂，姿態不加修飾。利休喜愛它的枯淡——蘆屋是靜，天明是動。",
+        "粗肌是它的個性；請學會與鏽蝕區分。")
++ tcard("京釜", "桃山時代以降",
+        "鑄物師聚集於京都三条釜座。利休的釜師辻与次郎確立了侘釜的樣式，自江戶時代起，大西家將這一脈延續至今。",
+        "現行品容易取得——日常使用就從這裡入手。")
++ tcard("与次郎釜", "利休好み",
+        "辻与次郎依利休的指示製作，創出阿彌陀堂與尻張等形制，成為此後所有釜的基準形。剝去裝飾，只剩姿態本身。",
+        "「与次郎寫」的仿作廣泛用於練習。")
++ tcard("大西家", "千家十職之一",
+        "千家世襲的釜師。歷代依各家元的喜好製釜，附有鑑定箱書者，價值相當穩固。",
+        "箱書對價格的影響相當大。")
++ tcard("現代の釜", "電熱器用",
+        "如今可以買到為電熱器設計的輕量釜，以及量產的練習用釜。就實用而言選擇很廣，價格也合理。",
+        "電熱器配一只小釜，是在家起步最省事的組合。")
++ '</div>')
++
+sec("依器形挑選", "形で選ぶ", '''
+  <table class="name-table">
+    <tr><th>真形</th><td>方肩向下漸收——承自蘆屋的正式形制，格調最高。</td></tr>
+    <tr><th>阿彌陀堂</th><td>口寬、身圓。汲水順手；是最常見的練習用釜。</td></tr>
+    <tr><th>富士</th><td>向下擺開，狀如富士山。格外安定。</td></tr>
+    <tr><th>雲龍</th><td>細長而高——適合小間與中置的擺法。</td></tr>
+    <tr><th>平釜</th><td>低而寬。水涼得快，宜於風爐的季節。</td></tr>
+    <tr><th>筒釜</th><td>筒形。爐的季節裡，在狹窄的茶室中容易安置。</td></tr>
+    <tr><th>尻張</th><td>下部強烈鼓起——与次郎的代表形制。</td></tr>
+    <tr><th>責紐</th><td>肩部環著一道凸起的帶，如綁縛的繩。屬於正式的形制。</td></tr>
+  </table>''')
++
+sec("肌與看點", "肌と見どころ", '''
+  <table class="name-table">
+    <tr><th>霰</th><td>器身鑄滿如冰雹般的凸粒。排列越勻整，技術越高。</td></tr>
+    <tr><th>鯰肌</th><td>光潤而似帶濕氣的「鯰魚皮」，是蘆屋的標誌。</td></tr>
+    <tr><th>荒肌</th><td>粗糙帶砂的表面，在天明釜中備受珍視。</td></tr>
+    <tr><th>姥口</th><td>口部向內凹陷——茶人十分喜愛的侘之輪廓。</td></tr>
+    <tr><th>鐶付</th><td>掛提環的兩耳：鬼面、遠山、獅子等造型。</td></tr>
+    <tr><th>地紋</th><td>鑄在器身上的浮雕紋樣；以蘆屋的細膩之作最受推崇。</td></tr>
+  </table>''')
++
+sec("爐用與風爐用", "炉用と風炉用", f'''
+  <p>釜的大小隨季節而變。<strong>爐</strong>用的釜較大，口徑約一尺；<strong>風爐</strong>用的則較小。也有兩用的釜，但合乎季節尺寸的一只，看起來就是更安穩。</p>
+  <p>釜、風爐、爐緣與敷板的大小必須彼此相稱。<a href="../setup.html" {LINK}>爐與風爐</a>的頁面有詳細說明。</p>''')
++
+sec("選購二手時", "中古で選ぶ", f'''
+  <table class="name-table">
+    <tr><th>漏水測試</th><td>注滿水放置一夜，看是否滲漏。小的漏處有時可以修補。</td></tr>
+    <tr><th>鏽</th><td>表面的薄鏽可以處理，內部的深度腐蝕則不行。內壁的水垢反而是好事。</td></tr>
+    <tr><th>底</th><td>古釜多半換過底——只要出自釜師之手就不算缺點。</td></tr>
+    <tr><th>蓋與鐶</th><td>是原配的蓋還是後配？請確認鐶與五德是否一併附上。</td></tr>
+  </table>
+  <p style="margin-top:18px">各部位與使用方式，請見<a href="../tools/kama.html" {LINK}>釜的頁面</a>。</p>'''))

@@ -34,7 +34,8 @@ CORE = ["index.html", "tools.html", "setup.html", "guide.html",
          "kama", "hishaku", "fukusa", "mizusashi")] + [
         # 仏語・繁体字に訳し終えた読みもの。残りを訳したらここに足す。
         f"articles/{a}" for a in
-        ("chawan-types.html", "history.html", "chasen-types.html")]
+        ("chawan-types.html", "history.html", "chasen-types.html",
+         "kama-types.html", "chaire-types.html", "natsume-types.html")]
 
 
 # --------------------------------------------------------------- switcher --
