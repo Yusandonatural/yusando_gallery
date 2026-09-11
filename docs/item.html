@@ -82,6 +82,14 @@ dd .en{display:block;color:var(--rikyu);font-size:12.5px;margin-top:4px}
 .btn i{display:block;font-style:normal;font-size:10px;opacity:.75;letter-spacing:.1em}
 .btn:hover{background:var(--matcha);color:var(--paper)}
 .note{font-family:var(--sans);font-size:11px;color:var(--rikyu);margin-top:14px;line-height:1.8}
+/* 免責。読み飛ばされない程度に、しかし器の邪魔をしない重さで */
+.mei-note{font-family:var(--sans);font-size:10.5px;color:var(--rikyu);
+  line-height:1.75;margin-top:6px}
+.mei-note .en{display:block;margin-top:2px;opacity:.85}
+.disclaim{margin-top:26px;padding:15px 17px;border:1px solid var(--line);
+  border-radius:3px;background:var(--paper-deep)}
+.disclaim p{font-family:var(--sans);font-size:11px;line-height:1.85;color:var(--ink-soft)}
+.disclaim p.en{margin-top:8px;color:var(--rikyu);font-size:10.5px}
 .note .en{display:block}
 .msg{padding:80px 0;text-align:center;font-family:var(--sans);font-size:14px;color:var(--rikyu)}
 </style></head><body>
@@ -167,6 +175,20 @@ function render() {
     '<div class="row"><dt>' + ja + "<i>" + en + "</i></dt><dd>"
     + pair(vals[n][0], vals[n][1]) + "</dd></div>").join("");
 
+  // 説明は写真から見て取れる範囲の所見。作者・窯・時代は確証のないものを
+  // 推測で書いている。買う前に読まれる位置（仕様表の直後）に置く。
+  const disclaimer =
+    '<div class="disclaim">'
+    + '<p>この茶器の説明は、写真から見て取れる範囲の所見をもとにしています。'
+    + '技法・釉・産地・時代などには、確証が得られないまま推測で記した事項が含まれ、'
+    + '事実と異なる場合がございます。ひとつの見立てとしてお読みください。'
+    + '気になる点は、どうぞお問い合わせください。</p>'
+    + '<p class="en">These notes describe what can be seen in the photographs. '
+    + 'Attributions of technique, glaze, origin and period are informed judgements '
+    + 'rather than established fact, and may be mistaken. Please read them as one '
+    + 'reading among many, and ask us about anything you would like confirmed.</p>'
+    + "</div>";
+
   const sold = i.status === "sold";
   const action = sold
     ? '<p class="status gone">お渡し済みです<i>No longer available</i></p>'
@@ -186,11 +208,16 @@ function render() {
         ? '<p class="reason">' + esc(i.mei_reason || "")
           + (i.mei_reason_en ? '<span class="en">' + esc(i.mei_reason_en) + "</span>" : "")
           + "</p>" : "")
+    // 銘は伝来のものではなく当店が景色から名づけたもの。買う側が誤解しないよう、
+    // 銘のすぐ下に置く。末尾にまとめると、銘だけ見て離れる人には届かない。
+    + (i.mei ? '<p class="mei-note">銘は当店による創作です。伝来の銘ではございません。'
+        + '<span class="en">The name is our own, given for the piece&rsquo;s character '
+        + '&mdash; not an inherited one.</span></p>' : "")
     + ((i.description || i.description_en)
         ? '<p class="desc">' + esc(i.description || "")
           + (i.description_en ? '<span class="en">' + esc(i.description_en) + "</span>" : "")
           + "</p>" : "")
-    + sekki + "<dl>" + rows + "</dl>" + action
+    + sekki + "<dl>" + rows + "</dl>" + disclaimer + action
     + "</div></div>";
 
   d.querySelectorAll(".thumbs img").forEach((el) => {

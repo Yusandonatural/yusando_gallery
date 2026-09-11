@@ -668,3 +668,7 @@ html[lang="zh-Hant"] .hero-title{letter-spacing:.06em}
 html[lang="zh-Hant"] .section-kicker,
 html[lang="zh-Hant"] .hero-kicker{letter-spacing:.28em;text-indent:.28em}
 html[lang="zh-Hant"] .btn{letter-spacing:.12em}
+
+/* 在庫枠の免責。銘も所見も当店の見立てである旨を、器の邪魔をしない重さで */
+.st-disc{font-family:var(--sans);font-size:10.5px;line-height:1.8;color:var(--rikyu);
+  margin-top:8px;max-width:46em}

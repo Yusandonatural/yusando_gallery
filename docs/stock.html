@@ -90,6 +90,9 @@ a.card:hover .frame{border-color:var(--gold)}
   .cat{font-size:9.5px;margin-top:7px}
   .ask{font-size:9.5px;padding-top:9px}
 }
+.note.disclaim{margin-top:16px;font-size:10.5px;color:var(--rikyu);max-width:46em;
+  margin-left:auto;margin-right:auto;line-height:1.85}
+.note.disclaim .en{display:block;margin-top:4px;opacity:.9}
 .note-link{color:var(--gold);border-bottom:1px solid currentColor;text-decoration:none;display:inline-block;margin-top:6px}
 </style></head><body>
 
@@ -181,7 +184,14 @@ function draw() {
       : '<p class="msg">該当する茶道具はありません。<br>No pieces match that search.</p>')
     + '<p class="note">価格・状態はお問い合わせください。オンラインでの販売は行っておりません。<br>'
     + "Please enquire about any piece. Online ordering is not available.<br>"
-    + '<a class="note-link" href="' + INQUIRY + '">お問い合わせフォーム / Enquiry form</a></p>';
+    + '<a class="note-link" href="' + INQUIRY + '">お問い合わせフォーム / Enquiry form</a></p>'
+    // 銘も説明も当店の見立て。一覧の段階で断っておく。
+    + '<p class="note disclaim">各茶器の銘は当店による創作で、伝来の銘ではございません。'
+    + 'また説明には、確証が得られないまま推測で記した事項が含まれます。'
+    + 'ひとつの見立てとしてお楽しみください。<br>'
+    + '<span class="en">The names we give are our own, not inherited ones, and our notes '
+    + 'include informed judgements rather than established fact. '
+    + 'Please enjoy them as one reading among many.</span></p>';
   document.querySelectorAll(".tab").forEach((t) =>
     t.classList.toggle("on", (t.dataset.cat || "") === filter));
 }

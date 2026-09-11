@@ -40,15 +40,33 @@ window.CHADOGU_EC = {
   if (!cat) return;                                   // 取扱いのない種別
 
   var root = stub.getAttribute('data-ec-root') || '';
-  var en = document.documentElement.lang === 'en';
-  var T = en
-    ? { head: 'In the Yusando Gallery', sold: 'SOLD', detail: 'View details',
-        ask: 'Enquire', gone: 'No longer available',
-        note: 'Each piece is one of a kind. Online ordering is not yet available.' }
-    : { head: '悠三堂ギャラリーにある' + (stub.getAttribute('data-ec-name') || cat),
-        sold: '売却済', detail: '詳しく見る',
-        ask: 'お問い合わせください', gone: 'お渡し済み',
-        note: 'すべて一点ものです。オンラインでの販売は行っておりません。' };
+  // ページの言語で文言を選ぶ。仏語・繁体字の道具詳細にも在庫枠があるので、
+  // 英語以外をすべて日本語に倒すと、そこだけ日本語が出てしまう。
+  var lang = document.documentElement.lang || 'ja';
+  var en = lang === 'en';
+  var name = stub.getAttribute('data-ec-name') || cat;
+  var STR = {
+    ja: { head: '悠三堂ギャラリーにある' + name, sold: '売却済', detail: '詳しく見る',
+          ask: 'お問い合わせください', gone: 'お渡し済み',
+          note: 'すべて一点ものです。オンラインでの販売は行っておりません。',
+          disc: '銘は当店による創作で、伝来の銘ではございません。'
+              + '説明にも推測で記した事項が含まれます。' },
+    en: { head: 'In the Yusando Gallery', sold: 'SOLD', detail: 'View details',
+          ask: 'Enquire', gone: 'No longer available',
+          note: 'Each piece is one of a kind. Online ordering is not yet available.',
+          disc: 'The names we give are our own, not inherited ones, and our notes '
+              + 'include informed judgements rather than established fact.' },
+    fr: { head: 'À la galerie Yusando', sold: 'VENDU', detail: 'Voir la fiche',
+          ask: 'Nous écrire', gone: 'Plus disponible',
+          note: 'Chaque pièce est unique. La vente en ligne n’est pas encore ouverte.',
+          disc: 'Les noms que nous donnons sont les nôtres, non des noms transmis, '
+              + 'et nos notes comportent des jugements plutôt que des faits établis.' },
+    'zh-Hant': { head: '悠三堂藝廊所藏', sold: '已售出', detail: '查看詳情',
+          ask: '歡迎詢問', gone: '已交付',
+          note: '每件皆為一點物。目前尚未開放線上販售。',
+          disc: '各器物的銘由本店所取，並非傳世之銘；說明中亦含推測的部分。' }
+  };
+  var T = STR[lang] || STR.ja;
 
   var esc = function (v) {
     return String(v == null ? '' : v).replace(/[&<>"]/g, function (c) {
@@ -123,7 +141,8 @@ window.CHADOGU_EC = {
     stub.classList.add('has-stock');
     stub.innerHTML = '<h3>' + esc(T.head) + '</h3>'
       + '<div class="stock-grid">' + cards + '</div>'
-      + '<p class="st-note">' + esc(T.note) + '</p>';
+      + '<p class="st-note">' + esc(T.note) + '</p>'
+      + '<p class="st-disc">' + esc(T.disc) + '</p>';
     return items.length;
   }).then(function (n) {
     if (DBG) note('在庫 ' + n + ' 件を表示しました (' + cat + ')');
