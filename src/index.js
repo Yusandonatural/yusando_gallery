@@ -11,9 +11,11 @@ const cors = (request) => {
     "vary": "origin",
   };
 };
-let CUR = null; // 現在のリクエスト（CORSヘッダ用）
-const json = (data, status = 200) =>
-  new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json; charset=utf-8", ...cors(CUR) } });
+// リクエストごとに json() を作る。モジュール全体で1個の変数に現在のリクエストを
+// 入れておくと、await の間に別のリクエストがそれを上書きしてしまい、
+// 応答が他人の origin 用の CORS ヘッダを持つことがあるため。
+const jsonWith = (request) => (data, status = 200) =>
+  new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json; charset=utf-8", ...cors(request) } });
 const authed = (request, env) => {
   const t = request.headers.get("x-upload-token") || new URL(request.url).searchParams.get("token");
   return !!env.UPLOAD_TOKEN && t === env.UPLOAD_TOKEN;
@@ -61,6 +63,7 @@ ${forcedCategory ? `この茶器の種別は「${forcedCategory}」です。cate
 4 = 共箱や箱書きあり、作家サインが確認できる、特に上質
 `;
 async function upload(request, env) {
+  const json = jsonWith(request);
   if (!authed(request, env)) return json({ error: "合言葉が違います" }, 401);
   const form = await request.formData();
   const files = form.getAll("photos").filter((f) => f && f.size > 0).slice(0, 5);
@@ -113,6 +116,7 @@ async function upload(request, env) {
 }
 
 async function listItems(request, env) {
+  const json = jsonWith(request);
   const sql = authed(request, env)
     ? "SELECT * FROM items ORDER BY created_at DESC"
     : "SELECT * FROM items WHERE status IN ('published','sold') ORDER BY created_at DESC";
@@ -120,13 +124,15 @@ async function listItems(request, env) {
   return json(results.map(publicItem));
 }
 
-async function getItem(id, env) {
+async function getItem(request, id, env) {
+  const json = jsonWith(request);
   const row = await env.DB.prepare("SELECT * FROM items WHERE id=?").bind(id).first();
   if (!row || row.status === "hidden") return json({ error: "not found" }, 404);
   return json(publicItem(row));
 }
 
 async function patchItem(request, id, env) {
+  const json = jsonWith(request);
   if (!authed(request, env)) return json({ error: "unauthorized" }, 401);
   const body = await request.json();
   const allowed = ["status", "mei", "mei_yomi", "mei_reason", "description", "tier", "category",
@@ -143,12 +149,12 @@ async function patchItem(request, id, env) {
   return json({ ok: true });
 }
 
-async function photo(key, env) {
+async function photo(request, key, env) {
   const obj = await env.PHOTOS.get(key);
   if (!obj) return new Response("not found", { status: 404 });
   return new Response(obj.body, { headers: {
     "content-type": obj.httpMetadata?.contentType || "image/jpeg",
-    "cache-control": "public, max-age=31536000, immutable", ...cors(CUR) } });
+    "cache-control": "public, max-age=31536000, immutable", ...cors(request) } });
 }
 
 function toBase64(buf) {
@@ -159,24 +165,31 @@ function toBase64(buf) {
 
 export default {
   async fetch(request, env) {
-    CUR = request;
+    const json = jsonWith(request);
     const { pathname } = new URL(request.url);
     const m = request.method;
     if (m === "OPTIONS") return new Response(null, { status: 204, headers: cors(request) });
     if (pathname === "/api/health" && m === "GET") {
+      // このエンドポイントは誰でも叩けるので、鍵の中身は一切返さない。
+      // 書式チェック（長さ・空白・引用符の混入）は合言葉を持つ人にだけ返す。
       const k = env.ANTHROPIC_API_KEY || "";
       return json({
-        anthropic_key: k ? `${k.slice(0, 16)}…${k.slice(-4)} (${k.length}文字${/\s/.test(k) ? "・空白あり!" : ""}${/["']/.test(k) ? "・引用符あり!" : ""})` : "未設定",
+        anthropic_key: k ? "設定済み" : "未設定",
         upload_token: env.UPLOAD_TOKEN ? "設定済み" : "未設定",
         db: !!env.DB, photos: !!env.PHOTOS,
+        ...(authed(request, env) ? {
+          key_length: k.length,
+          key_has_space: /\s/.test(k),
+          key_has_quote: /["']/.test(k),
+        } : {}),
       });
     }
     if (pathname === "/api/upload" && m === "POST") return upload(request, env);
     if (pathname === "/api/items" && m === "GET") return listItems(request, env);
     const item = pathname.match(/^\/api\/items\/([\w-]+)$/);
-    if (item && m === "GET") return getItem(item[1], env);
+    if (item && m === "GET") return getItem(request, item[1], env);
     if (item && m === "PATCH") return patchItem(request, item[1], env);
-    if (pathname.startsWith("/photos/") && m === "GET") return photo(decodeURIComponent(pathname.slice(8)), env);
+    if (pathname.startsWith("/photos/") && m === "GET") return photo(request, decodeURIComponent(pathname.slice(8)), env);
     return env.ASSETS.fetch(request); // docs/ の静的ファイル
   },
 };

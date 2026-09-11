@@ -7,6 +7,7 @@ this module makes them a multilingual set.
 """
 import os, re, hashlib
 from gen import ROOT
+from icons import icon as ico
 
 SITE_URL = "https://gallery.yusando.com"
 
@@ -32,43 +33,88 @@ CORE = ["index.html", "tools.html", "setup.html", "guide.html",
 
 
 # --------------------------------------------------------------- switcher --
+# Latin sub-labels, so a reader who cannot read the endonym still finds their
+# language. Kept short: they sit under the name, not beside it.
+SUBLABEL = {
+    "":    "JAPANESE",
+    "en/": "ENGLISH",
+    "fr/": "FRENCH",
+    "zh/": "CHINESE \u00b7 TRAD.",
+}
+
+
 def switcher(prefix, page, depth):
-    """The 4-language dropdown that replaces the old EN/日本語 pill."""
-    # `depth` is the page path's own slash count, which already includes the
-    # language directory, so it alone walks back to the site root.
+    """A <details> disclosure, so open/close and the keyboard come free from
+    the browser; lang.js only adds Escape and click-outside."""
     root = "../" * depth
-    opts = []
+    rows = ""
     for pfx, (code, _loc, endonym, _short) in LANGS.items():
-        # FR/ZH only exist for the core pages; elsewhere offer JA/EN only.
         if pfx in ("fr/", "zh/") and page not in CORE:
             continue
-        href = f"{root}{pfx}{page}"
-        sel = " selected" if pfx == prefix else ""
-        opts.append(f'<option value="{href}"{sel}>{endonym}</option>')
-    cur = LANGS[prefix][3]
-    # <select> first so `select:focus-visible + .lang-sw-cur` can style the pill;
-    # being absolutely positioned it still paints above the static span.
+        sub = f'<span class="l-sub">{SUBLABEL[pfx]}</span>'
+        name = f'<span class="l-name">{endonym}</span>'
+        if pfx == prefix:
+            rows += f'<span class="l-row is-current" aria-current="page">{name}{sub}</span>'
+        else:
+            rows += (f'<a class="l-row" href="{root}{pfx}{page}" lang="{code}" '
+                     f'hreflang="{code}">{name}{sub}</a>')
+    cur = LANGS[prefix][2]
     return (
-        '<div class="lang-sw">'
-        f'<select aria-label="Language / 言語" '
-        'onchange="if(this.value)location.href=this.value">'
-        + "".join(opts) +
-        '</select>'
-        f'<span class="lang-sw-cur" aria-hidden="true">{cur}</span>'
-        '</div>')
+        '<details class="lang-sw">'
+        f'<summary aria-label="Language / 言語">'
+        f'<span class="l-globe">{ico("globe")}</span>'
+        f'<span class="l-cur">{cur}</span></summary>'
+        f'<div class="lang-menu">{rows}</div>'
+        '</details>')
 
 
 def inject_switcher(path, prefix, page):
     full = os.path.join(ROOT, path)
     html = open(full, encoding="utf-8").read()
     sw = switcher(prefix, page, path.count("/"))
+    # replace whatever a previous build left: the <details>, the old <select>
+    # wrapper, or the original JA/EN pill
+    html = re.sub(r'<details class="lang-sw">.*?</details>', sw, html,
+                  count=1, flags=re.S)
     if 'class="lang-sw"' in html:
-        html = re.sub(r'<div class="lang-sw">.*?</div>', sw, html,
+        html = re.sub(r'<div class="lang-sw">.*?</div>\s*</div>', sw, html,
                       count=1, flags=re.S)
-    # the old JA/EN pill, if a previous build left one behind
-    html = re.sub(r'<a class="lang-sw".*?</a>', sw, html, count=1, flags=re.S)
+        html = re.sub(r'<a class="lang-sw".*?</a>', sw, html, count=1, flags=re.S)
     if 'class="lang-sw"' not in html:
         html = html.replace('</nav>', sw + '</nav>', 1)
+    open(full, "w", encoding="utf-8").write(html)
+
+
+LANG_JS = """// 言語切替 — <details> が開閉そのものを持つので、足すのは離脱時の始末だけ。
+(function () {
+  var d = document.querySelector('details.lang-sw');
+  if (!d) return;
+  document.addEventListener('click', function (e) {
+    if (d.open && !d.contains(e.target)) d.open = false;
+  });
+  d.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !d.open) return;
+    d.open = false;
+    var s = d.querySelector('summary');
+    if (s) s.focus();
+  });
+})();
+"""
+
+
+def write_lang_js():
+    js = os.path.join(ROOT, "js", "lang.js")
+    os.makedirs(os.path.dirname(js), exist_ok=True)
+    open(js, "w", encoding="utf-8").write(LANG_JS)
+
+
+def inject_lang_js(path):
+    full = os.path.join(ROOT, path)
+    html = open(full, encoding="utf-8").read()
+    if 'js/lang.js' in html:
+        return
+    up = "../" * path.count("/")
+    html = html.replace('</body>', f'<script src="{up}js/lang.js"></script>\n</body>', 1)
     open(full, "w", encoding="utf-8").write(html)
 
 
@@ -180,10 +226,13 @@ def smarten(html, prefix=""):
 # ---------------------------------------------------------------- runner --
 def finish(pages_by_lang):
     """pages_by_lang: {prefix: [page, ...]} — run last, after every generator."""
-    js_v = hashlib.md5(
-        open(os.path.join(ROOT, "js", "site.js"), encoding="utf-8").read()
-        .encode()).hexdigest()[:8]
+    ver = {}
+    for name in ("site", "lang"):
+        ver[name] = hashlib.md5(
+            open(os.path.join(ROOT, "js", f"{name}.js"), encoding="utf-8")
+            .read().encode()).hexdigest()[:8]
 
+    write_lang_js()
     seen = []
     for prefix, pages in pages_by_lang.items():
         for page in pages:
@@ -193,9 +242,11 @@ def finish(pages_by_lang):
                 print("  ! missing", path)
                 continue
             inject_switcher(path, prefix, page)
+            inject_lang_js(path)
             src = open(full, encoding="utf-8").read()
-            src = re.sub(r'js/site\.js(\?v=[0-9a-f]+)?',
-                         f'js/site.js?v={js_v}', src)
+            for name, v in ver.items():
+                src = re.sub(rf'js/{name}\.js(\?v=[0-9a-f]+)?',
+                             f'js/{name}.js?v={v}', src)
             open(full, "w", encoding="utf-8").write(smarten(src, prefix))
             inject_head(path, prefix, page)
             seen.append((prefix, page))
