@@ -64,6 +64,12 @@ a.card:hover .frame{border-color:var(--gold)}
 
 .body{flex:1;display:flex;flex-direction:column;padding:14px 2px 0}
 .mei{font-size:17px;letter-spacing:.13em;font-weight:500;line-height:1.5}
+.sku{display:block;font-family:var(--sans);font-size:9.5px;letter-spacing:.18em;
+  color:var(--rikyu);margin-bottom:4px}
+.find{display:block;width:100%;max-width:320px;margin:0 auto 26px;font-family:var(--sans);
+  font-size:14px;padding:11px 14px;border:1px solid var(--line);border-radius:3px;
+  background:var(--paper);color:var(--ink);text-align:center;letter-spacing:.08em}
+.find:focus{outline:0;border-color:var(--matcha)}
 .romaji{font-family:var(--sans);font-size:10px;letter-spacing:.16em;color:var(--gold);margin-top:4px}
 .cat{font-family:var(--sans);font-size:10.5px;letter-spacing:.06em;color:var(--rikyu);margin-top:9px}
 .sekki{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 12px}
@@ -99,6 +105,8 @@ a.card:hover .frame{border-color:var(--gold)}
        <span class="en">Each piece is one of a kind, held at Yusando in Tsuge, Nara.</span></p>
   </div>
   <div class="tabs" id="tabs"></div>
+  <input class="find" id="find" type="search" autocomplete="off"
+         placeholder="品番・銘で探す　Search">
   <div id="list"><p class="msg">読み込んでいます…<br>Loading…</p></div>
 </div>
 
@@ -144,6 +152,7 @@ function cards(list) {
       + (sold ? '<span class="badge">お渡し済み<i>NO LONGER AVAILABLE</i></span>' : "")
       + "</span>"
       + '<span class="body">'
+      + (i.sku ? '<span class="sku">' + esc(i.sku) + "</span>" : "")
       + '<span class="mei">' + esc(i.mei || "無銘") + "</span>"
       + (i.mei_romaji ? '<span class="romaji">' + esc(i.mei_romaji) + "</span>" : "")
       + '<span class="cat">' + esc(i.category || "")
@@ -156,14 +165,27 @@ function cards(list) {
 }
 
 function draw() {
-  const list = filter ? items.filter((i) => i.category === filter) : items;
-  document.getElementById("list").innerHTML = cards(list)
+  const q = (document.getElementById("find").value || "").trim().toLowerCase();
+  // 品番は Y-0042 でも 42 でも当たるようにする。箱の札を見ながら打つので。
+  const qn = q.replace(/^y-?0*/, "");
+  let list = filter ? items.filter((i) => i.category === filter) : items;
+  if (q) list = list.filter((i) => {
+    const sku = (i.sku || "").toLowerCase();
+    return sku.includes(q) || (qn && sku.replace(/^y-?0*/, "") === qn)
+      || (i.mei || "").toLowerCase().includes(q)
+      || (i.mei_romaji || "").toLowerCase().includes(q)
+      || (i.mei_yomi || "").includes(q);
+  });
+  document.getElementById("list").innerHTML = (list.length ? cards(list)
+      : '<p class="msg">該当する茶道具はありません。<br>No pieces match that search.</p>')
     + '<p class="note">価格・状態はお問い合わせください。オンラインでの販売は行っておりません。<br>'
     + "Please enquire about any piece. Online ordering is not available.<br>"
     + '<a class="note-link" href="' + INQUIRY + '">お問い合わせフォーム / Enquiry form</a></p>';
   document.querySelectorAll(".tab").forEach((t) =>
     t.classList.toggle("on", (t.dataset.cat || "") === filter));
 }
+
+document.getElementById("find").addEventListener("input", draw);
 
 function tabs() {
   const seen = [];

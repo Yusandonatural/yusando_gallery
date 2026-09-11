@@ -64,6 +64,31 @@ ${forcedCategory ? `この茶器の種別は「${forcedCategory}」です。cate
 3 = 作行き・釉調が良い、作家物と思われる、見どころが明確
 4 = 共箱や箱書きあり、作家サインが確認できる、特に上質
 `;
+// ------------------------------------------------------------------ 品番 --
+// 実物の箱に書いて突き合わせるための番号。URL用の id とは別に持たせる。
+// 種別を含めないのは、写真を預かる時点ではまだ種別が分かっていないため。
+// 一度振った番号は、あとで種別や銘を直しても変えない（札と結びつくので）。
+const skuOf = (n) => "Y-" + String(n).padStart(4, "0");
+
+// sku_seq には一意索引が張ってある。同時に登録が走って番号がぶつかった場合は
+// INSERT が落ちるので、採番し直して数回やり直す。黙って重複することはない。
+async function insertWithSku(cols, vals, env, attempt = 1) {
+  const { n } = await env.DB.prepare(
+    "SELECT COALESCE(MAX(sku_seq),0)+1 AS n FROM items").first();
+  const c = [...cols, "sku_seq", "sku"], v = [...vals, n, skuOf(n)];
+  try {
+    await env.DB.prepare(`INSERT INTO items (${c.join(",")}) VALUES (${c.map(() => "?").join(",")})`)
+      .bind(...v).run();
+    return skuOf(n);
+  } catch (e) {
+    if (attempt < 5 && /UNIQUE|constraint/i.test(String(e))) {
+      await new Promise((r) => setTimeout(r, 40 * attempt));
+      return insertWithSku(cols, vals, env, attempt + 1);
+    }
+    throw e;
+  }
+}
+
 // ---------------------------------------------------------------- 解析 --
 // 写真から所見を得るところだけを切り出してある。1点ずつ登録する従来の導線と、
 // 下書きを後からまとめて解析する一括登録の導線が、同じ処理を共有するため。
@@ -153,9 +178,8 @@ async function upload(request, env) {
   const f = analysisFields(ai, text, forcedTier, forcedCategory, env);
   const cols = ["id", "created_at", "status", "photos", ...Object.keys(f)];
   const vals = [id, new Date().toISOString(), "published", JSON.stringify(keys), ...Object.keys(f).map((k) => f[k])];
-  await env.DB.prepare(`INSERT INTO items (${cols.join(",")}) VALUES (${cols.map(() => "?").join(",")})`)
-    .bind(...vals).run();
-  return json({ id, mei: ai.mei, price: f.price, tier: f.tier, url: `/item.html?id=${id}` });
+  const sku = await insertWithSku(cols, vals, env);
+  return json({ id, sku, mei: ai.mei, price: f.price, tier: f.tier, url: `/item.html?id=${id}` });
 }
 
 // 写真を R2 に置き、同時に解析用の base64 も作る。
@@ -189,8 +213,8 @@ async function createDraft(request, env) {
   // 同じ写真を二度上げてしまったときに、黙って二重登録にならないようにする。
   const coverHash = (form.get("cover_hash") || "").trim() || null;
   if (coverHash) {
-    const dup = await env.DB.prepare("SELECT id, mei, status FROM items WHERE cover_hash=?").bind(coverHash).first();
-    if (dup) return json({ duplicate_of: dup.id, mei: dup.mei, status: dup.status }, 200);
+    const dup = await env.DB.prepare("SELECT id, sku, mei, status FROM items WHERE cover_hash=?").bind(coverHash).first();
+    if (dup) return json({ duplicate_of: dup.id, sku: dup.sku, mei: dup.mei, status: dup.status }, 200);
   }
 
   const rawCat = (form.get("category") || "").trim();
@@ -203,13 +227,14 @@ async function createDraft(request, env) {
 
   const id = crypto.randomUUID().slice(0, 8);
   const { keys } = await storePhotos(id, files, env);
-  await env.DB.prepare(`INSERT INTO items
-    (id, created_at, status, photos, tier, price, forced_tier, category, batch_id, cover_hash, analysis_status)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?)`)
-    .bind(id, new Date().toISOString(), "draft", JSON.stringify(keys),
-      forcedTier || 2, tiers(env)[(forcedTier || 2) - 1], forcedTier,
-      category, (form.get("batch") || "").trim() || null, coverHash, "pending").run();
-  return json({ id, photos: keys.length });
+  const sku = await insertWithSku(
+    ["id", "created_at", "status", "photos", "tier", "price", "forced_tier",
+     "category", "batch_id", "cover_hash", "analysis_status"],
+    [id, new Date().toISOString(), "draft", JSON.stringify(keys),
+     forcedTier || 2, tiers(env)[(forcedTier || 2) - 1], forcedTier,
+     category, (form.get("batch") || "").trim() || null, coverHash, "pending"],
+    env);
+  return json({ id, sku, photos: keys.length });
 }
 
 async function analyzeItem(request, id, env) {
@@ -226,7 +251,7 @@ async function analyzeItem(request, id, env) {
     const { ai, text } = await analyse(images, images.length, row.category || "", env);
     const f = analysisFields(ai, text, row.forced_tier, row.category || "", env);
     await updateRow(id, f, env);
-    return json({ id, mei: f.mei, category: f.category, tier: f.tier,
+    return json({ id, sku: row.sku, mei: f.mei, category: f.category, tier: f.tier,
       same_object: !!f.same_object, group_warning: f.group_warning });
   } catch (e) {
     await updateRow(id, { analysis_status: "failed", analysis_error: String(e.message || e).slice(0, 300) }, env);
@@ -290,7 +315,10 @@ async function listItems(request, env) {
 
 async function getItem(request, id, env) {
   const json = jsonWith(request);
-  const row = await env.DB.prepare("SELECT * FROM items WHERE id=?").bind(id).first();
+  // id でも品番でも引ける。現物の箱に書いてあるのは品番のほうなので。
+  const row = await env.DB.prepare(
+    "SELECT * FROM items WHERE id=? OR sku=? OR sku=?")
+    .bind(id, id.toUpperCase(), "Y-" + id.replace(/^[Yy]-?/, "").padStart(4, "0")).first();
   if (!row || row.status === "hidden") return json({ error: "not found" }, 404);
   return json(publicItem(row));
 }

@@ -293,11 +293,11 @@ async function run() {
       const j = await res.json();
       if (!res.ok) throw new Error(j.error || "エラー " + res.status);
       if (j.duplicate_of) {
-        logLine("=", `${gi + 1} 点目：同じ写真が既に登録されています（${j.duplicate_of}）。とばしました`, "warn");
+        logLine("=", `${gi + 1} 点目：同じ写真が既に登録されています（${j.sku || j.duplicate_of}）。とばしました`, "warn");
         total -= 2;      // この点は解析もしない
       } else {
         created.push(j.id);
-        logLine("·", `${gi + 1} 点目：写真 ${files.length} 枚を保存しました`);
+        logLine("·", `${gi + 1} 点目：${j.sku} として写真 ${files.length} 枚を保存しました`);
         done++;
       }
       tick("写真を保存しています…");
@@ -346,10 +346,10 @@ async function analyseOne(id, token, attempt = 1) {
       throw new Error(j.error || "エラー " + res.status);
     }
     if (j.same_object === false) {
-      logLine("!", `${j.mei || id}：${j.group_warning || "写真が同一の器に見えません"}`, "warn");
+      logLine("!", `${j.sku ? j.sku + "　" : ""}${j.mei || id}：${j.group_warning || "写真が同一の器に見えません"}`, "warn");
       return { ok: true, warn: true };
     }
-    logLine("○", `${j.mei || id}（${j.category || "種別不明"}・等級${j.tier}）`);
+    logLine("○", `${j.sku ? j.sku + "　" : ""}${j.mei || id}（${j.category || "種別不明"}・等級${j.tier}）`);
     return { ok: true, warn: false };
   } catch (e) {
     logLine("×", `${id}：読み取れませんでした — ${e.message}`, "ng");

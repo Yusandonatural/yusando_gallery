@@ -13,3 +13,9 @@ ALTER TABLE items ADD COLUMN forced_tier INTEGER;                      -- 人が
 CREATE INDEX IF NOT EXISTS idx_items_batch ON items(batch_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_items_analysis ON items(analysis_status);
 CREATE INDEX IF NOT EXISTS idx_items_cover_hash ON items(cover_hash);
+
+-- 品番。実物の箱に書いて突き合わせる番号。id とは別に持つ。
+ALTER TABLE items ADD COLUMN sku TEXT;          -- Y-0042
+ALTER TABLE items ADD COLUMN sku_seq INTEGER;   -- 42（採番と並び順に使う）
+CREATE UNIQUE INDEX IF NOT EXISTS idx_items_sku ON items(sku);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_items_sku_seq ON items(sku_seq);

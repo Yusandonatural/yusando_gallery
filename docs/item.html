@@ -40,6 +40,8 @@ header{border-bottom:1px solid var(--line);background:rgba(247,243,234,.94);
 
 /* 銘は訳さず、漢字の下にローマ字を添える */
 .mei{font-size:clamp(27px,4.6vw,36px);letter-spacing:.14em;font-weight:500;line-height:1.4}
+.sku{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--rikyu);
+  border:1px solid var(--line);border-radius:2px;padding:3px 9px;display:inline-block;margin-bottom:10px}
 .mei-en{font-family:var(--sans);font-size:clamp(13px,2vw,15px);letter-spacing:.16em;
   font-weight:400;color:var(--matcha);margin-top:8px;line-height:1.5}
 .yomi{font-family:var(--sans);font-size:10.5px;letter-spacing:.2em;color:var(--gold);margin-top:8px}
@@ -167,13 +169,14 @@ function render() {
   const action = sold
     ? '<p class="status gone">お渡し済みです<i>No longer available</i></p>'
     : '<p class="status">お問い合わせください<i>Please enquire</i></p>'
-      + '<a class="btn" href="' + INQUIRY + "?item=" + encodeURIComponent(i.id)
+      + '<a class="btn" href="' + INQUIRY + "?item=" + encodeURIComponent(i.sku || i.id)
       + "&mei=" + encodeURIComponent(i.mei || "")
       + '">この茶器について問い合わせる<i>Enquire about this piece</i></a>'
       + '<p class="note">オンラインでの販売は行っておりません。'
       + '<span class="en">Online ordering is not available.</span></p>';
 
   d.innerHTML = '<div class="grid"><div>' + stage + "</div><div>"
+    + (i.sku ? '<p class="sku">' + esc(i.sku) + "</p>" : "")
     + '<h2 class="mei">' + esc(i.mei || "無銘") + "</h2>"
     + (i.mei_romaji ? '<p class="mei-en">' + esc(i.mei_romaji) + "</p>" : "")
     + (i.mei_yomi ? '<p class="yomi">' + esc(i.mei_yomi) + "</p>" : "")

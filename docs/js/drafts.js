@@ -73,6 +73,7 @@ function card(i) {
     </div>
     <div class="body">
       <div class="top">
+        ${i.sku ? `<span class="sku">${esc(i.sku)}</span>` : ""}
         <span class="mei">${esc(i.mei || "（未読み取り）")}</span>
         ${i.mei_romaji ? `<span class="romaji">${esc(i.mei_romaji)}</span>` : ""}
         <span class="id">${esc(i.id)}　${esc(i.status)}</span>
