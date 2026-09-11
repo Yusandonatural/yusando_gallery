@@ -1,0 +1,198 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>茶器をまとめて登録 — 悠三堂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f7f3ea;--paper-deep:#efe8d8;--ink:#2b2a26;--ink-soft:#5a564c;
+  --matcha:#4a5d3a;--matcha-deep:#37452b;--rikyu:#8a8c78;--shu:#a53f2b;
+  --gold:#b0965a;--line:#d8cfba;
+  --serif:"Shippori Mincho",serif;--sans:"Zen Kaku Gothic New",sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);
+  line-height:1.9;letter-spacing:.04em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px 90px}
+header{border-bottom:1px solid var(--line);background:rgba(247,243,234,.94);
+  position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
+.hd{max-width:880px;margin:0 auto;padding:0 20px;height:58px;
+  display:flex;align-items:center;gap:16px}
+.hd b{font-size:15px;letter-spacing:.12em;font-weight:600}
+.hd nav{margin-left:auto;display:flex;gap:16px}
+.hd nav a{font-family:var(--sans);font-size:11.5px;letter-spacing:.12em;color:var(--ink-soft)}
+.hd nav a:hover{color:var(--matcha)}
+
+h1{font-size:24px;letter-spacing:.14em;font-weight:500;margin-top:36px}
+.lede{font-family:var(--sans);font-size:13px;line-height:1.95;color:var(--ink-soft);margin-top:12px}
+.label{font-family:var(--sans);font-size:12px;letter-spacing:.16em;color:var(--matcha);
+  display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.label .count{margin-left:auto;font-size:11px;color:var(--rikyu);letter-spacing:.08em}
+.hint{font-family:var(--sans);font-size:11.5px;color:var(--rikyu);margin-top:9px;line-height:1.8}
+
+/* --- 手順 --- */
+.steps{display:flex;gap:0;margin-top:30px;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.steps div{flex:1;text-align:center;padding:10px 6px;font-family:var(--sans);
+  font-size:11px;letter-spacing:.1em;color:var(--rikyu);background:var(--paper-deep)}
+.steps div+div{border-left:1px solid var(--line)}
+.steps div.on{background:var(--matcha);color:var(--paper)}
+.steps div.done{color:var(--matcha)}
+section{margin-top:34px}
+
+/* --- 選択 --- */
+.drop{border:1px dashed var(--gold);border-radius:6px;background:var(--paper-deep);
+  padding:34px 18px;text-align:center;transition:.25s;cursor:pointer}
+.drop.over{background:#e9e0cb;border-color:var(--matcha)}
+.drop p{font-family:var(--sans);font-size:13.5px;color:var(--ink-soft)}
+.drop small{display:block;font-family:var(--sans);font-size:11px;color:var(--rikyu);margin-top:8px}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* --- 区切りの調整 --- */
+.tune{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:4px;background:var(--paper-deep);padding:14px 16px}
+.tune label{font-family:var(--sans);font-size:12px;color:var(--ink-soft)}
+.tune input[type=range]{flex:1;min-width:150px;accent-color:var(--matcha)}
+.tune b{font-family:var(--sans);font-size:12.5px;color:var(--matcha);min-width:4.5em}
+.tune .sep{width:100%;height:1px;background:var(--line)}
+
+/* --- 組 --- */
+.group{border:1px solid var(--line);border-radius:5px;background:var(--paper-deep);
+  margin-top:14px;overflow:hidden}
+.g-head{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  border-bottom:1px solid var(--line);background:rgba(247,243,234,.6);flex-wrap:wrap}
+.g-head b{font-size:14px;letter-spacing:.1em;font-weight:500}
+.g-head .n{font-family:var(--sans);font-size:11px;color:var(--rikyu)}
+.g-head .sp{margin-left:auto;display:flex;gap:8px}
+.mini{font-family:var(--sans);font-size:10.5px;letter-spacing:.08em;padding:5px 11px;
+  border:1px solid var(--line);border-radius:3px;background:var(--paper);
+  color:var(--ink-soft);cursor:pointer;transition:.2s}
+.mini:hover{border-color:var(--matcha);color:var(--matcha)}
+.mini:disabled{opacity:.35;cursor:default}
+.mini.warn:hover{border-color:var(--shu);color:var(--shu)}
+.g-body{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px;padding:14px}
+.ph{position:relative;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#fff}
+.ph img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--paper-deep)}
+.ph .no{position:absolute;top:6px;left:6px;font-family:var(--sans);font-size:9.5px;
+  background:rgba(247,243,234,.94);border:1px solid var(--line);border-radius:999px;
+  padding:1px 8px;color:var(--ink-soft)}
+.ph.cover .no{background:var(--matcha);color:var(--paper);border-color:var(--matcha)}
+.ph .bar{display:flex;border-top:1px solid var(--line)}
+.ph .bar button{flex:1;border:0;background:none;padding:7px 0;cursor:pointer;
+  font-size:12px;color:var(--matcha);font-family:var(--sans)}
+.ph .bar button+button{border-left:1px solid var(--line)}
+.ph .bar button:disabled{color:#c9c3b2;cursor:default}
+.g-opts{display:flex;gap:10px;padding:0 14px 14px;flex-wrap:wrap}
+.g-opts select{font-family:var(--sans);font-size:12.5px;padding:8px 10px;
+  border:1px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink);flex:1;min-width:140px}
+
+/* --- 進行 --- */
+.prog{border:1px solid var(--line);border-radius:5px;background:var(--paper-deep);padding:18px}
+.bar-out{height:6px;background:var(--paper);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.bar-in{height:100%;background:var(--matcha);width:0;transition:width .35s}
+.prog .nums{display:flex;justify-content:space-between;font-family:var(--sans);
+  font-size:12px;color:var(--ink-soft);margin-bottom:9px}
+.log{margin-top:14px;max-height:260px;overflow:auto;font-family:var(--sans);font-size:11.5px;line-height:1.85}
+.log div{padding:4px 0;border-bottom:1px solid var(--line);color:var(--ink-soft);
+  display:flex;gap:9px;align-items:baseline}
+.log div:last-child{border-bottom:0}
+.log .st{flex:0 0 auto;width:1.4em;text-align:center}
+.log .ng{color:var(--shu)}
+.log .warn{color:var(--gold)}
+
+select,input[type=password]{width:100%;font-family:var(--sans);font-size:15px;
+  padding:13px 14px;border:1px solid var(--line);border-radius:4px;
+  background:var(--paper);color:var(--ink)}
+select:focus,input:focus{outline:0;border-color:var(--matcha)}
+.btn{display:inline-block;font-family:var(--sans);font-size:13px;letter-spacing:.18em;
+  padding:13px 32px;border:1px solid var(--matcha);color:var(--matcha);
+  background:transparent;cursor:pointer;transition:.3s;border-radius:2px}
+.btn:hover{background:var(--matcha);color:var(--paper)}
+.btn.solid{background:var(--matcha);color:var(--paper);width:100%;padding:17px;font-size:14px}
+.btn.solid:hover{background:var(--matcha-deep)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.solid:disabled:hover{background:var(--matcha)}
+.msg{margin-top:18px;font-family:var(--sans);font-size:13px;line-height:1.9;
+  padding:14px 16px;border-radius:4px;border:1px solid var(--line);background:var(--paper-deep)}
+.msg.err{border-color:rgba(165,63,43,.4);color:var(--shu)}
+.msg.ok{border-color:rgba(74,93,58,.4)}
+.msg a{color:var(--matcha);border-bottom:1px solid rgba(74,93,58,.35)}
+.resume{border:1px solid var(--gold);background:#f3ecd9}
+[hidden]{display:none!important}
+</style></head><body>
+
+<header><div class="hd">
+  <b>悠三堂　まとめて登録</b>
+  <nav>
+    <a href="/upload.html">1点ずつ</a>
+    <a href="/drafts.html">下書き</a>
+    <a href="/stock.html">在庫一覧</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+  <h1>茶器をまとめて登録する</h1>
+  <p class="lede">何点ぶんの写真でも、一度に選んでください。撮影した時刻の間隔を見て、
+    自動的に1点ずつの組に分けます。分け方は下の画面で直せます。<br>
+    登録はいったん<strong>下書き</strong>として入ります。内容を確かめてから、まとめて公開してください。</p>
+
+  <div class="steps">
+    <div id="s1" class="on">1　写真を選ぶ</div>
+    <div id="s2">2　組を確かめる</div>
+    <div id="s3">3　登録する</div>
+  </div>
+
+  <div class="msg resume" id="resume" hidden></div>
+
+  <!-- ---------------- 1 ---------------- -->
+  <section id="step1">
+    <div class="label">写真 <span class="count" id="count">0 枚</span></div>
+    <div class="drop" id="drop">
+      <p>ここをタップして写真をまとめて選ぶ</p>
+      <small>1点につき4枚（正面・高台・見込み・共箱）が目安です。<br>
+        器を入れ替えるときの間が、そのまま組の区切りになります。</small>
+    </div>
+    <input type="file" id="files" accept="image/*" multiple>
+    <p class="hint">写真は送る前にこの端末で縮小します。原寸のままアップロードはしません。</p>
+  </section>
+
+  <!-- ---------------- 2 ---------------- -->
+  <section id="step2" hidden>
+    <div class="label">組の確認 <span class="count" id="gcount"></span></div>
+    <div class="tune">
+      <label for="gap">区切りとみなす間隔</label>
+      <input type="range" id="gap" min="5" max="180" step="5" value="30">
+      <b id="gapv">30 秒</b>
+      <div class="sep"></div>
+      <label for="px">写真の大きさ</label>
+      <select id="px" style="width:auto;flex:0 0 auto;padding:7px 10px;font-size:12.5px">
+        <option value="1600">長辺 1600px（既定）</option>
+        <option value="1024">長辺 1024px（費用を約3割節約）</option>
+      </select>
+    </div>
+    <p class="hint" id="exifnote"></p>
+    <div id="groups"></div>
+    <div style="margin-top:26px">
+      <div class="label">合言葉</div>
+      <input type="password" id="token" autocomplete="current-password" placeholder="登録用の合言葉">
+      <p class="hint" id="estimate"></p>
+      <button class="btn solid" id="go" style="margin-top:18px">この内容で登録する</button>
+    </div>
+  </section>
+
+  <!-- ---------------- 3 ---------------- -->
+  <section id="step3" hidden>
+    <div class="label">登録の進行 <span class="count" id="pcount"></span></div>
+    <div class="prog">
+      <div class="nums"><span id="pnow">準備しています…</span><span id="ppct">0%</span></div>
+      <div class="bar-out"><div class="bar-in" id="pbar"></div></div>
+      <div class="log" id="log"></div>
+    </div>
+    <div id="after" hidden></div>
+  </section>
+</div>
+
+<script src="/js/bulk.js"></script>
+</body></html>
