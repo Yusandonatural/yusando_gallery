@@ -671,6 +671,7 @@ index_body = f'''
   </div>
   <div style="text-align:center;margin-top:44px">
     <a class="btn" href="tools.html">すべての道具を見る — VIEW ALL</a>
+    <a class="btn" href="tools.html#sencha" style="margin-left:10px">煎茶の道具 — SENCHA</a>
   </div>
 </section>
 
@@ -741,6 +742,7 @@ index_body = f'''
 '''
 
 # ---- tools list ----
+import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 tools_body = f'''
 <section class="section">
   <div class="section-head reveal">
@@ -749,6 +751,8 @@ tools_body = f'''
     <div class="rule"></div>
     <p class="section-lede">茶の湯で用いられる主な道具の一覧です。詳細ページのある道具は、歴史・部位・使い方・中古選びのポイントまで掘り下げています。</p>
   </div>
+  {_sencha.switch('ja')}
+  <div data-tea="matcha">
 
 
   <div class="section-head reveal" style="margin-top:8px">
@@ -768,6 +772,8 @@ tools_body = f'''
   <div class="tools-grid">
     {"".join(minor_card(m) for m in MINOR)}
   </div>
+  </div>
+  {_sencha.block('ja')}
 </section>
 '''
 
@@ -1371,6 +1377,47 @@ window.CHADOGU_EC = {
   });
 })();
 
+
+// ---- 抹茶／煎茶の切り替え（道具一覧） --------------------------------------
+// 状態は <html data-tea>。URL の #sencha / #matcha が最優先、次に前回の選択、
+// どちらも無ければ抹茶。#sencha という id は置かない（置くとそこへ跳ぶ）。
+(function () {
+  var sw = document.querySelector('.tea-sw');
+  if (!sw) return;
+  var html = document.documentElement, KEY = 'yusando_tea';
+  function fromHash() {
+    var h = (location.hash || '').replace('#', '');
+    return h === 'sencha' || h === 'matcha' ? h : '';
+  }
+  function saved() { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } }
+  function apply(pick, writeHash) {
+    html.setAttribute('data-tea', pick);
+    sw.querySelectorAll('[data-tea-pick]').forEach(function (a) {
+      if (a.getAttribute('data-tea-pick') === pick) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+    try { localStorage.setItem(KEY, pick); } catch (e) { /* ignore */ }
+    if (writeHash && history.replaceState) history.replaceState(null, '', '#' + pick);
+    // 言語を変えても同じ側を見せる
+    document.querySelectorAll('.lang-sw a.l-row').forEach(function (a) {
+      a.href = a.href.replace(/#.*$/, '') + '#' + pick;
+    });
+    // 隠れていた札の reveal を起こす
+    document.querySelectorAll('[data-tea="' + pick + '"] .reveal').forEach(function (el) {
+      el.classList.add('on');
+    });
+  }
+  apply(fromHash() || saved() || 'matcha', false);
+  sw.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-tea-pick]');
+    if (!a) return;
+    e.preventDefault();
+    apply(a.getAttribute('data-tea-pick'), true);
+  });
+  window.addEventListener('hashchange', function () {
+    var h = fromHash(); if (h) apply(h, false);
+  });
+})();
 ''')
 
 import shutil

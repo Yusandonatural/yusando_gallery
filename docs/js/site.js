@@ -270,3 +270,44 @@ window.CHADOGU_EC = {
   });
 })();
 
+
+// ---- 抹茶／煎茶の切り替え（道具一覧） --------------------------------------
+// 状態は <html data-tea>。URL の #sencha / #matcha が最優先、次に前回の選択、
+// どちらも無ければ抹茶。#sencha という id は置かない（置くとそこへ跳ぶ）。
+(function () {
+  var sw = document.querySelector('.tea-sw');
+  if (!sw) return;
+  var html = document.documentElement, KEY = 'yusando_tea';
+  function fromHash() {
+    var h = (location.hash || '').replace('#', '');
+    return h === 'sencha' || h === 'matcha' ? h : '';
+  }
+  function saved() { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } }
+  function apply(pick, writeHash) {
+    html.setAttribute('data-tea', pick);
+    sw.querySelectorAll('[data-tea-pick]').forEach(function (a) {
+      if (a.getAttribute('data-tea-pick') === pick) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+    try { localStorage.setItem(KEY, pick); } catch (e) { /* ignore */ }
+    if (writeHash && history.replaceState) history.replaceState(null, '', '#' + pick);
+    // 言語を変えても同じ側を見せる
+    document.querySelectorAll('.lang-sw a.l-row').forEach(function (a) {
+      a.href = a.href.replace(/#.*$/, '') + '#' + pick;
+    });
+    // 隠れていた札の reveal を起こす
+    document.querySelectorAll('[data-tea="' + pick + '"] .reveal').forEach(function (el) {
+      el.classList.add('on');
+    });
+  }
+  apply(fromHash() || saved() || 'matcha', false);
+  sw.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-tea-pick]');
+    if (!a) return;
+    e.preventDefault();
+    apply(a.getAttribute('data-tea-pick'), true);
+  });
+  window.addEventListener('hashchange', function () {
+    var h = fromHash(); if (h) apply(h, false);
+  });
+})();

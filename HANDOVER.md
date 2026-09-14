@@ -85,8 +85,18 @@ python3 build.py
 ### 言語切替
 `<details class="lang-sw">`。開閉とキーボードはブラウザ任せ。`js/lang.js` は Escape と外側クリックで閉じるだけ。狭い画面ではハンバーガーの中で全幅の1行になる。
 
+### 抹茶／煎茶の切り替え（道具一覧）
+`tools.html` の見出し下に二択のスイッチ。ページは増やしていない（`CORE` はそのまま）。
+
+- 状態は `<html data-tea="matcha|sencha">`。出し分けは `style.css` の2行（`html[data-tea=matcha] [data-tea=sencha]{display:none}` とその逆）。属性が無ければ全部見える＝JSが無くても壊れない。
+- URL の `#sencha` / `#matcha` が最優先、次に `localStorage.yusando_tea`、無ければ抹茶。`#sencha` という **id は置かない**（置くとそこへ跳ぶ）。
+- 煎茶側のデータと組み立ては **`sencha.py`** の1か所（4言語の札・段階3枚・スイッチ文言）。各 `gen_*.py` の `tools_body` は `_sencha.switch(lang)` と `_sencha.block(lang)` を呼ぶだけ。日本語の本文原稿は `sencha_ja.py`（詳細ページを作る段階2の材料）。
+- 抹茶側の札は `<div data-tea="matcha">` で包んであるだけで、中身は変えていない。
+- 煎茶の詳細ページはまだ無い。札は `<div class="tool-card plain">` で「準備中」。作るときは `sencha_ja.py` の `TOOLS[].sections` を `detail()` の型に流し込み、`CORE` に `tools/kyusu.html` 等を足す。
+- 煎茶碗は「煎茶碗」の札だけ。抹茶側の「茶碗」は煎茶側には出さない（決定 2026-09-14）。
+
 ### アイコン
-`icons.py` に線だけを書く。太さ・色は CSS（`.ico`, `.ico--sm`, `.ico--hero`, `.ico--plate`）が決める。部位図の番号は `parts_icon(slug, dots)`。座標は `gen_en.py` の `TOOLS_EN[...]["parts_dots"]` が原本で、仏・中はそれを import している。
+`icons.py` に線だけを書く。煎茶側の17点（急須・宝瓶・湯冷まし・煎茶碗・茶托・茶心壺・茶合・涼炉・水注・巾筒・瓶敷・盆・提籃・茶櫃・炉屏・器局・香炉）もここ。太さ・色は CSS（`.ico`, `.ico--sm`, `.ico--hero`, `.ico--plate`）が決める。部位図の番号は `parts_icon(slug, dots)`。座標は `gen_en.py` の `TOOLS_EN[...]["parts_dots"]` が原本で、仏・中はそれを import している。
 
 ---
 

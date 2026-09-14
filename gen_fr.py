@@ -301,6 +301,7 @@ index_body = f'''
   </div>
   <div style="text-align:center;margin-top:44px">
     <a class="btn" href="tools.html">VOIR TOUS LES USTENSILES</a>
+    <a class="btn" href="tools.html#sencha" style="margin-left:10px">USTENSILES DU SENCHA</a>
   </div>
 </section>
 
@@ -338,6 +339,7 @@ w("fr/index.html", shell_fr(
 
 
 # ------------------------------------------------------------------ tools --
+import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 tools_body = f'''
 <section class="section">
   <div class="section-head reveal">
@@ -346,6 +348,8 @@ tools_body = f'''
     <div class="rule"></div>
     <p class="section-lede">Les principaux ustensiles du chanoyu. Ceux qui possèdent une fiche détaillée vont plus loin : histoire, parties, usage et points à vérifier en occasion.</p>
   </div>
+  {_sencha.switch('fr')}
+  <div data-tea="matcha">
 
   <div class="section-head reveal" style="margin-top:8px">
     <p class="section-kicker">CONSTITUER SON NÉCESSAIRE — TROIS NIVEAUX</p>
@@ -363,6 +367,8 @@ tools_body = f'''
   <div class="tools-grid">
     {"".join(minor_card_fr(m) for m in MINOR_FR)}
   </div>
+  </div>
+  {_sencha.block('fr')}
 </section>
 '''
 w("fr/tools.html", shell_fr(

@@ -248,6 +248,9 @@ def smarten(html, prefix=""):
 # ---------------------------------------------------------------- runner --
 def finish(pages_by_lang):
     """pages_by_lang: {prefix: [page, ...]} — run last, after every generator."""
+    # 先に書いてから番号を付ける。前は読んでから書いていたので、lang.js を
+    # 直しても版番号が古いままで、初回のクローンでは lang.js が無くて落ちた。
+    write_lang_js()
     ver = {}
     for name in ("site", "lang"):
         ver[name] = hashlib.md5(
@@ -259,7 +262,6 @@ def finish(pages_by_lang):
         open(os.path.join(ROOT, "css", "style.css"), encoding="utf-8")
         .read().encode()).hexdigest()[:8]
 
-    write_lang_js()
     seen = []
     for prefix, pages in pages_by_lang.items():
         for page in pages:

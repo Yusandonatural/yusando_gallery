@@ -307,6 +307,7 @@ index_body = f'''
   </div>
   <div style="text-align:center;margin-top:44px">
     <a class="btn" href="tools.html">查看全部茶道具</a>
+    <a class="btn" href="tools.html#sencha" style="margin-left:10px">煎茶的道具</a>
   </div>
 </section>
 
@@ -344,6 +345,7 @@ w("zh/index.html", shell_zh(
 
 
 # ------------------------------------------------------------------ tools --
+import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 tools_body = f'''
 <section class="section">
   <div class="section-head reveal">
@@ -352,6 +354,8 @@ tools_body = f'''
     <div class="rule"></div>
     <p class="section-lede">茶之湯的主要道具。設有細部頁面者談得更深——來歷、部位、使用方式，以及選購二手時的重點。</p>
   </div>
+  {_sencha.switch('zh')}
+  <div data-tea="matcha">
 
   <div class="section-head reveal" style="margin-top:8px">
     <p class="section-kicker">如何備齊 — 三個層級</p>
@@ -369,6 +373,8 @@ tools_body = f'''
   <div class="tools-grid">
     {"".join(minor_card_zh(m) for m in MINOR_ZH)}
   </div>
+  </div>
+  {_sencha.block('zh')}
 </section>
 '''
 w("zh/tools.html", shell_zh(

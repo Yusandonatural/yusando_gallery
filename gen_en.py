@@ -395,6 +395,7 @@ index_body = f'''
   </div>
   <div style="text-align:center;margin-top:44px">
     <a class="btn" href="tools.html">VIEW ALL UTENSILS</a>
+    <a class="btn" href="tools.html#sencha" style="margin-left:10px">SENCHA UTENSILS</a>
   </div>
 </section>
 
@@ -468,6 +469,7 @@ w("en/index.html", shell_en("Yusando Antique Gallery — Flat-Price Used Japanes
   index_body, root="../", current="home"))
 
 # ---- tools list ----
+import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 tools_body = f'''
 <section class="section">
   <div class="section-head reveal">
@@ -476,6 +478,8 @@ tools_body = f'''
     <div class="rule"></div>
     <p class="section-lede">The principal utensils of chanoyu. Those with detail pages go deeper — history, parts, use, and secondhand buying points.</p>
   </div>
+  {_sencha.switch('en')}
+  <div data-tea="matcha">
 
   <div class="section-head reveal" style="margin-top:8px">
     <p class="section-kicker">HOW TO BUILD A SET — THREE LEVELS</p>
@@ -493,6 +497,8 @@ tools_body = f'''
   <div class="tools-grid">
     {"".join(minor_card_en(m) for m in MINOR_EN)}
   </div>
+  </div>
+  {_sencha.block('en')}
 </section>
 '''
 w("en/tools.html", shell_en("The Utensils — Japanese Tea Utensil List | Yusando Antique Gallery",
