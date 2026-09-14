@@ -388,7 +388,7 @@ index_body = f'''
 <section class="section" style="background:transparent;padding-top:0">
   <div class="section-head reveal">
     <p class="section-kicker">THE UTENSILS</p>
-    <h2 class="section-title">Start with Eight Essential Pieces</h2>
+    <h2 class="section-title">Start with the Essential Pieces</h2>
     <div class="rule"></div>
     <p class="section-lede" data-tea="matcha">The indispensable utensils of the tea procedure. Each detail page covers history, parts, use, and secondhand buying points.</p>
     {_sencha.home_lede('en')}

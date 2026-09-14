@@ -294,7 +294,7 @@ index_body = f'''
 <section class="section" style="background:transparent;padding-top:0">
   <div class="section-head reveal">
     <p class="section-kicker">LES USTENSILES</p>
-    <h2 class="section-title">Commencer par huit pièces essentielles</h2>
+    <h2 class="section-title">Commencer par les pièces essentielles</h2>
     <div class="rule"></div>
     <p class="section-lede" data-tea="matcha">Les ustensiles indispensables du service du thé. Chaque fiche détaillée — pour l&rsquo;instant en anglais — couvre l&rsquo;histoire, les parties, l&rsquo;usage et les points à vérifier en occasion.</p>
     {_sencha.home_lede('fr')}

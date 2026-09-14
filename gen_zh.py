@@ -300,7 +300,7 @@ index_body = f'''
 <section class="section" style="background:transparent;padding-top:0">
   <div class="section-head reveal">
     <p class="section-kicker">茶道具</p>
-    <h2 class="section-title">先從八件基本道具開始</h2>
+    <h2 class="section-title">先從基本道具開始</h2>
     <div class="rule"></div>
     <p class="section-lede" data-tea="matcha">點前不可或缺的道具。各件的細部頁面（目前為英文）涵蓋來歷、部位、使用方式，以及選購二手時的重點。</p>
     {_sencha.home_lede('zh')}

@@ -664,7 +664,7 @@ index_body = f'''
 <section class="section" style="background:transparent;padding-top:0">
   <div class="section-head reveal">
     <p class="section-kicker">道具紹介 — THE UTENSILS</p>
-    <h2 class="section-title">まずは、八つの道具から</h2>
+    <h2 class="section-title">まずは基本の道具から</h2>
     <div class="rule"></div>
     <p class="section-lede" data-tea="matcha">点前に欠かせない代表的な道具。それぞれの詳細ページで、歴史・部位・使い方・中古選びのポイントを紹介しています。</p>
     {_sencha.home_lede('ja')}
