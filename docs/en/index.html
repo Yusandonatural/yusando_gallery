@@ -209,8 +209,11 @@
     <p class="section-kicker">THE UTENSILS</p>
     <h2 class="section-title">Start with Eight Essential Pieces</h2>
     <div class="rule"></div>
-    <p class="section-lede">The indispensable utensils of the tea procedure. Each detail page covers history, parts, use, and secondhand buying points.</p>
+    <p class="section-lede" data-tea="matcha">The indispensable utensils of the tea procedure. Each detail page covers history, parts, use, and secondhand buying points.</p>
+    <p class="section-lede" data-tea="sencha">The eight principal utensils of sencha. It all begins with a single kyūsu; detail pages will follow.</p>
   </div>
+  <nav class="tea-sw reveal" aria-label="Switch between matcha and sencha utensils"><a href="#matcha" data-tea-pick="matcha" aria-current="true">Matcha</a><a href="#sencha" data-tea-pick="sencha">Sencha</a></nav>
+  <div data-tea="matcha">
   <div class="tools-grid">
     <a class="tool-card reveal" href="tools/chawan.html">
   <span class="tool-num">01</span>
@@ -278,9 +281,10 @@
   <p class="tool-more">READ MORE →</p>
 </a>
   </div>
+  </div>
+  <div class="tools-grid" data-tea="sencha"><div class="tool-card plain reveal" data-slug="kyusu"><span class="tool-num">01</span><span class="lv-badge lv1"><b>LV.1</b>Brew with a kyūsu</span><div class="tool-art"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-kyusu"></use></svg></div><h3 class="tool-name">急須</h3><p class="tool-yomi">急須 — Side-handle Teapot</p><p class="tool-desc">A small clay pot for steeping and pouring. Every sencha set begins with this one piece.</p><p class="tool-more soon">Detail page in preparation</p></div><div class="tool-card plain reveal" data-slug="hohin"><span class="tool-num">02</span><span class="lv-badge lv1"><b>LV.1</b>Brew with a kyūsu</span><div class="tool-art"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-hohin"></use></svg></div><h3 class="tool-name">宝瓶</h3><p class="tool-yomi">宝瓶 — Handleless Pot</p><p class="tool-desc">A flat pot with no handle, held in the palm. For gyokuro and fine sencha, brewed slowly in cooler water.</p><p class="tool-more soon">Detail page in preparation</p></div><div class="tool-card plain reveal" data-slug="yuzamashi"><span class="tool-num">03</span><span class="lv-badge lv1"><b>LV.1</b>Brew with a kyūsu</span><div class="tool-art"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-yuzamashi"></use></svg></div><h3 class="tool-name">湯冷まし</h3><p class="tool-yomi">湯冷まし — Water Cooler</p><p class="tool-desc">A lipped bowl into which boiled water is poured to cool to the right temperature — the key to good sencha.</p><p class="tool-more soon">Detail page in preparation</p></div><div class="tool-card plain reveal" data-slug="senchawan"><span class="tool-num">04</span><span class="lv-badge lv2"><b>LV.2</b>Serve a guest</span><div class="tool-art"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-senchawan"></use></svg></div><h3 class="tool-name">煎茶碗</h3><p class="tool-yomi">煎茶碗 — Sencha Cup</p><p class="tool-desc">A cup small enough to sit in the palm. Its white interior shows the colour of the tea. Used in sets of five or six.</p><p class="tool-more soon">Detail page in preparation</p></div><div class="tool-card plain reveal" data-slug="chataku"><span class="tool-num">05</span><span class="lv-badge lv2"><b>LV.2</b>Serve a guest</span><div class="tool-art"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-chataku"></use></svg></div><h3 class="tool-name">茶托</h3><p class="tool-yomi">茶托 — Saucer</p><p class="tool-desc">The saucer on which the cup is offered. Tin, wood, silver or bamboo — each material changes the mood.</p><p class="tool-more soon">Detail page in preparation</p></div><div class="tool-card plain reveal" data-slug="chashinko"><span class="tool-num">06</span><span class="lv-badge lv1"><b>LV.1</b>Brew with a kyūsu</span><div class="tool-art"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-chashinko"></use></svg></div><h3 class="tool-name">茶心壺</h3><p class="tool-yomi">茶心壺 — Tea Caddy</p><p class="tool-desc">A tin caddy for the leaf. At a sencha gathering, the leaves are taken from here.</p><p class="tool-more soon">Detail page in preparation</p></div><div class="tool-card plain reveal" data-slug="chago"><span class="tool-num">07</span><span class="lv-badge lv1"><b>LV.1</b>Brew with a kyūsu</span><div class="tool-art"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-chago"></use></svg></div><h3 class="tool-name">茶合・茶則</h3><p class="tool-yomi">茶合・茶則 — Leaf Scoop</p><p class="tool-desc">Measures the leaf and carries it to the pot. Usually a split length of bamboo; some bear poetic names.</p><p class="tool-more soon">Detail page in preparation</p></div><div class="tool-card plain reveal" data-slug="ryoro"><span class="tool-num">08</span><span class="lv-badge lv3"><b>LV.3</b>Compose the table</span><div class="tool-art"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-ryoro"></use></svg></div><h3 class="tool-name">涼炉・ボーフラ</h3><p class="tool-yomi">涼炉・ボーフラ — Brazier &amp; Kettle</p><p class="tool-desc">A small clay brazier and the earthenware kettle that sits on it — the literati tabletop in miniature.</p><p class="tool-more soon">Detail page in preparation</p></div></div>
   <div style="text-align:center;margin-top:44px">
-    <a class="btn" href="tools.html">VIEW ALL UTENSILS</a>
-    <a class="btn" href="tools.html#sencha" style="margin-left:10px">SENCHA UTENSILS</a>
+    <a class="btn" href="tools.html" data-tea-link>VIEW ALL UTENSILS</a>
   </div>
 </section>
 
@@ -366,7 +370,7 @@
   </div>
   <p class="f-copy">© 2026 YUSANDO ANTIQUE GALLERY — Demo draft. Online ordering is not yet available.</p>
 </footer>
-<script src="../js/site.js?v=723535c9"></script>
+<script src="../js/site.js?v=bf288ca5"></script>
 <script src="../js/lang.js?v=9b2bf4e8"></script>
 </body>
 </html>

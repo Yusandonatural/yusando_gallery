@@ -616,6 +616,8 @@ def minor_card(m):
   <p class="tool-desc">{m["desc"]}</p>
 </div>'''
 
+import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
+
 # ---- index ----
 index_body = f'''
 <section class="hero">
@@ -664,14 +666,18 @@ index_body = f'''
     <p class="section-kicker">道具紹介 — THE UTENSILS</p>
     <h2 class="section-title">まずは、八つの道具から</h2>
     <div class="rule"></div>
-    <p class="section-lede">点前に欠かせない代表的な道具。それぞれの詳細ページで、歴史・部位・使い方・中古選びのポイントを紹介しています。</p>
+    <p class="section-lede" data-tea="matcha">点前に欠かせない代表的な道具。それぞれの詳細ページで、歴史・部位・使い方・中古選びのポイントを紹介しています。</p>
+    {_sencha.home_lede('ja')}
   </div>
+  {_sencha.switch('ja')}
+  <div data-tea="matcha">
   <div class="tools-grid">
     {"".join(card(t) for t in TOOLS)}
   </div>
+  </div>
+  {_sencha.home_grid('ja')}
   <div style="text-align:center;margin-top:44px">
-    <a class="btn" href="tools.html">すべての道具を見る — VIEW ALL</a>
-    <a class="btn" href="tools.html#sencha" style="margin-left:10px">煎茶の道具 — SENCHA</a>
+    <a class="btn" href="tools.html" data-tea-link>すべての道具を見る — VIEW ALL</a>
   </div>
 </section>
 
@@ -742,7 +748,6 @@ index_body = f'''
 '''
 
 # ---- tools list ----
-import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 tools_body = f'''
 <section class="section">
   <div class="section-head reveal">
@@ -1399,7 +1404,7 @@ window.CHADOGU_EC = {
     try { localStorage.setItem(KEY, pick); } catch (e) { /* ignore */ }
     if (writeHash && history.replaceState) history.replaceState(null, '', '#' + pick);
     // 言語を変えても同じ側を見せる
-    document.querySelectorAll('.lang-sw a.l-row').forEach(function (a) {
+    document.querySelectorAll('.lang-sw a.l-row, a[data-tea-link]').forEach(function (a) {
       a.href = a.href.replace(/#.*$/, '') + '#' + pick;
     });
     // 隠れていた札の reveal を起こす

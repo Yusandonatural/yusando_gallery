@@ -340,6 +340,8 @@ def minor_card_en(m):
   <p class="tool-desc">{m["desc"]}</p>
 </div>'''
 
+import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
+
 # ---- index ----
 index_body = f'''
 <section class="hero">
@@ -388,14 +390,18 @@ index_body = f'''
     <p class="section-kicker">THE UTENSILS</p>
     <h2 class="section-title">Start with Eight Essential Pieces</h2>
     <div class="rule"></div>
-    <p class="section-lede">The indispensable utensils of the tea procedure. Each detail page covers history, parts, use, and secondhand buying points.</p>
+    <p class="section-lede" data-tea="matcha">The indispensable utensils of the tea procedure. Each detail page covers history, parts, use, and secondhand buying points.</p>
+    {_sencha.home_lede('en')}
   </div>
+  {_sencha.switch('en')}
+  <div data-tea="matcha">
   <div class="tools-grid">
     {"".join(card_en(t) for t in TOOLS_EN)}
   </div>
+  </div>
+  {_sencha.home_grid('en')}
   <div style="text-align:center;margin-top:44px">
-    <a class="btn" href="tools.html">VIEW ALL UTENSILS</a>
-    <a class="btn" href="tools.html#sencha" style="margin-left:10px">SENCHA UTENSILS</a>
+    <a class="btn" href="tools.html" data-tea-link>VIEW ALL UTENSILS</a>
   </div>
 </section>
 
@@ -469,7 +475,6 @@ w("en/index.html", shell_en("Yusando Antique Gallery — Flat-Price Used Japanes
   index_body, root="../", current="home"))
 
 # ---- tools list ----
-import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 tools_body = f'''
 <section class="section">
   <div class="section-head reveal">

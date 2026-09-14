@@ -288,6 +288,25 @@ def block(lang):
             '</div>')
 
 
+HOME_LEDE = {
+    "ja": "煎茶の道具の代表八点。急須ひとつから始まります。くわしい紹介は、順に整えていきます。",
+    "en": "The eight principal utensils of sencha. It all begins with a single kyūsu; detail pages will follow.",
+    "fr": "Les huit pièces principales du sencha. Tout commence par un seul kyūsu ; les fiches détaillées suivront.",
+    "zh": "煎茶的八件主要道具。從一把急須開始。詳細介紹陸續整理中。",
+}
+
+
+def home_lede(lang):
+    """トップ「まずは、八つの道具から」の説明文（煎茶側）。抹茶側の文は data-tea="matcha" で包む。"""
+    return f'<p class="section-lede" data-tea="sencha">{HOME_LEDE[lang]}</p>'
+
+
+def home_grid(lang):
+    """トップ用：煎茶の道具8点の札だけ。段階札や「そのほか」は出さない。"""
+    return (f'<div class="tools-grid" data-tea="sencha">'
+            f'{"".join(_card(lang, t) for t in TOOLS)}</div>')
+
+
 if __name__ == "__main__":
     for lang in UI:
         html = block(lang)

@@ -247,6 +247,8 @@ def article_cards_fr(depth=1):
     return out
 
 
+import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
+
 index_body = f'''
 <section class="hero">
   <svg class="hero-enso" viewBox="0 0 200 200" aria-hidden="true">
@@ -294,14 +296,18 @@ index_body = f'''
     <p class="section-kicker">LES USTENSILES</p>
     <h2 class="section-title">Commencer par huit pièces essentielles</h2>
     <div class="rule"></div>
-    <p class="section-lede">Les ustensiles indispensables du service du thé. Chaque fiche détaillée — pour l&rsquo;instant en anglais — couvre l&rsquo;histoire, les parties, l&rsquo;usage et les points à vérifier en occasion.</p>
+    <p class="section-lede" data-tea="matcha">Les ustensiles indispensables du service du thé. Chaque fiche détaillée — pour l&rsquo;instant en anglais — couvre l&rsquo;histoire, les parties, l&rsquo;usage et les points à vérifier en occasion.</p>
+    {_sencha.home_lede('fr')}
   </div>
+  {_sencha.switch('fr')}
+  <div data-tea="matcha">
   <div class="tools-grid">
     {"".join(card_fr(t) for t in TOOLS_FR)}
   </div>
+  </div>
+  {_sencha.home_grid('fr')}
   <div style="text-align:center;margin-top:44px">
-    <a class="btn" href="tools.html">VOIR TOUS LES USTENSILES</a>
-    <a class="btn" href="tools.html#sencha" style="margin-left:10px">USTENSILES DU SENCHA</a>
+    <a class="btn" href="tools.html" data-tea-link>VOIR TOUS LES USTENSILES</a>
   </div>
 </section>
 
@@ -339,7 +345,6 @@ w("fr/index.html", shell_fr(
 
 
 # ------------------------------------------------------------------ tools --
-import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 tools_body = f'''
 <section class="section">
   <div class="section-head reveal">

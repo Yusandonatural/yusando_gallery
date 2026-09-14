@@ -292,7 +292,7 @@ window.CHADOGU_EC = {
     try { localStorage.setItem(KEY, pick); } catch (e) { /* ignore */ }
     if (writeHash && history.replaceState) history.replaceState(null, '', '#' + pick);
     // 言語を変えても同じ側を見せる
-    document.querySelectorAll('.lang-sw a.l-row').forEach(function (a) {
+    document.querySelectorAll('.lang-sw a.l-row, a[data-tea-link]').forEach(function (a) {
       a.href = a.href.replace(/#.*$/, '') + '#' + pick;
     });
     // 隠れていた札の reveal を起こす

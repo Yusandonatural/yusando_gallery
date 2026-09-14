@@ -253,6 +253,8 @@ def article_cards_zh(depth=1):
     return out
 
 
+import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
+
 index_body = f'''
 <section class="hero">
   <svg class="hero-enso" viewBox="0 0 200 200" aria-hidden="true">
@@ -300,14 +302,18 @@ index_body = f'''
     <p class="section-kicker">茶道具</p>
     <h2 class="section-title">先從八件基本道具開始</h2>
     <div class="rule"></div>
-    <p class="section-lede">點前不可或缺的道具。各件的細部頁面（目前為英文）涵蓋來歷、部位、使用方式，以及選購二手時的重點。</p>
+    <p class="section-lede" data-tea="matcha">點前不可或缺的道具。各件的細部頁面（目前為英文）涵蓋來歷、部位、使用方式，以及選購二手時的重點。</p>
+    {_sencha.home_lede('zh')}
   </div>
+  {_sencha.switch('zh')}
+  <div data-tea="matcha">
   <div class="tools-grid">
     {"".join(card_zh(t) for t in TOOLS_ZH)}
   </div>
+  </div>
+  {_sencha.home_grid('zh')}
   <div style="text-align:center;margin-top:44px">
-    <a class="btn" href="tools.html">查看全部茶道具</a>
-    <a class="btn" href="tools.html#sencha" style="margin-left:10px">煎茶的道具</a>
+    <a class="btn" href="tools.html" data-tea-link>查看全部茶道具</a>
   </div>
 </section>
 
@@ -345,7 +351,6 @@ w("zh/index.html", shell_zh(
 
 
 # ------------------------------------------------------------------ tools --
-import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 tools_body = f'''
 <section class="section">
   <div class="section-head reveal">
