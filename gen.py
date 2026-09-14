@@ -628,6 +628,7 @@ index_body = f'''
     <p class="hero-kicker">均一価格の中古茶道具ポータル — FLAT-PRICE USED TEA UTENSILS</p>
     <h1 class="hero-title">ときめきやワクワクで<br>お茶道具を選びたい</h1>
     <p class="hero-sub">初心者でも楽しみやすい、<strong>均一価格</strong>の中古お茶道具ポータルです。<br>値段を気にせず、「これ、好きかも」で選べます。<br><span class="en-sub">A flat-price marketplace for pre-loved tea utensils — pick the one that makes you smile.</span></p>
+    <p class="hero-brand-note"><b>Cerendipity</b> ＝ Ceramic（やきもの）× Serendipity（うれしい偶然）。<br>器との思いがけない出会いを楽しむ、悠三堂の茶道具部門です。</p>
     <div class="hero-cta">
       <a class="btn solid" href="tools.html">道具一覧を見る</a>
       <a class="btn" href="articles/index.html">読みものを見る</a>

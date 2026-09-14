@@ -352,6 +352,7 @@ index_body = f'''
     <p class="hero-kicker">FLAT-PRICE USED TEA UTENSILS — 均一価格の中古茶道具ポータル</p>
     <h1 class="hero-title">Choose the one<br>that delights you.</h1>
     <p class="hero-sub">A <strong>flat-price</strong> marketplace for pre-loved Japanese tea utensils, easy to enjoy even as a beginner.<br>No price-guessing — just pick the piece you like.</p>
+    <p class="hero-brand-note"><b>Cerendipity</b> = Ceramic × Serendipity — the happy accident of meeting a piece you love.<br>The tea-utensil arm of Yusando.</p>
     <div class="hero-cta">
       <a class="btn solid" href="tools.html">BROWSE THE UTENSILS</a>
       <a class="btn" href="guide.html">HOW A BOWL IS MADE</a>

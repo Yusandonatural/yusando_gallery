@@ -155,6 +155,10 @@ a.brand:hover .brand-word{color:var(--matcha)}
 .hero-inner{position:relative;padding:60px 24px}
 .hero-kicker{font-family:var(--sans);font-size:12px;letter-spacing:.5em;text-indent:.5em;color:var(--matcha);margin-bottom:24px}
 .hero-title{font-size:clamp(30px,5.6vw,58px);font-weight:500;letter-spacing:.14em;text-indent:.14em;line-height:1.5}
+.hero-brand-note{margin:22px auto 0;max-width:34em;font-size:12.5px;line-height:1.95;
+  letter-spacing:.06em;color:var(--rikyu)}
+.hero-brand-note b{font-family:"Optima","Palatino Linotype","Book Antiqua",Georgia,serif;
+  font-weight:500;letter-spacing:.08em;color:var(--matcha)}
 .hero-sub{margin-top:24px;color:var(--ink-soft);font-size:clamp(14px,2vw,16px);max-width:36em;margin-left:auto;margin-right:auto}
 .hero-cta{margin-top:38px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 

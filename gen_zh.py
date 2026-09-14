@@ -264,6 +264,7 @@ index_body = f'''
     <p class="hero-kicker">均一價的二手茶道具 — 均一価格の中古茶道具ポータル</p>
     <h1 class="hero-title">選那件<br>讓您心動的。</h1>
     <p class="hero-sub">以<strong>均一價</strong>提供二手日本茶道具，初入門也能安心親近。<br>不必再揣測價格，只要挑您喜歡的那一件。</p>
+    <p class="hero-brand-note"><b>Cerendipity</b> ＝ Ceramic（陶瓷）× Serendipity（喜悅的偶然）。<br>享受與器物偶然相遇的悠三堂茶道具部門。</p>
     <div class="hero-cta">
       <a class="btn solid" href="tools.html">瀏覽茶道具</a>
       <a class="btn" href="guide.html">一碗茶是怎麼點成的</a>
