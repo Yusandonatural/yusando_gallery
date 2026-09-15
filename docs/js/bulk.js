@@ -1,5 +1,5 @@
 // 茶器のまとめて登録 — 悠三堂
-// 写真をEXIFの撮影時刻で組に分け、下書きとして登録してから1点ずつ解析する。
+// 写真をファイル名（1・1_top・1_bottom）か撮影時刻で組に分け、下書きとして登録してから1点ずつ解析する。
 const API = "https://yusando-gallery.isozaki-f67.workers.dev";
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g,
@@ -92,18 +92,39 @@ async function take(list) {
   $("drop").querySelector("p").textContent = "ここをタップして写真をまとめて選ぶ";
 
   const noExif = photos.filter((p) => !p.hasExif).length;
-  $("exifnote").innerHTML = noExif
+  if ($("mode").value !== "name") $("exifnote").innerHTML = noExif
     ? `${noExif} 枚に撮影時刻が入っていませんでした（ファイルの更新日時で代用しています）。組がずれていたら下で直してください。`
     : "すべての写真から撮影時刻を読みました。";
   syncMode();
   step(2);
 }
 
+/* ============================================================ ファイル名 == */
+// 「1.jpg」= 正面、「1_top.jpg」= 上面、「1_bottom.jpg」= 裏面 の付け方。
+// 拡張子を外し、最初の _ か - の前を「番号」、後ろを「面」とみなす。
+// 面の語は多少ゆるく受ける（top/ue/上、bottom/back/ura/裏 など）。
+const FACE_RANK = { "": 0, front: 0, f: 0, "正面": 0,
+  top: 1, ue: 1, "上": 1, "上面": 1,
+  bottom: 2, back: 2, ura: 2, "裏": 2, "裏面": 2, "下": 2, "下面": 2,
+  box: 3, hako: 3, "箱": 3, "共箱": 3 };
+const FACE_LABEL = ["正面", "上面", "裏面", "箱"];
+function parseName(name) {
+  const stem = name.replace(/\.[^.]+$/, "").trim();
+  const m = stem.match(/^(.*?)[\s_\-]+([^\s_\-]+)$/);
+  let key = stem, face = "";
+  if (m && (m[2].toLowerCase() in FACE_RANK)) { key = m[1]; face = m[2].toLowerCase(); }
+  const rank = FACE_RANK[face] ?? 9;
+  return { key: key.trim().toLowerCase(), face, rank };
+}
+// 番号の並びは「1, 2, 10」の順にしたい（文字列順だと 1, 10, 2 になる）
+const natural = new Intl.Collator("ja", { numeric: true, sensitivity: "base" }).compare;
+
 /* ========================================================== グループ分け == */
 // 分け方は2通り。決まった枚数（正面・上面・下面の3枚など）で機械的に切るか、
 // 器を入れ替えるときに自然に空く間で切るか。
 function regroup() {
   groups = [];
+  if ($("mode").value === "name") return regroupByName();
   const byCount = $("mode").value === "count";
   const per = +$("per").value;
   const gap = +$("gap").value * 1000;
@@ -139,10 +160,34 @@ function regroup() {
   drawGroups();
 }
 
+// ファイル名で分ける。同じ番号を1組にし、正面→上面→裏面→箱の順に並べる。
+// 正面（番号だけの名前）が無い組は印を付ける。表紙が裏面になってしまうため。
+function regroupByName() {
+  const map = new Map();
+  photos.forEach((p, i) => {
+    const n = parseName(p.file.name);
+    if (!map.has(n.key)) map.set(n.key, []);
+    map.get(n.key).push({ i, rank: n.rank, name: p.file.name });
+  });
+  const keys = [...map.keys()].sort(natural);
+  let missingFront = 0;
+  for (const k of keys) {
+    const list = map.get(k).sort((a, b) => a.rank - b.rank || natural(a.name, b.name));
+    const hasFront = list[0].rank === 0;
+    if (!hasFront) missingFront++;
+    groups.push({ photos: list.slice(0, MAX_PER_ITEM).map((x) => x.i), category: "", tier: "",
+      odd: !hasFront, oddText: hasFront ? "" : "正面（番号だけの名前）がありません" });
+  }
+  $("exifnote").textContent = `ファイル名から ${groups.length} 点に分けました。`
+    + (missingFront ? `　正面の無い組が ${missingFront} 件あります。` : "");
+  drawGroups();
+}
+
 function syncMode() {
-  const byCount = $("mode").value === "count";
-  $("modeCount").hidden = !byCount;
-  $("modeTime").hidden = byCount;
+  const mode = $("mode").value;
+  $("modeCount").hidden = mode !== "count";
+  $("modeTime").hidden = mode !== "time";
+  $("modeName").hidden = mode !== "name";
   regroup();
 }
 $("mode").addEventListener("change", syncMode);
@@ -161,7 +206,9 @@ function drawGroups() {
       const p = photos[pi];
       return `<div class="ph${k === 0 ? " cover" : ""}">
         <img src="${p.url}" alt="" loading="lazy">
-        <span class="no">${k === 0 ? "表紙" : k + 1}</span>
+        <span class="no">${$("mode").value === "name"
+          ? (FACE_LABEL[parseName(p.file.name).rank] || p.file.name.replace(/\.[^.]+$/, ""))
+          : (k === 0 ? "表紙" : k + 1)}</span>
         <div class="bar">
           <button data-act="prev" data-g="${gi}" data-k="${k}" ${gi === 0 && k === 0 ? "disabled" : ""} title="前の組へ">←</button>
           <button data-act="split" data-g="${gi}" data-k="${k}" ${k === 0 ? "disabled" : ""} title="ここから新しい組にする">分</button>
@@ -174,7 +221,7 @@ function drawGroups() {
     return `<div class="group${g.odd ? " odd" : ""}">
       <div class="g-head">
         <b>${gi + 1} 点目</b><span class="n">写真 ${g.photos.length} 枚</span>
-        ${g.odd ? '<span class="g-flag">撮影の間隔とずれています</span>' : ""}
+        ${g.odd ? `<span class="g-flag">${esc(g.oddText || "撮影の間隔とずれています")}</span>` : ""}
         <span class="sp">
           <button class="mini" data-act="merge" data-g="${gi}" ${gi === 0 ? "disabled" : ""}>前の組と合わせる</button>
           <button class="mini warn" data-act="rmgroup" data-g="${gi}">この組を外す</button>

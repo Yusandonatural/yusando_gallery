@@ -117,7 +117,7 @@ python3 build.py
 | GET | `/api/items` | 任意 | 匿名：published/sold のみ。認証：全部。`?batch=` `?status=` で絞れる |
 | GET | `/api/items/:id` | 不要 | id **または品番**（`Y-0042`／`y-42`／`42`）で1件 |
 | PATCH | `/api/items/:id` | 要 | 許可された列だけ更新（status, mei, category, tier, sekki, 各 `_en` …） |
-| POST | `/api/upload` | 要 | 従来の1点登録。写真→AI→**いきなり published** |
+| POST | `/api/upload` | 要 | 1点登録。写真→AI→**draft**。画面で直して公開 |
 | POST | `/api/draft` | 要 | 一括登録用。写真だけ預かり `status='draft'`。AIは呼ばない |
 | POST | `/api/items/:id/analyze` | 要 | 下書き1点をAIで読む。失敗は `analysis_status='failed'` で残る |
 | POST | `/api/items/bulk` | 要 | `{ids, action}`。publish（解析済みのみ）／hide／delete（R2の写真も消す） |
@@ -149,8 +149,9 @@ cover_hash              表紙写真のSHA-256。二重登録よけ
 ### 登録の流れ
 **1点ずつ**（`upload.html`）：写真1〜5枚を選ぶ → 端末で長辺1600pxに縮小 → `/api/upload` → **下書き**として登録 → その場で編集欄が開く → 直して「公開する」で published。即公開はしない。押さずに離れても下書きは残り、`drafts.html` から続けられる。
 
-**まとめて**（`bulk.html` → `drafts.html`）：
-1. 写真を全部選ぶ。EXIF の撮影時刻を読み、間隔（既定30秒）が空いたところで組に分ける
+**まとめて**（`bulk.html` → `drafts.html`）：組の分け方は3通り。既定は**ファイル名**（`1.jpg`＝正面、`1_top.jpg`＝上面、`1_bottom.jpg`＝裏面、`1_box.jpg`＝共箱。同じ番号を1組にし、正面→上面→裏面→箱の順。正面の無い組には印）。ほかに「決まった枚数」「撮影した間隔（EXIF）」。
+
+1. 写真を全部選ぶ。ファイル名の番号で組に分ける（名前を付けていなければ、撮影時刻の間隔か枚数で）
 2. 画面で組を直す（←／分／×／→、前の組と合わせる）。組ごとに種別・等級を指定可
 3. 「登録する」→ 組ごとに `/api/draft`（写真だけ）→ 続けて `/api/items/:id/analyze` を同時3本で
 4. 下書き画面で確認。`same_object=0` は金茶の印。種別・等級はその場で直せる

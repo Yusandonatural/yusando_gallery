@@ -258,7 +258,7 @@ index_body = f'''
     <p class="hero-kicker">USTENSILES DE THÉ D&rsquo;OCCASION À PRIX UNIQUE — 均一価格の中古茶道具</p>
     <h1 class="hero-title">Choisissez celui<br>qui vous touche.</h1>
     <p class="hero-sub">Un portail à <strong>prix unique</strong> d&rsquo;ustensiles de thé japonais de seconde main, abordable même pour qui débute.<br>Plus de prix à deviner : prenez simplement la pièce qui vous plaît.</p>
-    <p class="hero-brand-note"><b>Cerendipity</b> = Ceramic × Serendipity : l&rsquo;heureux hasard de rencontrer la pièce que l&rsquo;on aime.<br>La branche « ustensiles de thé » de Yusando.</p>
+    <p class="hero-brand-note"><b>Cerendipity</b> = Ceramic × Serendipity : l&rsquo;heureux hasard de rencontrer la pièce que l&rsquo;on aime.<br>La branche « ustensiles de thé » de Yusando.<br>Faites entrer cette rencontre dans le quotidien, et les jours s&rsquo;enrichissent.</p>
     <div class="hero-cta">
       <a class="btn solid" href="tools.html">VOIR LES USTENSILES</a>
       <a class="btn" href="guide.html">COMMENT NAÎT UN BOL</a>

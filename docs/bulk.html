@@ -153,8 +153,8 @@ select:focus,input:focus{outline:0;border-color:var(--matcha)}
 
 <div class="wrap">
   <h1>茶器をまとめて登録する</h1>
-  <p class="lede">何点ぶんの写真でも、一度に選んでください。撮影した時刻の間隔を見て、
-    自動的に1点ずつの組に分けます。分け方は下の画面で直せます。<br>
+  <p class="lede">何点ぶんの写真でも、一度に選んでください。ファイル名（<strong>1</strong>・<strong>1_top</strong>・<strong>1_bottom</strong>）で
+    自動的に1点ずつの組に分けます。名前を付けていない写真は、撮影した間隔でも分けられます。分け方は下の画面で直せます。<br>
     登録はいったん<strong>下書き</strong>として入ります。内容を確かめてから、まとめて公開してください。</p>
 
   <div class="steps">
@@ -196,9 +196,13 @@ select:focus,input:focus{outline:0;border-color:var(--matcha)}
     <div class="tune">
       <label for="mode">組の分け方</label>
       <select id="mode" class="pick">
+        <option value="name" selected>ファイル名で分ける（1・1_top・1_bottom）</option>
         <option value="count">決まった枚数で分ける</option>
         <option value="time">撮影した間隔で分ける</option>
       </select>
+      <span class="mode-opt" id="modeName">
+        <span class="hint" style="margin:0">同じ番号を1組に。<b>1.jpg</b>＝正面、<b>1_top.jpg</b>＝上面、<b>1_bottom.jpg</b>＝裏面（<b>1_box.jpg</b>＝共箱）。番号は何でも構いません。</span>
+      </span>
       <span class="mode-opt" id="modeCount">
         <select id="per" class="pick">
           <option value="1">1 枚ずつ（正面だけ・あとで足す）</option>
