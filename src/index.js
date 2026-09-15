@@ -251,9 +251,19 @@ async function createDraft(request, env) {
 
 // 色と形だけを付け直す。全体を読み直すと費用が10倍かかり、人が直した文章も
 // 消えてしまうので、表紙の写真1枚に短い問いを投げる。
-const CLASSIFY_PROMPT = (category) => `この茶器の色と形を、次の語彙から1つずつ選んでJSONだけ返してください。
+// ついでに「どの写真が正面か」も答えさせ、表紙（1枚目）を正面に揃える。
+// 一覧や詳細ページの1枚目が上面や裏面になっていると、器の姿が分からないため。
+const CLASSIFY_PROMPT = (category, n) => `写真${n}枚は同じ茶器です。次をJSONだけで返してください。
 {"color": "${COLORS.join("／")} のいずれか（釉の見た目で。絵や複数の色が目立つなら「絵付・多色」）",
- "shape": "${SHAPES.join("／")} のいずれか。${category === "茶碗" ? "茶碗の形として" : "茶碗でなければ null"}"}`;
+ "shape": "${SHAPES.join("／")} のいずれか。${category === "茶碗" ? "茶碗の形として" : "茶碗でなければ null"}",
+ "front": 正面（真横〜やや上から見た、器の全体の姿が分かる写真）の番号。1〜${n} の整数}`;
+
+// 指定の写真を1枚目（表紙）に動かす。順番以外は変えない。
+function withCover(keys, coverKey) {
+  const i = keys.indexOf(coverKey);
+  if (i <= 0) return keys;
+  return [coverKey, ...keys.slice(0, i), ...keys.slice(i + 1)];
+}
 
 async function classifyItem(request, id, env) {
   const json = jsonWith(request);
@@ -261,14 +271,20 @@ async function classifyItem(request, id, env) {
   if (!env.ANTHROPIC_API_KEY) return json({ error: "ANTHROPIC_API_KEY が未設定です" }, 500);
   const row = await env.DB.prepare("SELECT * FROM items WHERE id=?").bind(id).first();
   if (!row) return json({ error: "not found" }, 404);
-  const images = (await readPhotos(row, env)).slice(0, 1);
+  const keys = JSON.parse(row.photos || "[]").slice(0, 3);
+  const images = (await readPhotos({ photos: JSON.stringify(keys) }, env));
   if (!images.length) return json({ error: "写真を読み出せませんでした" }, 500);
   try {
-    const { ai } = await analyse(images, 1, row.category || "", env, CLASSIFY_PROMPT(row.category), 200);
+    const { ai } = await analyse(images, images.length, row.category || "", env,
+      CLASSIFY_PROMPT(row.category, images.length), 200);
     const f = { color: pick(COLORS, ai.color),
       shape: row.category === "茶碗" ? pick(SHAPES, ai.shape) : null };
+    const front = parseInt(ai.front, 10);
+    const all = JSON.parse(row.photos || "[]");
+    if (front >= 2 && front <= keys.length) f.photos = JSON.stringify(withCover(all, keys[front - 1]));
     await updateRow(id, f, env);
-    return json({ id, sku: row.sku, ...f });
+    return json({ id, sku: row.sku, color: f.color, shape: f.shape,
+      photos: JSON.parse(f.photos || row.photos || "[]"), cover_changed: !!f.photos });
   } catch (e) {
     return json({ id, error: e.message, detail: e.detail, retryable: !!e.retryable }, e.status || 502);
   }
@@ -397,14 +413,23 @@ async function patchItem(request, id, env) {
   const json = jsonWith(request);
   if (!authed(request, env)) return json({ error: "unauthorized" }, 401);
   const body = await request.json();
-  const allowed = ["status", "mei", "mei_yomi", "mei_reason", "description", "tier", "category", "color", "shape",
+  const allowed = ["status", "mei", "mei_yomi", "mei_reason", "description", "tier", "category", "color", "shape", "photos",
     "kiln", "era", "condition", "technique", "glaze", "sekki", "sekki_reason",
     "mei_en", "mei_romaji", "mei_reason_en", "description_en",
     "technique_en", "glaze_en", "kiln_en", "era_en", "condition_en"];
   if (Array.isArray(body.sekki)) body.sekki = JSON.stringify(body.sekki);
+  // 表紙の指定。photos の順番を入れ替えるだけで、写真そのものは増減しない。
+  if (typeof body.cover === "string") {
+    const row = await env.DB.prepare("SELECT photos FROM items WHERE id=?").bind(id).first();
+    if (!row) return json({ error: "not found" }, 404);
+    const keys = JSON.parse(row.photos || "[]");
+    if (!keys.includes(body.cover)) return json({ error: "その写真はこの品にありません" }, 400);
+    body.photos = JSON.stringify(withCover(keys, body.cover));
+  }
   // 色・形は語彙の外の値を入れない（絞り込みが効かなくなる）。空は null。
   if ("color" in body) body.color = pick(COLORS, body.color);
   if ("shape" in body) body.shape = pick(SHAPES, body.shape);
+  if ("photos" in body && typeof body.cover !== "string") delete body.photos;   // photos は cover 経由のみ
   const sets = [], vals = [];
   for (const k of allowed) if (k in body) { sets.push(`${k}=?`); vals.push(body[k]); }
   if ("tier" in body) { sets.push("price=?"); vals.push(tiers(env)[Math.min(4, Math.max(1, body.tier)) - 1]); }

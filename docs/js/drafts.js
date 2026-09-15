@@ -61,6 +61,12 @@ function card(i) {
   const photo = (i.photos && i.photos[0])
     ? `<img src="${API}/photos/${encodeURIComponent(i.photos[0])}" alt="" loading="lazy">`
     : `<div style="aspect-ratio:1;background:var(--paper-deep)"></div>`;
+  // 2枚目以降の小さな札。押すとその写真を表紙（1枚目）にする。
+  const thumbs = (i.photos || []).length > 1
+    ? `<div class="thumbs">${i.photos.map((k, n) =>
+        `<button class="th${n === 0 ? " on" : ""}" data-cover="${esc(k)}" data-id="${i.id}" title="${n === 0 ? "いまの表紙" : "この写真を表紙にする"}">`
+        + `<img src="${API}/photos/${encodeURIComponent(k)}" alt="" loading="lazy"></button>`).join("")}</div>`
+    : "";
   const opt = (sel) => CATEGORIES.map((c) =>
     `<option value="${c}"${c === sel ? " selected" : ""}>${c}</option>`).join("");
 
@@ -73,6 +79,7 @@ function card(i) {
     <div class="shot">
       <input type="checkbox" class="pick" data-id="${i.id}"${picked.has(i.id) ? " checked" : ""}>
       ${photo}
+      ${thumbs}
     </div>
     <div class="body">
       <div class="top">
@@ -206,6 +213,29 @@ $("list").addEventListener("click", (e) => {
   });
 });
 
+// 表紙を選ぶ。写真の順番を入れ替えるだけで、解析はやり直さない。
+$("list").addEventListener("click", async (e) => {
+  const b = e.target.closest("button[data-cover]");
+  if (!b || b.classList.contains("on")) return;
+  const id = b.dataset.id;
+  b.disabled = true;
+  try {
+    const res = await fetch(`${API}/api/items/${id}`, {
+      method: "PATCH",
+      headers: { "x-upload-token": token(), "content-type": "application/json" },
+      body: JSON.stringify({ cover: b.dataset.cover }),
+    });
+    if (!res.ok) throw new Error("エラー " + res.status);
+    const it = items.find((x) => x.id === id);
+    if (it) { const k = b.dataset.cover; it.photos = [k, ...it.photos.filter((x) => x !== k)]; }
+    draw();
+    note("表紙を変えました", "ok"); setTimeout(() => note(""), 1600);
+  } catch (err) {
+    note("表紙を変えられませんでした — " + esc(err.message), "err");
+    b.disabled = false;
+  }
+});
+
 $("list").addEventListener("click", async (e) => {
   const b = e.target.closest("button[data-act='pub1']");
   if (!b) return;
@@ -301,7 +331,7 @@ if ($("classify")) $("classify").addEventListener("click", async () => {
       const j = await res.json();
       if (!res.ok) throw new Error(j.error || "エラー " + res.status);
       const it = items.find((x) => x.id === id);
-      if (it) Object.assign(it, { color: j.color, shape: j.shape });
+      if (it) Object.assign(it, { color: j.color, shape: j.shape, photos: j.photos || it.photos });
       done++;
     } catch (e) { failed++; }
     b.textContent = `色・形を付けています… ${done + failed}/${ids.length}`;

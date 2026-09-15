@@ -274,9 +274,31 @@ const W = (await import('../worker-pages/index.js')).default;
   const r = await W.fetch(req(`/api/items/${id}/classify`, { method: 'POST' }), env);
   const j = await r.json();
   ok(r.status === 200 && j.color === '白' && j.shape === '井戸形', 'classify: 色形が返る');
-  ok(calls.anthropic === before + 1 && calls.lastImages === 1, 'classify: AIを1回、写真1枚で呼ぶ');
+  ok(calls.anthropic === before + 1 && calls.lastImages === 3, 'classify: AIを1回、写真は3枚まで');
   const row = env.DB._db.prepare('SELECT mei, color, shape FROM items WHERE id=?').get(id);
   ok(row.mei === '人が直した銘' && row.shape === '井戸形', 'classify: 文章は触らず色形だけ更新');
+}
+
+// ---- 12. 表紙は正面に ------------------------------------------------------
+{
+  // classify が「3枚目が正面」と答えたら photos の順が入れ替わる
+  const { env, calls } = makeEnv({ aiReply: { ...AI_OK, front: 3 } });
+  const { id } = await (await W.fetch(req('/api/draft', { method: 'POST', form: photoForm(3) }), env)).json();
+  const before = JSON.parse(env.DB._db.prepare('SELECT photos FROM items WHERE id=?').get(id).photos);
+  const j = await (await W.fetch(req(`/api/items/${id}/classify`, { method: 'POST' }), env)).json();
+  const after = JSON.parse(env.DB._db.prepare('SELECT photos FROM items WHERE id=?').get(id).photos);
+  ok(calls.lastImages === 3, '表紙: classify は写真3枚まで見る');
+  ok(after[0] === before[2] && after.length === 3 && j.cover_changed === true, '表紙: 正面が1枚目に動く');
+  // 人が PATCH {cover} で選べる
+  const r = await W.fetch(req(`/api/items/${id}`, { method: 'PATCH', json: { cover: before[1] } }), env);
+  const after2 = JSON.parse(env.DB._db.prepare('SELECT photos FROM items WHERE id=?').get(id).photos);
+  ok(r.status === 200 && after2[0] === before[1] && after2.length === 3, '表紙: PATCH cover で選べる');
+  const bad = await W.fetch(req(`/api/items/${id}`, { method: 'PATCH', json: { cover: 'nope/9.jpg' } }), env);
+  ok(bad.status === 400, '表紙: 無い写真は拒む');
+  // photos を直接書き換えることはできない
+  await W.fetch(req(`/api/items/${id}`, { method: 'PATCH', json: { photos: '["x"]', mei: 'a' } }), env);
+  const after3 = JSON.parse(env.DB._db.prepare('SELECT photos FROM items WHERE id=?').get(id).photos);
+  ok(after3.length === 3, '表紙: photos の直書きは無視される');
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);
