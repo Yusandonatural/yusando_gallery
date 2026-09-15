@@ -81,13 +81,17 @@ async function take(list) {
   const imgs = list.filter((f) => f.type.startsWith("image/"));
   if (!imgs.length) return;
   $("drop").querySelector("p").textContent = "読み込んでいます…";
+  const byName = $("mode").value === "name";
   const added = [];
   for (const file of imgs) {
-    const t = await exifTime(file);
+    // ファイル名で分けるときは撮影時刻を見ない（EXIF を読む時間も省く）。
+    const t = byName ? null : await exifTime(file);
     added.push({ file, url: URL.createObjectURL(file), time: t ?? file.lastModified, hasExif: t != null });
   }
-  // 選んだ順ではなく撮った順に並べる。まとめて選ぶと順序は当てにならない。
-  photos = photos.concat(added).sort((a, b) => a.time - b.time);
+  // 名前のときは 1, 2, 10 の順。時刻のときは撮った順（選んだ順は当てにならない）。
+  photos = photos.concat(added).sort(byName
+    ? (a, b) => natural(a.file.name, b.file.name)
+    : (a, b) => a.time - b.time);
   $("count").textContent = photos.length + " 枚";
   $("drop").querySelector("p").textContent = "ここをタップして写真をまとめて選ぶ";
 
