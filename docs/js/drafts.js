@@ -252,7 +252,7 @@ function updateSel() {
     : "0 点を選択中";
   $("pub").disabled = !ready;
   $("del").disabled = !n;
-  $("classify").disabled = !n;
+  if ($("classify")) $("classify").disabled = !n;
 }
 
 $("all").addEventListener("click", () => {
@@ -289,7 +289,8 @@ async function bulk(action, confirmText) {
 
 // 選んだ点の色と形を、表紙の写真1枚で付け直す。全体の読み直しではないので
 // 銘や説明は変わらない。同時3本まで。
-$("classify").addEventListener("click", async () => {
+// 古い drafts.html が残っている端末ではボタンが無い。そのときも他の機能は動かす。
+if ($("classify")) $("classify").addEventListener("click", async () => {
   const ids = [...picked];
   if (!ids.length) return;
   const b = $("classify"); b.disabled = true;
