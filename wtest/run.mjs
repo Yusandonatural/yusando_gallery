@@ -236,5 +236,48 @@ const W = (await import('../worker-pages/index.js')).default;
      '後付け: 無い茶器は404');
 }
 
+// ---- 10. 色と形（検索用の固定語彙） ---------------------------------------
+{
+  const { env } = makeEnv({ aiReply: { ...AI_OK, color: '白', shape: '井戸形' } });
+  const { id } = await (await W.fetch(req('/api/draft', { method: 'POST', form: photoForm(2) }), env)).json();
+  await W.fetch(req(`/api/items/${id}/analyze`, { method: 'POST' }), env);
+  let row = env.DB._db.prepare('SELECT color, shape FROM items WHERE id=?').get(id);
+  ok(row.color === '白' && row.shape === '井戸形', '色形: AIの答えが入る');
+  // 語彙の外の値は捨てる
+  const { env: e2 } = makeEnv({ aiReply: { ...AI_OK, color: '紫', shape: 'まる' } });
+  const { id: id2 } = await (await W.fetch(req('/api/draft', { method: 'POST', form: photoForm(2) }), e2)).json();
+  await W.fetch(req(`/api/items/${id2}/analyze`, { method: 'POST' }), e2);
+  row = e2.DB._db.prepare('SELECT color, shape FROM items WHERE id=?').get(id2);
+  ok(row.color === null && row.shape === null, '色形: 語彙に無い値は null');
+  // 茶碗以外なら形は持たない
+  const { env: e3 } = makeEnv({ aiReply: { ...AI_OK, category: '棗', color: '黒', shape: '筒形' } });
+  const { id: id3 } = await (await W.fetch(req('/api/draft', { method: 'POST', form: photoForm(2) }), e3)).json();
+  await W.fetch(req(`/api/items/${id3}/analyze`, { method: 'POST' }), e3);
+  row = e3.DB._db.prepare('SELECT color, shape FROM items WHERE id=?').get(id3);
+  ok(row.color === '黒' && row.shape === null, '色形: 茶碗以外は形を持たない');
+  // 人が直せる／絞り込める
+  await W.fetch(req(`/api/items/${id}`, { method: 'PATCH', json: { shape: '筒形', status: 'published' } }), env);
+  const hit = await (await W.fetch(new Request('https://w/api/items?category=茶碗&shape=筒形'), env)).json();
+  const miss = await (await W.fetch(new Request('https://w/api/items?shape=平形'), env)).json();
+  ok(hit.length === 1 && miss.length === 0, '色形: ?shape= で公開一覧を絞れる');
+  const bad = await (await W.fetch(new Request('https://w/api/items?color=紫'), env)).json();
+  ok(bad.length === 1, '色形: 語彙に無い絞り込みは無視される（全部返る）');
+}
+
+// ---- 11. 色・形だけ付け直す（/classify） ---------------------------------
+{
+  const { env, calls } = makeEnv({ aiReply: AI_OK });
+  const { id } = await (await W.fetch(req('/api/draft', { method: 'POST', form: photoForm(3) }), env)).json();
+  await W.fetch(req(`/api/items/${id}/analyze`, { method: 'POST' }), env);
+  await W.fetch(req(`/api/items/${id}`, { method: 'PATCH', json: { mei: '人が直した銘', shape: '平形' } }), env);
+  const before = calls.anthropic;
+  const r = await W.fetch(req(`/api/items/${id}/classify`, { method: 'POST' }), env);
+  const j = await r.json();
+  ok(r.status === 200 && j.color === '白' && j.shape === '井戸形', 'classify: 色形が返る');
+  ok(calls.anthropic === before + 1 && calls.lastImages === 1, 'classify: AIを1回、写真1枚で呼ぶ');
+  const row = env.DB._db.prepare('SELECT mei, color, shape FROM items WHERE id=?').get(id);
+  ok(row.mei === '人が直した銘' && row.shape === '井戸形', 'classify: 文章は触らず色形だけ更新');
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

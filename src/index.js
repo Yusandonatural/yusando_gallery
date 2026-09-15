@@ -21,6 +21,11 @@ const authed = (request, env) => {
   return !!env.UPLOAD_TOKEN && t === env.UPLOAD_TOKEN;
 };
 const MAX_PHOTOS = 5;   // Claude に渡す枚数の上限
+// 検索用の色と形。自由記述にすると表記が揺れて絞り込めないので、固定の語彙にする。
+// 色は器物全般、形は茶碗のためのもの（他の種別では null のまま）。
+const COLORS = ["白","黒","赤","茶","青","緑","灰","黄","絵付・多色"];
+const SHAPES = ["椀形","筒形","半筒","平形","井戸形","天目形","沓形","端反り","その他"];
+const pick = (list, v) => (list.includes(v) ? v : null);
 const CATEGORIES = ["茶碗","茶入","棗","水指","建水","蓋置","茶杓","花入","香合",
   "釜・風炉","急須・宝瓶","湯冷まし","湯呑・茶托","菓子器","掛物","その他"];
 const tiers = (env) => (env.PRICE_TIERS || "3000,5000,7000,10000").split(",").map((n) => parseInt(n.trim(), 10));
@@ -45,6 +50,8 @@ ${forcedCategory ? `この茶器の種別は「${forcedCategory}」です。cate
  "era_en": "同上を英語で（例: Contemporary / Shōwa / late Edo。不明なら \"Unknown\"）",
  "condition": "状態（ニュウ・ホツ・直し・貫入・使用感の有無を具体的に）",
  "condition_en": "同上を英語で",
+ "color": "器の主な色。次のいずれか1つ: ${COLORS.join("／")}（釉の見た目で。絵や複数の色が目立つなら「絵付・多色」）",
+ "shape": "茶碗の形。次のいずれか1つ: ${SHAPES.join("／")}。茶碗でなければ null",
  "has_box": true/false（共箱・箱書きが写っているか）,
  "mei": "銘（漢字2〜4字。季節・景色・茶趣にちなむ）",
  "mei_yomi": "銘の読み（ひらがな）",
@@ -93,13 +100,13 @@ async function insertWithSku(cols, vals, env, attempt = 1) {
 // ---------------------------------------------------------------- 解析 --
 // 写真から所見を得るところだけを切り出してある。1点ずつ登録する従来の導線と、
 // 下書きを後からまとめて解析する一括登録の導線が、同じ処理を共有するため。
-async function analyse(images, count, forcedCategory, env) {
+async function analyse(images, count, forcedCategory, env, customPrompt = null, maxTokens = 2600) {
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "content-type": "application/json", "x-api-key": env.ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
-      model: env.CLAUDE_MODEL || "claude-sonnet-5", max_tokens: 2600, system: SYSTEM,
-      messages: [{ role: "user", content: [...images, { type: "text", text: prompt(count, forcedCategory) }] }],
+      model: env.CLAUDE_MODEL || "claude-sonnet-5", max_tokens: maxTokens, system: SYSTEM,
+      messages: [{ role: "user", content: [...images, { type: "text", text: customPrompt || prompt(count, forcedCategory) }] }],
     }),
   });
   if (!res.ok) {
@@ -125,6 +132,8 @@ function analysisFields(ai, text, forcedTier, forcedCategory, env) {
     category: forcedCategory || (CATEGORIES.includes(ai.category) ? ai.category : "その他"),
     technique: ai.technique, glaze: ai.glaze, kiln: ai.kiln, era: ai.era, condition: ai.condition,
     has_box: ai.has_box ? 1 : 0, description: ai.description,
+    color: pick(COLORS, ai.color),
+    shape: (forcedCategory || ai.category) === "茶碗" ? pick(SHAPES, ai.shape) : null,
     tier, price: tiers(env)[tier - 1], tier_reason: ai.tier_reason, raw_json: text,
     mei_en: ai.mei_en || null, mei_romaji: ai.mei_romaji || null, mei_reason_en: ai.mei_reason_en || null,
     technique_en: ai.technique_en || null, glaze_en: ai.glaze_en || null, kiln_en: ai.kiln_en || null,
@@ -240,6 +249,31 @@ async function createDraft(request, env) {
   return json({ id, sku, photos: keys.length });
 }
 
+// 色と形だけを付け直す。全体を読み直すと費用が10倍かかり、人が直した文章も
+// 消えてしまうので、表紙の写真1枚に短い問いを投げる。
+const CLASSIFY_PROMPT = (category) => `この茶器の色と形を、次の語彙から1つずつ選んでJSONだけ返してください。
+{"color": "${COLORS.join("／")} のいずれか（釉の見た目で。絵や複数の色が目立つなら「絵付・多色」）",
+ "shape": "${SHAPES.join("／")} のいずれか。${category === "茶碗" ? "茶碗の形として" : "茶碗でなければ null"}"}`;
+
+async function classifyItem(request, id, env) {
+  const json = jsonWith(request);
+  if (!authed(request, env)) return json({ error: "合言葉が違います" }, 401);
+  if (!env.ANTHROPIC_API_KEY) return json({ error: "ANTHROPIC_API_KEY が未設定です" }, 500);
+  const row = await env.DB.prepare("SELECT * FROM items WHERE id=?").bind(id).first();
+  if (!row) return json({ error: "not found" }, 404);
+  const images = (await readPhotos(row, env)).slice(0, 1);
+  if (!images.length) return json({ error: "写真を読み出せませんでした" }, 500);
+  try {
+    const { ai } = await analyse(images, 1, row.category || "", env, CLASSIFY_PROMPT(row.category), 200);
+    const f = { color: pick(COLORS, ai.color),
+      shape: row.category === "茶碗" ? pick(SHAPES, ai.shape) : null };
+    await updateRow(id, f, env);
+    return json({ id, sku: row.sku, ...f });
+  } catch (e) {
+    return json({ id, error: e.message, detail: e.detail, retryable: !!e.retryable }, e.status || 502);
+  }
+}
+
 async function analyzeItem(request, id, env) {
   const json = jsonWith(request);
   if (!authed(request, env)) return json({ error: "合言葉が違います" }, 401);
@@ -327,13 +361,19 @@ async function listItems(request, env) {
   const json = jsonWith(request);
   // 公開側は published / sold のみ。draft はここに載らないので、解析前の
   // 行がポータルに漏れることはない。
+  const q = new URL(request.url).searchParams;
+  // 検索用の絞り込み（誰でも使える）。値は語彙にあるものだけ通す。
+  const pubWhere = [], pubBinds = [];
+  if (CATEGORIES.includes(q.get("category") || "")) { pubWhere.push("category=?"); pubBinds.push(q.get("category")); }
+  if (COLORS.includes(q.get("color") || "")) { pubWhere.push("color=?"); pubBinds.push(q.get("color")); }
+  if (SHAPES.includes(q.get("shape") || "")) { pubWhere.push("shape=?"); pubBinds.push(q.get("shape")); }
   if (!authed(request, env)) {
     const { results } = await env.DB.prepare(
-      "SELECT * FROM items WHERE status IN ('published','sold') ORDER BY created_at DESC").all();
+      "SELECT * FROM items WHERE status IN ('published','sold')"
+      + pubWhere.map((w) => " AND " + w).join("") + " ORDER BY created_at DESC").bind(...pubBinds).all();
     return json(results.map(publicItem));
   }
-  const q = new URL(request.url).searchParams;
-  const where = [], binds = [];
+  const where = [...pubWhere], binds = [...pubBinds];
   if (q.get("batch")) { where.push("batch_id=?"); binds.push(q.get("batch")); }
   if (q.get("status")) { where.push("status=?"); binds.push(q.get("status")); }
   const sql = "SELECT * FROM items"
@@ -357,11 +397,14 @@ async function patchItem(request, id, env) {
   const json = jsonWith(request);
   if (!authed(request, env)) return json({ error: "unauthorized" }, 401);
   const body = await request.json();
-  const allowed = ["status", "mei", "mei_yomi", "mei_reason", "description", "tier", "category",
+  const allowed = ["status", "mei", "mei_yomi", "mei_reason", "description", "tier", "category", "color", "shape",
     "kiln", "era", "condition", "technique", "glaze", "sekki", "sekki_reason",
     "mei_en", "mei_romaji", "mei_reason_en", "description_en",
     "technique_en", "glaze_en", "kiln_en", "era_en", "condition_en"];
   if (Array.isArray(body.sekki)) body.sekki = JSON.stringify(body.sekki);
+  // 色・形は語彙の外の値を入れない（絞り込みが効かなくなる）。空は null。
+  if ("color" in body) body.color = pick(COLORS, body.color);
+  if ("shape" in body) body.shape = pick(SHAPES, body.shape);
   const sets = [], vals = [];
   for (const k of allowed) if (k in body) { sets.push(`${k}=?`); vals.push(body[k]); }
   if ("tier" in body) { sets.push("price=?"); vals.push(tiers(env)[Math.min(4, Math.max(1, body.tier)) - 1]); }
@@ -410,6 +453,8 @@ export default {
     if (pathname === "/api/draft" && m === "POST") return createDraft(request, env);
     if (pathname === "/api/items/bulk" && m === "POST") return bulkItems(request, env);
     if (pathname === "/api/items" && m === "GET") return listItems(request, env);
+    const classify = pathname.match(/^\/api\/items\/([\w-]+)\/classify$/);
+    if (classify && m === "POST") return classifyItem(request, classify[1], env);
     const analyze = pathname.match(/^\/api\/items\/([\w-]+)\/analyze$/);
     if (analyze && m === "POST") return analyzeItem(request, analyze[1], env);
     const addph = pathname.match(/^\/api\/items\/([\w-]+)\/photos$/);

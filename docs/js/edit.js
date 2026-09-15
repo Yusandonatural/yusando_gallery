@@ -5,6 +5,9 @@
   const API = "https://yusando-gallery.isozaki-f67.workers.dev";
   const CATEGORIES = ["茶碗","茶入","棗","水指","建水","蓋置","茶杓","花入","香合",
     "釜・風炉","急須・宝瓶","湯冷まし","湯呑・茶托","菓子器","掛物","その他"];
+  // 検索用の色と形。Worker の COLORS / SHAPES と同じ語彙。
+  const COLORS = ["白","黒","赤","茶","青","緑","灰","黄","絵付・多色"];
+  const SHAPES = ["椀形","筒形","半筒","平形","井戸形","天目形","沓形","端反り","その他"];
   const SEKKI = ["立春","雨水","啓蟄","春分","清明","穀雨","立夏","小満","芒種","夏至",
     "小暑","大暑","立秋","処暑","白露","秋分","寒露","霜降","立冬","小雪","大雪","冬至",
     "小寒","大寒"];
@@ -125,6 +128,15 @@
       + '</select></div>'
       + `<div class="ed-f" data-k="tier"><label>等級</label><select data-in="tier">`
       + [1, 2, 3, 4].map((t) => `<option value="${t}"${item.tier === t ? " selected" : ""}>等級 ${t}</option>`).join("")
+      + '</select></div></div>'
+      + '<div class="ed-two">'
+      + `<div class="ed-f" data-k="color"><label>色（検索用）</label><select data-in="color">`
+      + '<option value="">（未設定）</option>'
+      + COLORS.map((c) => `<option value="${c}"${c === item.color ? " selected" : ""}>${c}</option>`).join("")
+      + '</select></div>'
+      + `<div class="ed-f" data-k="shape"><label>形（茶碗の検索用）</label><select data-in="shape">`
+      + '<option value="">（未設定）</option>'
+      + SHAPES.map((c) => `<option value="${c}"${c === item.shape ? " selected" : ""}>${c}</option>`).join("")
       + '</select></div></div>'
       + '<div class="ed-f" data-k="sekki"><label>節気（取り合わせの目安。無理に選ばなくて構いません）</label>'
       + '<div class="ed-sekki">'

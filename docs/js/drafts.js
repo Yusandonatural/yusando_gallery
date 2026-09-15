@@ -79,6 +79,7 @@ function card(i) {
         ${i.sku ? `<span class="sku">${esc(i.sku)}</span>` : ""}
         <span class="mei">${esc(i.mei || "（未読み取り）")}</span>
         ${i.mei_romaji ? `<span class="romaji">${esc(i.mei_romaji)}</span>` : ""}
+        ${i.color || i.shape ? `<span class="romaji" style="color:var(--rikyu)">${esc([i.color, i.shape].filter(Boolean).join("・"))}</span>` : ""}
         <span class="id">${esc(i.id)}　${esc(i.status)}</span>
       </div>
       ${i.description ? `<p class="desc">${esc(i.description)}</p>` : ""}
@@ -251,6 +252,7 @@ function updateSel() {
     : "0 点を選択中";
   $("pub").disabled = !ready;
   $("del").disabled = !n;
+  $("classify").disabled = !n;
 }
 
 $("all").addEventListener("click", () => {
@@ -284,6 +286,31 @@ async function bulk(action, confirmText) {
     updateSel();
   }
 }
+
+// 選んだ点の色と形を、表紙の写真1枚で付け直す。全体の読み直しではないので
+// 銘や説明は変わらない。同時3本まで。
+$("classify").addEventListener("click", async () => {
+  const ids = [...picked];
+  if (!ids.length) return;
+  const b = $("classify"); b.disabled = true;
+  let done = 0, failed = 0;
+  const run = async (id) => {
+    try {
+      const res = await fetch(`${API}/api/items/${id}/classify`, { method: "POST", headers: { "x-upload-token": token() } });
+      const j = await res.json();
+      if (!res.ok) throw new Error(j.error || "エラー " + res.status);
+      const it = items.find((x) => x.id === id);
+      if (it) Object.assign(it, { color: j.color, shape: j.shape });
+      done++;
+    } catch (e) { failed++; }
+    b.textContent = `色・形を付けています… ${done + failed}/${ids.length}`;
+  };
+  const queue = ids.slice();
+  await Promise.all(Array.from({ length: 3 }, async () => { while (queue.length) await run(queue.shift()); }));
+  b.disabled = false; b.textContent = "色・形を付ける";
+  note(`${done} 点に色・形を付けました${failed ? `（${failed} 点は失敗）` : ""}。`, failed ? "err" : "ok");
+  draw();
+});
 
 $("pub").addEventListener("click", () => bulk("publish"));
 $("del").addEventListener("click", () =>

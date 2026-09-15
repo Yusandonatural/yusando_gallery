@@ -114,12 +114,13 @@ python3 build.py
 | Method | Path | 認証 | 何 |
 |---|---|---|---|
 | GET | `/api/health` | 任意 | 設定の有無。合言葉ありなら鍵の書式チェックも返す。**鍵の中身は返さない** |
-| GET | `/api/items` | 任意 | 匿名：published/sold のみ。認証：全部。`?batch=` `?status=` で絞れる |
+| GET | `/api/items` | 任意 | 匿名：published/sold のみ。認証：全部。`?batch=` `?status=`（認証）、`?category=` `?color=` `?shape=`（誰でも）で絞れる |
 | GET | `/api/items/:id` | 不要 | id **または品番**（`Y-0042`／`y-42`／`42`）で1件 |
 | PATCH | `/api/items/:id` | 要 | 許可された列だけ更新（status, mei, category, tier, sekki, 各 `_en` …） |
 | POST | `/api/upload` | 要 | 1点登録。写真→AI→**draft**。画面で直して公開 |
 | POST | `/api/draft` | 要 | 一括登録用。写真だけ預かり `status='draft'`。AIは呼ばない |
 | POST | `/api/items/:id/analyze` | 要 | 下書き1点をAIで読む。失敗は `analysis_status='failed'` で残る |
+| POST | `/api/items/:id/classify` | 要 | **色・形だけ**を表紙1枚で付け直す（安い。文章は触らない）。下書き画面の「色・形を付ける」 |
 | POST | `/api/items/bulk` | 要 | `{ids, action}`。publish（解析済みのみ）／hide／delete（R2の写真も消す） |
 | GET | `/photos/:key` | 不要 | R2 の写真。1年キャッシュ |
 
@@ -143,6 +144,8 @@ analysis_status         pending / done / failed
 analysis_error
 same_object, group_warning   AIが「写真は同じ器か」を答えた結果。0なら下書き画面で警告
 cover_hash              表紙写真のSHA-256。二重登録よけ
+color, shape            検索用の固定語彙（src/index.js の COLORS / SHAPES）。語彙の外の値は入らない。
+                        color は器物全般、shape は茶碗だけ。stock.html で絞り込み、item.html で表示、edit.js で修正
 ```
 現在7件、全部 `茶碗`・`published`。品番 Y-0001〜0007。
 

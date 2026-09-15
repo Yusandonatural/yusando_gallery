@@ -17,3 +17,9 @@ CREATE INDEX        IF NOT EXISTS idx_items_analysis   ON items(analysis_status)
 CREATE INDEX        IF NOT EXISTS idx_items_cover_hash ON items(cover_hash);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_items_sku        ON items(sku);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_items_sku_seq    ON items(sku_seq);
+
+-- 2026-09-15 検索用の色と形（固定語彙。src/index.js の COLORS / SHAPES）
+ALTER TABLE items ADD COLUMN color TEXT;
+ALTER TABLE items ADD COLUMN shape TEXT;
+CREATE INDEX IF NOT EXISTS idx_items_color ON items(color);
+CREATE INDEX IF NOT EXISTS idx_items_shape ON items(shape);

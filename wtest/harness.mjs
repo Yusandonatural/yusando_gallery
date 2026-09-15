@@ -13,7 +13,7 @@ export function makeEnv({ aiReply, aiStatus = 200 } = {}) {
     sekki TEXT, sekki_reason TEXT, mei_en TEXT, mei_romaji TEXT, mei_reason_en TEXT,
     description_en TEXT, technique_en TEXT, glaze_en TEXT, kiln_en TEXT, era_en TEXT,
     condition_en TEXT, batch_id TEXT, analysis_status TEXT NOT NULL DEFAULT 'done',
-    analysis_error TEXT, same_object INTEGER, group_warning TEXT, cover_hash TEXT, forced_tier INTEGER, sku TEXT UNIQUE, sku_seq INTEGER UNIQUE)`);
+    analysis_error TEXT, same_object INTEGER, group_warning TEXT, cover_hash TEXT, forced_tier INTEGER, sku TEXT UNIQUE, sku_seq INTEGER UNIQUE, color TEXT, shape TEXT)`);
 
   const DB = {
     prepare(sql) {
@@ -58,7 +58,7 @@ export function makeEnv({ aiReply, aiStatus = 200 } = {}) {
 }
 
 export const AI_OK = {
-  category: '茶碗', technique: '轆轤成形', technique_en: 'wheel-thrown',
+  category: '茶碗', color: '白', shape: '井戸形', technique: '轆轤成形', technique_en: 'wheel-thrown',
   glaze: '長石釉', glaze_en: 'feldspar glaze', kiln: '不詳', kiln_en: 'Unknown',
   era: '現代', era_en: 'Contemporary', condition: '良好', condition_en: 'Good',
   has_box: true, mei: '初霜', mei_yomi: 'はつしも', mei_romaji: 'Hatsushimo',

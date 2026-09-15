@@ -37,7 +37,18 @@ header{border-bottom:1px solid var(--line);background:rgba(247,243,234,.94);
 .intro p .en{font-family:var(--sans);font-size:12px;color:var(--rikyu);
   letter-spacing:.04em;margin-top:6px}
 
-.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:34px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
+.subtabs{display:flex;flex-direction:column;gap:8px;align-items:center;margin-bottom:30px}
+.subtabs:empty{margin-bottom:16px}
+.subrow{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center}
+.sublabel{font-family:var(--sans);font-size:10.5px;letter-spacing:.2em;color:var(--rikyu);margin-right:4px}
+.sub{font-family:var(--sans);font-size:11px;letter-spacing:.06em;line-height:1.4;
+  padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:transparent;
+  color:var(--ink-soft);cursor:pointer;transition:.2s}
+.sub i{display:block;font-style:normal;font-size:8.5px;letter-spacing:.1em;color:var(--rikyu)}
+.sub:hover{border-color:var(--matcha);color:var(--matcha)}
+.sub.on{background:var(--matcha);border-color:var(--matcha);color:var(--paper)}
+.sub.on i{color:rgba(247,243,234,.75)}
 .tab{font-family:var(--sans);font-size:11.5px;letter-spacing:.08em;line-height:1.5;
   padding:8px 16px;border:1px solid var(--line);border-radius:999px;
   background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:.25s;text-align:center}
@@ -109,6 +120,7 @@ a.card:hover .frame{border-color:var(--gold)}
        <span class="en">Each piece is one of a kind, held at Yusando in Tsuge, Nara.</span></p>
   </div>
   <div class="tabs" id="tabs"></div>
+  <div class="subtabs" id="subtabs"></div>
   <input class="find" id="find" type="search" autocomplete="off"
          placeholder="品番・銘で探す　Search">
   <div id="list"><p class="msg">読み込んでいます…<br>Loading…</p></div>
@@ -130,10 +142,16 @@ const CAT_EN = {"茶碗":"Chawan","茶入":"Chaire","棗":"Natsume","水指":"Mi
 "釜・風炉":"Kama / Furo","急須・宝瓶":"Kyūsu / Hōhin","湯冷まし":"Yuzamashi",
 "湯呑・茶托":"Yunomi / Chataku","菓子器":"Kashiki","掛物":"Kakemono","その他":"Other"};
 
+/* 検索用の色と形（Worker の COLORS / SHAPES と同じ語彙。英語は補足まで） */
+const COLOR_EN = {"白":"White","黒":"Black","赤":"Red","茶":"Brown","青":"Blue","緑":"Green",
+  "灰":"Grey","黄":"Yellow","絵付・多色":"Painted / multi-colour"};
+const SHAPE_EN = {"椀形":"Wan-nari · bowl","筒形":"Tsutsu · cylinder","半筒":"Han-tsutsu · half-cylinder",
+  "平形":"Hira · shallow","井戸形":"Ido","天目形":"Tenmoku","沓形":"Kutsu · shoe","端反り":"Hatazori · flared","その他":"Other"};
+
 const esc = (v) => String(v == null ? "" : v).replace(/[&<>"]/g,
   (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
 
-let items = [], filter = "";
+let items = [], filter = "", fColor = "", fShape = "";
 
 function cards(list) {
   if (!list.length) {
@@ -172,13 +190,19 @@ function draw() {
   const q = (document.getElementById("find").value || "").trim().toLowerCase();
   // 品番は Y-0042 でも 42 でも当たるようにする。箱の札を見ながら打つので。
   const qn = q.replace(/^y-?0*/, "");
+  subtabs();   // 先に呼ぶ。種別を変えて意味を失った色・形の選択をここで外す
   let list = filter ? items.filter((i) => i.category === filter) : items;
+  if (fColor) list = list.filter((i) => i.color === fColor);
+  if (fShape) list = list.filter((i) => i.shape === fShape);
   if (q) list = list.filter((i) => {
     const sku = (i.sku || "").toLowerCase();
     return sku.includes(q) || (qn && sku.replace(/^y-?0*/, "") === qn)
       || (i.mei || "").toLowerCase().includes(q)
       || (i.mei_romaji || "").toLowerCase().includes(q)
-      || (i.mei_yomi || "").includes(q);
+      || (i.mei_yomi || "").includes(q)
+      // 「白 井戸」のように色や形の語でも当たる
+      || (i.color || "").includes(q) || (COLOR_EN[i.color] || "").toLowerCase().includes(q)
+      || (i.shape || "").includes(q) || (SHAPE_EN[i.shape] || "").toLowerCase().includes(q);
   });
   document.getElementById("list").innerHTML = (list.length ? cards(list)
       : '<p class="msg">該当する茶道具はありません。<br>No pieces match that search.</p>')
@@ -197,6 +221,26 @@ function draw() {
 }
 
 document.getElementById("find").addEventListener("input", draw);
+
+// 色と形の絞り込み。値があるものだけ札にする（空の札を並べない）。
+// 形は茶碗のためのものなので、種別を「茶碗」か「すべて」にしているときだけ出す。
+function subtabs() {
+  const box = document.getElementById("subtabs");
+  const base = filter ? items.filter((i) => i.category === filter) : items;
+  const colors = Object.keys(COLOR_EN).filter((c) => base.some((i) => i.color === c));
+  const shapes = (!filter || filter === "茶碗")
+    ? Object.keys(SHAPE_EN).filter((sh) => base.some((i) => i.shape === sh)) : [];
+  if (fColor && !colors.includes(fColor)) fColor = "";
+  if (fShape && !shapes.includes(fShape)) fShape = "";
+  const row = (label, list, cur, key, en) => list.length < 2 ? "" :
+    '<div class="subrow"><span class="sublabel">' + label + "</span>"
+    + '<button class="sub' + (cur ? "" : " on") + '" data-' + key + '="">すべて</button>'
+    + list.map((v) => '<button class="sub' + (v === cur ? " on" : "") + '" data-' + key + '="' + esc(v) + '">'
+        + esc(v) + "<i>" + esc(en[v] || "") + "</i></button>").join("") + "</div>";
+  box.innerHTML = row("色", colors, fColor, "color", COLOR_EN) + row("形", shapes, fShape, "shape", SHAPE_EN);
+  box.querySelectorAll("button[data-color]").forEach((b) => { b.onclick = () => { fColor = b.dataset.color; draw(); }; });
+  box.querySelectorAll("button[data-shape]").forEach((b) => { b.onclick = () => { fShape = b.dataset.shape; draw(); }; });
+}
 
 function tabs() {
   const seen = [];
