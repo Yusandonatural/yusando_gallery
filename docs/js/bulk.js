@@ -161,8 +161,17 @@ function regroup() {
     const last = groups[groups.length - 1];
     if (last && last.photos.length !== per && groups.length > 1) last.odd = true;
   }
+  // 枚数・時刻で分けたときも、組の中に「_top」「_bottom」の名前があれば
+  // 正面（番号だけの名前）を先頭に置く。表紙が上面や裏面にならないように。
+  groups.forEach((g) => {
+    if (g.photos.some((pi) => parseName(photos[pi].file.name).face))
+      g.photos.sort((a, b) => parseName(photos[a].file.name).rank - parseName(photos[b].file.name).rank);
+  });
   drawGroups();
 }
+
+// 送るとき、どの写真を表紙にするかは組の並び順で決まる（1枚目＝表紙）。
+// 手で「←→」を押して並べ替えた結果もそのまま尊重する。
 
 // ファイル名で分ける。同じ番号を1組にし、正面→上面→裏面→箱の順に並べる。
 // 正面（番号だけの名前）が無い組は印を付ける。表紙が裏面になってしまうため。
