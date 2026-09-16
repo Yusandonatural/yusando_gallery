@@ -845,7 +845,7 @@ def detail_fr(t, i):
     <div class="check-grid">{checks}</div>
   </section>
   <section class="d-sec reveal">
-    <h2>Pièces disponibles <span class="en-sub">この道具の在庫</span></h2>
+    <h2>Galerie <span class="en-sub">この道具のギャラリー</span></h2>
     <div class="d-rule"></div>
     <div class="shop-stub" data-ec-category="{t["slug"]}" data-ec-root="../../" data-ec-name="{t["name"]}">
       <div class="listing-slot" id="listings-{t["slug"]}"></div>

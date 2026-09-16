@@ -858,7 +858,7 @@ def detail_zh(t, i):
     <div class="check-grid">{checks}</div>
   </section>
   <section class="d-sec reveal">
-    <h2>本藝廊現有的此類道具 <span class="en-sub">この道具の在庫</span></h2>
+    <h2>此類道具的藝廊 <span class="en-sub">GALLERY</span></h2>
     <div class="d-rule"></div>
     <div class="shop-stub" data-ec-category="{t["slug"]}" data-ec-root="../../" data-ec-name="{t["name"]}">
       <div class="listing-slot" id="listings-{t["slug"]}"></div>

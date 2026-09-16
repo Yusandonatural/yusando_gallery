@@ -376,6 +376,23 @@ a.stock-card:hover .st-frame{border-color:var(--gold)}
 .st-note{margin-top:28px;text-align:center;font-family:var(--sans);font-size:11.5px;
   letter-spacing:.06em;color:var(--rikyu)}
 
+/* ---- 道具詳細のギャラリー（色・形の絞り込み、もっと見る） ---- */
+.shop-stub.has-stock h3 small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.2em;
+  color:var(--rikyu);margin-top:6px}
+.st-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;margin:-10px 0 18px}
+.st-chips+.st-chips{margin-top:-6px}
+.st-chips-l{font-family:var(--sans);font-size:10.5px;letter-spacing:.2em;color:var(--rikyu);margin-right:4px}
+.st-chip{font-family:var(--sans);font-size:11.5px;letter-spacing:.06em;line-height:1.4;padding:6px 12px;
+  border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:.2s}
+.st-chip:hover{border-color:var(--matcha);color:var(--matcha)}
+.st-chip.on{background:var(--matcha);border-color:var(--matcha);color:var(--paper)}
+.st-none{text-align:center;font-family:var(--sans);font-size:13px;color:var(--ink-soft);padding:30px 0}
+.st-more{text-align:center;margin-top:26px}
+.st-more .btn span{font-family:var(--sans);font-size:11px;opacity:.7;margin-left:6px}
+.st-all{text-align:center;margin-top:16px}
+.st-all a{font-family:var(--sans);font-size:12px;letter-spacing:.16em;color:var(--matcha);
+  border-bottom:1px solid rgba(74,93,58,.35)}
+
 @media (max-width:640px){
   .shop-stub.has-stock{padding:26px 16px 24px}
   .stock-grid{grid-template-columns:1fr 1fr;gap:14px}

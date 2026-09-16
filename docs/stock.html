@@ -1,6 +1,10 @@
 <!doctype html><html lang="ja"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="application-name" content="Cerendipity">
+<meta name="apple-mobile-web-app-title" content="Cerendipity">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/cerendipity-favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/cerendipity-touch-180.png">
 <title>悠三堂ギャラリーの茶道具｜Pieces in the Yusando Gallery</title>
 <meta name="description" content="悠三堂ギャラリーにある茶道具の一覧。すべて一点もの。Tea utensils held in the Yusando gallery, each one of a kind.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -155,6 +159,8 @@ const esc = (v) => String(v == null ? "" : v).replace(/[&<>"]/g,
   (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
 
 let items = [], filter = "", fColor = "", fShape = "";
+// 道具詳細の「在庫一覧で見る」から来たときは、その種別で開く
+try { filter = new URLSearchParams(location.search).get("category") || ""; } catch (e) { /* ignore */ }
 
 function cards(list) {
   if (!list.length) {
@@ -250,8 +256,9 @@ function tabs() {
   items.forEach((i) => { if (i.category && seen.indexOf(i.category) < 0) seen.push(i.category); });
   if (seen.length < 2) return;                     // 種別が1つなら出さない
   const box = document.getElementById("tabs");
-  box.innerHTML = '<button class="tab on" data-cat="">すべて<i>ALL</i></button>'
-    + seen.map((c) => '<button class="tab" data-cat="' + esc(c) + '">' + esc(c)
+  if (filter && seen.indexOf(filter) < 0) filter = "";
+  box.innerHTML = '<button class="tab' + (filter ? "" : " on") + '" data-cat="">すべて<i>ALL</i></button>'
+    + seen.map((c) => '<button class="tab' + (c === filter ? " on" : "") + '" data-cat="' + esc(c) + '">' + esc(c)
         + "<i>" + esc(CAT_EN[c] || "") + "</i></button>").join("");
   box.querySelectorAll(".tab").forEach((t) => {
     t.onclick = () => { filter = t.dataset.cat || ""; draw(); };

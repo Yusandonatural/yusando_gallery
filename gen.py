@@ -1057,7 +1057,7 @@ def detail(t, i):
   </section>
 
   <section class="d-sec reveal">
-    <h2>この道具の在庫 <span class="en-sub">AVAILABLE PIECES</span></h2>
+    <h2>この道具のギャラリー <span class="en-sub">GALLERY</span></h2>
     <div class="d-rule"></div>
     <div class="shop-stub" data-ec-category="{t["slug"]}" data-ec-root="../" data-ec-name="{t["name"]}">
       <div class="listing-slot" id="listings-{t["slug"]}"></div>
@@ -1163,27 +1163,39 @@ window.CHADOGU_EC = {
   var en = lang === 'en';
   var name = stub.getAttribute('data-ec-name') || cat;
   var STR = {
-    ja: { head: '悠三堂ギャラリーにある' + name, sold: '売却済', detail: '詳しく見る',
-          ask: 'お問い合わせください', gone: 'お渡し済み',
+    ja: { head: name + 'のギャラリー', count: function (n) { return n + ' 点'; },
+          sold: '売却済', ask: 'お問い合わせください', gone: 'お渡し済み',
+          more: 'もっと見る', all: '在庫一覧で見る →', color: '色', shape: '形', any: 'すべて',
+          none: '該当する' + name + 'はいまありません。',
           note: 'すべて一点ものです。オンラインでの販売は行っておりません。',
           disc: '銘は当店による創作で、伝来の銘ではございません。'
               + '説明にも推測で記した事項が含まれます。' },
-    en: { head: 'In the Yusando Gallery', sold: 'SOLD', detail: 'View details',
-          ask: 'Enquire', gone: 'No longer available',
+    en: { head: name + ' in the Gallery', count: function (n) { return n + ' pieces'; },
+          sold: 'SOLD', ask: 'Enquire', gone: 'No longer available',
+          more: 'Show more', all: 'See all in the stock list →', color: 'Colour', shape: 'Shape', any: 'All',
+          none: 'No ' + name.toLowerCase() + ' in the gallery at the moment.',
           note: 'Each piece is one of a kind. Online ordering is not yet available.',
           disc: 'The names we give are our own, not inherited ones, and our notes '
               + 'include informed judgements rather than established fact.' },
-    fr: { head: 'À la galerie Yusando', sold: 'VENDU', detail: 'Voir la fiche',
-          ask: 'Nous écrire', gone: 'Plus disponible',
-          note: 'Chaque pièce est unique. La vente en ligne n\u2019est pas encore ouverte.',
+    fr: { head: name + ' à la galerie', count: function (n) { return n + ' pièces'; },
+          sold: 'VENDU', ask: 'Nous écrire', gone: 'Plus disponible',
+          more: 'Voir plus', all: 'Tout voir dans le stock →', color: 'Couleur', shape: 'Forme', any: 'Tout',
+          none: 'Aucune pièce de ce type pour le moment.',
+          note: 'Chaque pièce est unique. La vente en ligne n’est pas encore ouverte.',
           disc: 'Les noms que nous donnons sont les nôtres, non des noms transmis, '
               + 'et nos notes comportent des jugements plutôt que des faits établis.' },
-    'zh-Hant': { head: '悠三堂藝廊所藏', sold: '已售出', detail: '查看詳情',
-          ask: '歡迎詢問', gone: '已交付',
+    'zh-Hant': { head: name + '藝廊', count: function (n) { return n + ' 件'; },
+          sold: '已售出', ask: '歡迎詢問', gone: '已交付',
+          more: '看更多', all: '到庫存一覽查看 →', color: '顏色', shape: '器形', any: '全部',
+          none: '目前沒有這類器物。',
           note: '每件皆為一點物。目前尚未開放線上販售。',
           disc: '各器物的銘由本店所取，並非傳世之銘；說明中亦含推測的部分。' }
   };
   var T = STR[lang] || STR.ja;
+  // 色・形の語（日本語の語彙が原本。英語ページでは訳を添える）
+  var COLOR_EN = {'白':'White','黒':'Black','赤':'Red','茶':'Brown','青':'Blue','緑':'Green','灰':'Grey','黄':'Yellow','絵付・多色':'Painted'};
+  var SHAPE_EN = {'椀形':'Wan-nari','筒形':'Tsutsu','半筒':'Han-tsutsu','平形':'Hira','井戸形':'Ido','天目形':'Tenmoku','沓形':'Kutsu','端反り':'Hatazori','その他':'Other'};
+  var label = function (v, map) { return en ? (map[v] || v) : v; };
 
   var esc = function (v) {
     return String(v == null ? '' : v).replace(/[&<>"]/g, function (c) {
@@ -1202,64 +1214,89 @@ window.CHADOGU_EC = {
   };
   if (DBG) note('category=' + cat + ' / endpoint=' + EC.endpoint);
 
-  fetch(EC.endpoint + '/api/items').then(function (r) {
+  var PAGE = 12;
+  var items = [], fColor = '', fShape = '', shown = PAGE;
+
+  function card(i) {
+    var sold = i.status === 'sold';
+    var photo = (i.photos && i.photos[0])
+      ? '<img loading="lazy" alt="' + esc(i.mei) + '" src="'
+        + EC.endpoint + '/photos/' + esc(i.photos[0]) + '">'
+      : '<span class="st-nophoto"></span>';
+    var pick = function (k) { return (en && i[k + '_en']) ? i[k + '_en'] : i[k]; };
+    var sk = i.sekki;
+    if (typeof sk === 'string') { try { sk = JSON.parse(sk); } catch (e) { sk = sk.split(/[,・]/); } }
+    var sekki = (Array.isArray(sk) && sk.length)
+      ? '<p class="st-sekki">' + sk.slice(0, 3).map(function (v) {
+          return '<span>' + esc(en ? (EC.sekkiEn[v] || v) : v) + '</span>'; }).join('') + '</p>' : '';
+    var facts = [pick('kiln'), pick('era')].filter(function (v) {
+      return v && !/^(不詳|不明|unknown)$/i.test(String(v).trim()); });
+    var meta = facts.length
+      ? '<p class="st-meta">' + facts.map(esc).join(en ? ' · ' : ' ・ ') + '</p>' : '';
+    var sub = en ? i.mei : i.mei_yomi;
+    return '<a class="stock-card' + (sold ? ' sold' : '') + '" href="'
+      + root + 'item.html?id=' + encodeURIComponent(i.id) + '">'
+      + '<span class="st-frame">' + photo
+      + (sold ? '<span class="st-badge">' + T.sold + '</span>' : '') + '</span>'
+      + '<span class="st-body">'
+      + '<span class="st-mei">' + esc((en && i.mei_romaji) ? i.mei_romaji : (i.mei || (en ? 'Unnamed' : '無銘'))) + '</span>'
+      + (sub ? '<span class="st-yomi">' + esc(sub) + '</span>' : '')
+      + meta + sekki
+      + '<span class="st-price">' + esc(sold ? T.gone : T.ask) + '</span>'
+      + '</span></a>';
+  }
+
+  // 色・形の絞り込み。値のあるものだけ札にし、2つ以上あるときだけ出す。
+  function chips(key, cur, vocab, map, lab) {
+    var vals = Object.keys(vocab).filter(function (v) {
+      return items.some(function (i) { return i[key] === v; }); });
+    if (vals.length < 2) return '';
+    return '<div class="st-chips"><span class="st-chips-l">' + esc(lab) + '</span>'
+      + '<button class="st-chip' + (cur ? '' : ' on') + '" data-' + key + '="">' + esc(T.any) + '</button>'
+      + vals.map(function (v) {
+          return '<button class="st-chip' + (v === cur ? ' on' : '') + '" data-' + key + '="' + esc(v) + '">'
+            + esc(label(v, map)) + '</button>'; }).join('') + '</div>';
+  }
+
+  function draw() {
+    var list = items.filter(function (i) {
+      return (!fColor || i.color === fColor) && (!fShape || i.shape === fShape); });
+    var visible = list.slice(0, shown);
+    var head = '<h3>' + esc(T.head) + ' <small>' + esc(T.count(list.length)) + '</small></h3>';
+    var filters = chips('color', fColor, COLOR_EN, COLOR_EN, T.color)
+      + (cat === '茶碗' ? chips('shape', fShape, SHAPE_EN, SHAPE_EN, T.shape) : '');
+    var grid = visible.length
+      ? '<div class="stock-grid">' + visible.map(card).join('') + '</div>'
+      : '<p class="st-none">' + esc(T.none) + '</p>';
+    var more = list.length > shown
+      ? '<p class="st-more"><button class="btn" data-more>' + esc(T.more)
+        + ' <span>' + (list.length - shown) + '</span></button></p>' : '';
+    var all = '<p class="st-all"><a href="' + root + 'stock.html?category=' + encodeURIComponent(cat) + '">'
+      + esc(T.all) + '</a></p>';
+    stub.innerHTML = head + filters + grid + more + all
+      + '<p class="st-note">' + esc(T.note) + '</p>'
+      + '<p class="st-disc">' + esc(T.disc) + '</p>';
+  }
+
+  stub.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    if (b.hasAttribute('data-more')) { shown += PAGE; draw(); return; }
+    if (b.hasAttribute('data-color')) { fColor = b.getAttribute('data-color'); shown = PAGE; draw(); }
+    else if (b.hasAttribute('data-shape')) { fShape = b.getAttribute('data-shape'); shown = PAGE; draw(); }
+  });
+
+  fetch(EC.endpoint + '/api/items?category=' + encodeURIComponent(cat)).then(function (r) {
     if (!r.ok) throw new Error(r.status);
     return r.json();
   }).then(function (all) {
-    var items = (all || []).filter(function (i) {
+    items = (all || []).filter(function (i) {
       return i.category === cat && i.status !== 'hidden';
     });
     if (DBG) note('APIから ' + (all || []).length + ' 件、うち該当 ' + items.length + ' 件');
     if (!items.length) return 0;                      // 準備中の文面を残す
-
-    var cards = items.map(function (i) {
-      var sold = i.status === 'sold';
-      var photo = (i.photos && i.photos[0])
-        ? '<img loading="lazy" alt="' + esc(i.mei) + '" src="'
-          + EC.endpoint + '/photos/' + esc(i.photos[0]) + '">'
-        : '<span class="st-nophoto"></span>';
-
-      // 英語ページでは英語の項目を優先し、無ければ日本語にもどる
-      var pick = function (k) { return (en && i[k + '_en']) ? i[k + '_en'] : i[k]; };
-
-      // sekki は配列でもJSON文字列でも受ける(D1のTEXT列のため)
-      var sk = i.sekki;
-      if (typeof sk === 'string') {
-        try { sk = JSON.parse(sk); } catch (e) { sk = sk.split(/[,・]/); }
-      }
-      var sekki = (Array.isArray(sk) && sk.length)
-        ? '<p class="st-sekki">' + sk.slice(0, 3).map(function (v) {
-            return '<span>' + esc(en ? (EC.sekkiEn[v] || v) : v) + '</span>'; }).join('')
-          + '</p>' : '';
-
-      // 産地・時代は分かっているものだけ、中黒でつなぐ
-      var facts = [pick('kiln'), pick('era')].filter(function (v) {
-        return v && !/^(不詳|不明|unknown)$/i.test(String(v).trim()); });
-      var meta = facts.length
-        ? '<p class="st-meta">' + facts.map(esc).join(en ? ' · ' : ' ・ ') + '</p>' : '';
-
-      return '<a class="stock-card' + (sold ? ' sold' : '') + '" href="'
-        + root + 'item.html?id=' + encodeURIComponent(i.id) + '">'
-        + '<span class="st-frame">' + photo
-        + (sold ? '<span class="st-badge">' + T.sold + '</span>' : '') + '</span>'
-        + '<span class="st-body">'
-        + '<span class="st-mei">'
-        // 銘は訳さない。英語ページではローマ字を主に、漢字を添える
-        + esc((en && i.mei_romaji) ? i.mei_romaji : (i.mei || (en ? 'Unnamed' : '無銘'))) + '</span>'
-        + (function () {
-            var sub = en ? i.mei : i.mei_yomi;
-            return sub ? '<span class="st-yomi">' + esc(sub) + '</span>' : '';
-          })()
-        + meta + sekki
-        + '<span class="st-price">' + esc(sold ? T.gone : T.ask) + '</span>'
-        + '</span></a>';
-    }).join('');
-
     stub.classList.add('has-stock');
-    stub.innerHTML = '<h3>' + esc(T.head) + '</h3>'
-      + '<div class="stock-grid">' + cards + '</div>'
-      + '<p class="st-note">' + esc(T.note) + '</p>'
-      + '<p class="st-disc">' + esc(T.disc) + '</p>';
+    draw();
     return items.length;
   }).then(function (n) {
     if (DBG) note('在庫 ' + n + ' 件を表示しました (' + cat + ')');

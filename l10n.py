@@ -131,7 +131,8 @@ _STRIP = [
     r'<link rel="alternate" hreflang="[^"]*" href="[^"]*">\n?',
     r'<link rel="canonical" href="[^"]*">\n?',
     r'<meta (?:property="og:|name="twitter:)[^>]*>\n?',
-    r'<link rel="(?:icon|apple-touch-icon)"[^>]*>\n?',
+    r'<link rel="(?:icon|apple-touch-icon|manifest)"[^>]*>\n?',
+    r'<meta name="(?:application-name|apple-mobile-web-app-title)"[^>]*>\n?',
     r'<meta name="theme-color"[^>]*>\n?',
 ]
 
@@ -187,6 +188,10 @@ def inject_head(path, prefix, page):
         f'<link rel="icon" type="image/png" sizes="32x32" href="{up}assets/cerendipity-favicon-32.png">\n'
         f'<link rel="icon" type="image/png" sizes="16x16" href="{up}assets/cerendipity-favicon-16.png">\n'
         f'<link rel="apple-touch-icon" href="{up}assets/cerendipity-touch-180.png">\n'
+        # ホーム画面・Dock・ブックマークでの名前。無いと「名称未設定」になる端末がある。
+        f'<meta name="application-name" content="Cerendipity">\n'
+        f'<meta name="apple-mobile-web-app-title" content="Cerendipity">\n'
+        f'<link rel="manifest" href="{up}site.webmanifest">\n'
         # サイトの地色は生成りのままなので theme-color は据え置き（ブランド規則）
         f'<meta name="theme-color" content="#4a5d3a">\n'
         f'<link rel="canonical" href="{_loc(path)}">\n'
@@ -251,6 +256,12 @@ def finish(pages_by_lang):
     # 先に書いてから番号を付ける。前は読んでから書いていたので、lang.js を
     # 直しても版番号が古いままで、初回のクローンでは lang.js が無くて落ちた。
     write_lang_js()
+    open(os.path.join(ROOT, "site.webmanifest"), "w", encoding="utf-8").write(
+        '{"name":"Cerendipity — 悠三堂古美術ギャラリー","short_name":"Cerendipity",'
+        '"start_url":"/","display":"browser","background_color":"#f7f3ea","theme_color":"#4a5d3a",'
+        '"icons":[{"src":"/assets/cerendipity-favicon-32.png","sizes":"32x32","type":"image/png"},'
+        '{"src":"/assets/cerendipity-touch-180.png","sizes":"180x180","type":"image/png"},'
+        '{"src":"/assets/cerendipity-symbol-ink-2000.png","sizes":"2000x2000","type":"image/png"}]}\n')
     ver = {}
     for name in ("site", "lang"):
         ver[name] = hashlib.md5(
