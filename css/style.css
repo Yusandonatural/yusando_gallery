@@ -50,12 +50,10 @@ img,svg{display:block}
   font-size:26px;letter-spacing:.055em;line-height:1;color:var(--logo-ink);
   white-space:nowrap;display:block;
 }
-/* サイト全体の svg{display:block} が効くと C が改行して落ちるので戻す。
-   C は装飾ではなく文字なので、行の中に収まっていないといけない。 */
-.brand__c{display:inline-block;height:.88em;width:.88em;vertical-align:baseline;
-  margin-right:.02em;fill:currentColor}
-/* 継ぎは金。ただし小さくなると潰れるので、下の媒体クエリで墨に落とす */
-.brand__seam{fill:none;stroke:var(--logo-gold);stroke-width:2.6;stroke-linecap:round}
+/* C はロゴの SVG ファイル（assets/cerendipity-symbol-gold.svg）を <img> で貼る。
+   文字と同じ行に収めるので inline-block。サイト全体の img 指定に負けないよう width も明示。 */
+.brand__c{display:inline-block;height:.88em;width:.88em;max-width:none;vertical-align:baseline;
+  margin-right:.02em}
 .brand-ja{font-family:var(--sans);font-size:11px;letter-spacing:.16em;
   color:var(--ink-soft);white-space:nowrap;display:block}
 a.brand:hover .brand-word{color:var(--matcha)}
@@ -63,7 +61,6 @@ a.brand:hover .brand-word{color:var(--matcha)}
 @media (max-width:640px){
   /* シンボル高が 20px を切るので、継ぎを墨に落として潰れを防ぐ */
   .brand-word{font-size:20px;letter-spacing:.08em}
-  .brand__seam{stroke:currentColor}
   .brand-ja{font-size:10px;letter-spacing:.12em}
 }
 .nav-links{display:flex;gap:22px;font-family:var(--sans);font-size:12.5px;letter-spacing:.1em}

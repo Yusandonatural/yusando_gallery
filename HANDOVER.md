@@ -95,6 +95,9 @@ python3 build.py
 - 煎茶の詳細ページはまだ無い。札は `<div class="tool-card plain">` で「準備中」。作るときは `sencha_ja.py` の `TOOLS[].sections` を `detail()` の型に流し込み、`CORE` に `tools/kyusu.html` 等を足す。
 - 煎茶碗は「煎茶碗」の札だけ。抹茶側の「茶碗」は煎茶側には出さない（決定 2026-09-14）。
 
+### ロゴ
+ヘッダーの「C」は **`assets/cerendipity-symbol-gold.svg`** を `<img class="brand__c">` で貼る（ポータル4言語・`stock.html`・`item.html` とも）。続く「erendipity」は文字（Optima 系）。ロゴ一式は `assets/`（symbol-ink／gold／reverse、favicon-16／32、favicon.ico、OG）。C を差し替えるときは SVG ファイルを置き換えるだけ。ページ側は `.brand__c` の高さ（.88em）だけ持つ。
+
 ### アイコン
 `icons.py` に線だけを書く。煎茶側の17点（急須・宝瓶・湯冷まし・煎茶碗・茶托・茶心壺・茶合・涼炉・水注・巾筒・瓶敷・盆・提籃・茶櫃・炉屏・器局・香炉）もここ。太さ・色は CSS（`.ico`, `.ico--sm`, `.ico--hero`, `.ico--plate`）が決める。部位図の番号は `parts_icon(slug, dots)`。座標は `gen_en.py` の `TOOLS_EN[...]["parts_dots"]` が原本で、仏・中はそれを import している。
 
