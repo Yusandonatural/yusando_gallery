@@ -7,6 +7,9 @@ const CATEGORIES = ["茶碗","茶入","棗","水指","建水","蓋置","茶杓",
   "釜・風炉","急須・宝瓶","湯冷まし","湯呑・茶托","菓子器","掛物","その他"];
 
 const batch = new URLSearchParams(location.search).get("batch") || "";
+// ?batch= で来たときは、公開済みも含めて「その回の分」を全部見せる。
+// 既定の「下書きのみ」のままだと、公開したあとの回は何も出ない。
+if (batch) $("filter").value = "";
 let items = [];
 const picked = new Set();
 
