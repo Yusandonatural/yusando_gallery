@@ -61,6 +61,7 @@ def shell_en(title, desc, body, root="../", current=""):
       <a href="{root}en/guide.html">PROCEDURE</a>
       <a href="{root}en/articles/index.html">READING</a>
       <a href="{root}en/index.html#about">ABOUT</a>
+      <a href="{root}en/index.html#wholesale">WHOLESALE</a>
     </nav>
   </div>
   <p class="f-copy">© 2026 YUSANDO ANTIQUE GALLERY — Demo draft. Online ordering is not yet available.</p>
@@ -468,6 +469,25 @@ index_body = f'''
       <div class="care-cell"><h3>Lacquer <span class="en-sub">NATSUME</span></h3><p>Never wash with water — a soft dry cloth only. Store in its paulownia box, away from sun.</p></div>
       <div class="care-cell"><h3>Iron <span class="en-sub">KAMA</span></h3><p>Empty and dry with residual heat. The mineral scale protects it — never scrub, never soap.</p></div>
     </div>
+  </div>
+</section>
+
+<section class="section tight" id="wholesale">
+  <div class="section-head reveal" style="margin-bottom:40px">
+    <p class="section-kicker">WHOLESALE &amp; TRADE</p>
+    <h2 class="section-title">Selections for the Trade</h2>
+    <div class="rule"></div>
+    <p class="section-lede">For tea schools, ryokan and restaurants, events and gifts, and buyers abroad: tell us the use, the budget and how many pieces, and we will put together a selection from the gallery.</p>
+  </div>
+  <div class="check-grid reveal" style="max-width:640px;margin-left:auto;margin-right:auto">
+    <div class="check-cell"><h3>A selection made for you</h3><p>A practice set, several pieces of one kind, or a seasonal grouping — tell us the use and we will choose from what the gallery holds.</p></div>
+    <div class="check-cell"><h3>Condition, described</h3><p>Mei, dimensions, whether the original box survives, chips and old repairs — sent piece by piece with photographs.</p></div>
+    <div class="check-cell"><h3>Shipping abroad</h3><p>We will talk through packing and paperwork. Terms vary by country and by object, so please ask before you decide.</p></div>
+    <div class="check-cell"><h3>How it works</h3><p>No prices are shown on this site. Online handling is still in preparation, so terms are given individually.</p></div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <a class="btn" href="https://form.jotform.com/262528014622047" target="_blank" rel="noopener">Wholesale enquiry — CONTACT US</a>
+    <p class="section-lede" style="margin-top:18px;font-size:14px">Please write “wholesale” in your message so it reaches the right desk.</p>
   </div>
 </section>
 '''

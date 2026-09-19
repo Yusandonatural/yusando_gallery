@@ -587,6 +587,7 @@ def shell(title, desc, body, root="", current="", extra_head=""):
       <a href="{root}guide.html">使い方・点前 GUIDE</a>
       <a href="{root}articles/index.html">読みもの ARTICLES</a>
       <a href="{root}index.html#about">このサイトについて ABOUT</a>
+      <a href="{root}index.html#wholesale">卸・業者様へ WHOLESALE</a>
     </nav>
   </div>
   <p class="f-copy">© 2026 YUSANDO ANTIQUE GALLERY — このサイトはデモ・下書きです。オンラインでの販売は行っておりません。</p>
@@ -744,6 +745,25 @@ index_body = f'''
       <div class="care-cell"><h3>漆器・棗 <span class="en-sub">NATSUME</span></h3><p>水洗いは避け、柔らかい乾いた布で拭くだけに。直射日光と乾燥が大敵、桐箱で保管を。</p></div>
       <div class="care-cell"><h3>鉄器・釜 <span class="en-sub">KAMA</span></h3><p>使用後は湯を捨て、余熱でしっかり乾燥。湯垢が育つと錆に強くなるため、洗剤や研磨は禁物です。</p></div>
     </div>
+  </div>
+</section>
+
+<section class="section tight" id="wholesale">
+  <div class="section-head reveal" style="margin-bottom:40px">
+    <p class="section-kicker">卸・業者様へ — WHOLESALE</p>
+    <h2 class="section-title">まとめてのお取り合わせ</h2>
+    <div class="rule"></div>
+    <p class="section-lede">茶道教室、旅館・飲食店、催事やギフト、海外のバイヤーの方など、複数点をまとめてお探しの方のご相談を承っています。ご用途・ご予算・点数をお聞きして、ギャラリーの在庫から取り合わせをご提案します。</p>
+  </div>
+  <div class="check-grid reveal" style="max-width:640px;margin-left:auto;margin-right:auto">
+    <div class="check-cell"><h3>取り合わせのご提案</h3><p>稽古用のひと揃え、同じ種別をまとめて、季節に合わせた組み合わせなど。ご用途をうかがって、在庫の中からお選びします。</p></div>
+    <div class="check-cell"><h3>状態のご案内</h3><p>銘・寸法・共箱の有無・傷や直しの跡まで、写真を添えて一点ずつお伝えします。</p></div>
+    <div class="check-cell"><h3>海外への発送</h3><p>梱包と書類についてご相談に応じます。国や品目によって条件が変わりますので、事前にお尋ねください。</p></div>
+    <div class="check-cell"><h3>お取引について</h3><p>サイトに価格は掲載していません。オンラインでのお取り扱いは準備中のため、条件は個別にご案内します。</p></div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <a class="btn" href="https://form.jotform.com/262528014622047" target="_blank" rel="noopener">卸のご相談 — CONTACT US</a>
+    <p class="section-lede" style="margin-top:18px;font-size:14px">フォームのご用件に「卸希望」と書き添えていただけると、こちらで分けて承ります。</p>
   </div>
 </section>
 '''

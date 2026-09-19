@@ -82,6 +82,7 @@ def shell_zh(title, desc, body, root="../", current=""):
       <a href="{root}zh/guide.html">點前的流程</a>
       <a href="{root}zh/articles/index.html">專文</a>
       <a href="{root}zh/index.html#about">關於本站</a>
+      <a href="{root}zh/index.html#wholesale">批發洽詢</a>
     </nav>
   </div>
   <p class="f-copy">© 2026 YUSANDO ANTIQUE GALLERY — 本站為展示用草稿，目前尚未開放線上販售。</p>
@@ -342,6 +343,25 @@ index_body = f'''
       <div class="care-cell"><h3>漆器 <span class="en-sub">NATSUME</span></h3><p>切勿用水清洗，只以柔軟乾布擦拭。收進桐箱，避免日照。</p></div>
       <div class="care-cell"><h3>鐵釜 <span class="en-sub">KAMA</span></h3><p>倒空後以餘熱烘乾。內壁的水垢是保護層——切勿刷洗，切勿用皂。</p></div>
     </div>
+  </div>
+</section>
+
+<section class="section tight" id="wholesale">
+  <div class="section-head reveal" style="margin-bottom:40px">
+    <p class="section-kicker">批發・業者洽詢 — WHOLESALE</p>
+    <h2 class="section-title">為業者搭配的成組道具</h2>
+    <div class="rule"></div>
+    <p class="section-lede">茶道教室、旅館與餐飲、活動與贈禮，以及海外買家：請告知用途、預算與件數，我們會從藝廊現有的道具中為您搭配。</p>
+  </div>
+  <div class="check-grid reveal" style="max-width:640px;margin-left:auto;margin-right:auto">
+    <div class="check-cell"><h3>為您搭配</h3><p>練習用的一整套、同一類多件，或依季節組合。請告知用途，我們從現有的道具中挑選。</p></div>
+    <div class="check-cell"><h3>品相說明</h3><p>銘、尺寸、有無共箱、磕缺與修補的痕跡，逐件附照片個別說明。</p></div>
+    <div class="check-cell"><h3>海外寄送</h3><p>包裝與文件可事先討論。條件依國家與品項而異，請先來信確認。</p></div>
+    <div class="check-cell"><h3>洽詢方式</h3><p>本站不標示價格。線上交易仍在準備中，條件個別說明。</p></div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <a class="btn" href="https://form.jotform.com/262528014622047" target="_blank" rel="noopener">批發洽詢 — 來信聯絡</a>
+    <p class="section-lede" style="margin-top:18px;font-size:14px">來信時請註明「批發」，以便我們分流處理。</p>
   </div>
 </section>
 '''

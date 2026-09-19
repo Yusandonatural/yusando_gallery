@@ -76,6 +76,7 @@ def shell_fr(title, desc, body, root="../", current=""):
       <a href="{root}fr/guide.html">LE TEMAE</a>
       <a href="{root}fr/articles/index.html">LECTURES</a>
       <a href="{root}fr/index.html#about">À PROPOS</a>
+      <a href="{root}fr/index.html#wholesale">VENTE EN GROS</a>
     </nav>
   </div>
   <p class="f-copy">© 2026 YUSANDO — Maquette de démonstration. La vente en ligne n&rsquo;est pas encore ouverte.</p>
@@ -336,6 +337,25 @@ index_body = f'''
       <div class="care-cell"><h3>La laque <span class="en-sub">NATSUME</span></h3><p>Ne lavez jamais à l&rsquo;eau : un chiffon doux et sec suffit. Rangez dans sa boîte de paulownia, à l&rsquo;abri du soleil.</p></div>
       <div class="care-cell"><h3>Le fer <span class="en-sub">KAMA</span></h3><p>Videz et laissez sécher par la chaleur résiduelle. Le dépôt minéral la protège : ne frottez jamais, n&rsquo;employez jamais de savon.</p></div>
     </div>
+  </div>
+</section>
+
+<section class="section tight" id="wholesale">
+  <div class="section-head reveal" style="margin-bottom:40px">
+    <p class="section-kicker">VENTE EN GROS — PROFESSIONNELS</p>
+    <h2 class="section-title">Des ensembles pour les professionnels</h2>
+    <div class="rule"></div>
+    <p class="section-lede">Écoles de thé, ryokan et restaurants, événements et cadeaux, acheteurs à l’étranger : indiquez-nous l’usage, le budget et le nombre de pièces, et nous composerons une sélection dans la galerie.</p>
+  </div>
+  <div class="check-grid reveal" style="max-width:640px;margin-left:auto;margin-right:auto">
+    <div class="check-cell"><h3>Une sélection composée pour vous</h3><p>Un nécessaire de pratique, plusieurs pièces d’une même sorte, un ensemble de saison : dites-nous l’usage et nous choisirons parmi ce que la galerie possède.</p></div>
+    <div class="check-cell"><h3>L’état, décrit</h3><p>Mei, dimensions, présence de la boîte d’origine, éclats et restaurations anciennes — transmis pièce par pièce, photographies à l’appui.</p></div>
+    <div class="check-cell"><h3>Envois à l’étranger</h3><p>Emballage et documents se discutent au préalable. Les conditions varient selon le pays et la pièce ; demandez-nous avant de vous décider.</p></div>
+    <div class="check-cell"><h3>Les modalités</h3><p>Aucun prix n’est affiché sur ce site. La partie en ligne est encore en préparation : les conditions sont communiquées au cas par cas.</p></div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <a class="btn" href="https://form.jotform.com/262528014622047" target="_blank" rel="noopener">Demande professionnelle — NOUS ÉCRIRE</a>
+    <p class="section-lede" style="margin-top:18px;font-size:14px">Merci d’indiquer « vente en gros » dans votre message.</p>
   </div>
 </section>
 '''
