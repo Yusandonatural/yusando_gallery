@@ -753,6 +753,15 @@ html[lang="zh-Hant"] .btn{letter-spacing:.12em}
 .st-disc{font-family:var(--sans);font-size:10.5px;line-height:1.8;color:var(--rikyu);
   margin-top:8px;max-width:46em}
 
+/* 卸の条件と免責。読み飛ばせる重さだが、割れたときの扱いは必ず目に入るように */
+.ws-terms{max-width:640px;margin:34px auto 0;border-top:1px solid var(--line);padding-top:20px}
+.ws-terms h3{font-family:var(--sans);font-size:12px;letter-spacing:.14em;font-weight:500;color:var(--rikyu)}
+.ws-terms ul{list-style:none;margin-top:10px;padding:0}
+.ws-terms li{font-size:12.5px;line-height:1.95;color:var(--ink-soft);margin-top:9px;
+  padding-left:1.2em;text-indent:-1.2em}
+.ws-terms li::before{content:"—";color:var(--gold);margin-right:.45em}
+.ws-terms b{font-weight:500;color:var(--ink)}
+
 /* 新入荷カルーセル ---------------------------------------------------------
    横に流して見せる。スマホでは次の札が少しだけ覗くようにして、
    「まだ右にある」ことを矢印なしで伝える。 */

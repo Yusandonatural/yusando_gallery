@@ -355,9 +355,19 @@ index_body = f'''
   </div>
   <div class="check-grid reveal" style="max-width:640px;margin-left:auto;margin-right:auto">
     <div class="check-cell"><h3>為您搭配</h3><p>練習用的一整套、同一類多件，或依季節組合。請告知用途，我們從現有的道具中挑選。</p></div>
-    <div class="check-cell"><h3>品相說明</h3><p>銘、尺寸、有無共箱、磕缺與修補的痕跡，逐件附照片個別說明。</p></div>
+    <div class="check-cell"><h3>數量優惠</h3><p>10件以上9折，25件以上8折。不限類別，以同一次搭配的件數合計。</p></div>
+    <div class="check-cell"><h3>付款方式</h3><p>採先付款（銀行匯款）。確認入帳後寄出；匯款手續費由買方負擔。</p></div>
     <div class="check-cell"><h3>海外寄送</h3><p>包裝與文件可事先討論。條件依國家與品項而異，請先來信確認。</p></div>
-    <div class="check-cell"><h3>洽詢方式</h3><p>本站不標示價格。線上交易仍在準備中，條件個別說明。</p></div>
+  </div>
+  <div class="ws-terms reveal">
+    <h3>交易條件與免責事項</h3>
+    <ul>
+      <li>本站不標示價格。線上交易仍在準備中，條件個別說明。</li>
+      <li>皆為二手的獨一件。冲線、舊修補、使用痕跡與窯疵都是老道具的一部分，請先確認照片與說明再下訂。無法更換為相同的另一件。</li>
+      <li><b>若運送途中破損</b>，請於送達後7日內，連同外包裝與品項的照片與我們聯絡。我們將在運送公司賠償的範圍內處理。</li>
+      <li>品項送達之後的破損與缺角，恕無法負責。</li>
+      <li>說明與銘為本店的判讀，並非傳承來歷的保證。</li>
+    </ul>
   </div>
   <div style="text-align:center;margin-top:40px">
     <a class="btn" href="https://form.jotform.com/262528014622047" target="_blank" rel="noopener">批發洽詢 — 來信聯絡</a>

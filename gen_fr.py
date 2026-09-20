@@ -349,9 +349,19 @@ index_body = f'''
   </div>
   <div class="check-grid reveal" style="max-width:640px;margin-left:auto;margin-right:auto">
     <div class="check-cell"><h3>Une sélection composée pour vous</h3><p>Un nécessaire de pratique, plusieurs pièces d’une même sorte, un ensemble de saison : dites-nous l’usage et nous choisirons parmi ce que la galerie possède.</p></div>
-    <div class="check-cell"><h3>L’état, décrit</h3><p>Mei, dimensions, présence de la boîte d’origine, éclats et restaurations anciennes — transmis pièce par pièce, photographies à l’appui.</p></div>
+    <div class="check-cell"><h3>Remise par quantité</h3><p>À partir de 10 pièces, 10 % de remise ; à partir de 25, 20 %. Toutes catégories confondues, comptées sur une même sélection.</p></div>
+    <div class="check-cell"><h3>Paiement</h3><p>D’avance, par virement bancaire. Les pièces partent une fois le virement reçu ; les frais de virement sont à votre charge.</p></div>
     <div class="check-cell"><h3>Envois à l’étranger</h3><p>Emballage et documents se discutent au préalable. Les conditions varient selon le pays et la pièce ; demandez-nous avant de vous décider.</p></div>
-    <div class="check-cell"><h3>Les modalités</h3><p>Aucun prix n’est affiché sur ce site. La partie en ligne est encore en préparation : les conditions sont communiquées au cas par cas.</p></div>
+  </div>
+  <div class="ws-terms reveal">
+    <h3>Conditions et clause de non-responsabilité</h3>
+    <ul>
+      <li>Aucun prix n’est affiché sur ce site. La partie en ligne est encore en préparation : les conditions sont communiquées au cas par cas.</li>
+      <li>Ce sont des objets anciens, chacun unique. Fêles, restaurations anciennes, usure et défauts de cuisson font partie d’un ustensile ancien : vérifiez les photographies et la description avant de commander. Aucune pièce ne peut être échangée contre la même.</li>
+      <li><b>Si une pièce arrive brisée</b>, envoyez-nous, dans les 7 jours suivant la livraison, des photographies de l’objet et de son emballage. Nous traiterons le cas dans la limite de l’indemnisation du transporteur.</li>
+      <li>Après réception, nous ne pouvons assumer la responsabilité d’une casse ou d’un éclat.</li>
+      <li>Les descriptions et les mei sont notre lecture de chaque objet, non une garantie de provenance.</li>
+    </ul>
   </div>
   <div style="text-align:center;margin-top:40px">
     <a class="btn" href="https://form.jotform.com/262528014622047" target="_blank" rel="noopener">Demande professionnelle — NOUS ÉCRIRE</a>

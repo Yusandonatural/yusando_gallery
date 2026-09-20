@@ -757,9 +757,19 @@ index_body = f'''
   </div>
   <div class="check-grid reveal" style="max-width:640px;margin-left:auto;margin-right:auto">
     <div class="check-cell"><h3>取り合わせのご提案</h3><p>稽古用のひと揃え、同じ種別をまとめて、季節に合わせた組み合わせなど。ご用途をうかがって、在庫の中からお選びします。</p></div>
-    <div class="check-cell"><h3>状態のご案内</h3><p>銘・寸法・共箱の有無・傷や直しの跡まで、写真を添えて一点ずつお伝えします。</p></div>
+    <div class="check-cell"><h3>まとめてのご優待</h3><p>10点以上で10％引き、25点以上で20％引き。種別は問いません。点数は一度のお取り合わせでの合計で数えます。</p></div>
+    <div class="check-cell"><h3>お支払い</h3><p>先払い（銀行振込）。ご入金を確認してから発送します。振込手数料はご負担ください。</p></div>
     <div class="check-cell"><h3>海外への発送</h3><p>梱包と書類についてご相談に応じます。国や品目によって条件が変わりますので、事前にお尋ねください。</p></div>
-    <div class="check-cell"><h3>お取引について</h3><p>サイトに価格は掲載していません。オンラインでのお取り扱いは準備中のため、条件は個別にご案内します。</p></div>
+  </div>
+  <div class="ws-terms reveal">
+    <h3>お取引の条件と免責事項</h3>
+    <ul>
+      <li>価格はサイトに掲載していません。オンラインでのお取り扱いは準備中のため、条件は個別にご案内します。</li>
+      <li>中古の一点ものです。ニュウ・直し・擦れ・窯疵などは古い道具の一部です。写真と説明でご確認のうえお申し込みください。同じものへの交換はできません。</li>
+      <li><b>輸送中に破損した場合</b>は、到着後7日以内に、梱包材と品物の写真を添えてご連絡ください。運送会社の補償の範囲で対応します。</li>
+      <li>お受け取り後の破損・欠けについては、責任を負いかねます。</li>
+      <li>説明と銘は当店の見立てによるもので、伝来を保証するものではありません。</li>
+    </ul>
   </div>
   <div style="text-align:center;margin-top:40px">
     <a class="btn" href="https://form.jotform.com/262528014622047" target="_blank" rel="noopener">卸のご相談 — CONTACT US</a>
