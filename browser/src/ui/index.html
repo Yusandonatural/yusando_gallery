@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'">
+  <title>Shizuka Browser</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body>
+  <div id="tabbar">
+    <div id="tabs"></div>
+    <button id="new-tab" class="icon" title="新しいタブ (Ctrl+T)">＋</button>
+  </div>
+  <div id="toolbar">
+    <button id="back" class="icon" title="戻る (Alt+←)">←</button>
+    <button id="forward" class="icon" title="進む (Alt+→)">→</button>
+    <button id="reload" class="icon" title="再読み込み (Ctrl+R)">↻</button>
+    <button id="home" class="icon" title="ホーム">⌂</button>
+    <form id="address-form">
+      <input id="address" type="text" spellcheck="false" autocomplete="off"
+             placeholder="検索またはURLを入力（検索はDuckDuckGo）">
+    </form>
+    <div id="shield" title="このページで遮断した広告・追跡の数">
+      <span class="shield-icon">🛡</span><span id="blocked-count">0</span>
+    </div>
+  </div>
+  <script src="ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; form-action https://duckduckgo.com">
+  <title>New Tab</title>
+  <style>
+    :root { --bg: #f7f6f2; --text: #2b2a27; --muted: #77756d; --accent: #3f6b4a; --input: #fff; --border: #d3d1c8; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #1f1f1d; --text: #e8e6df; --muted: #9b998f; --accent: #7fb08a; --input: #2c2c29; --border: #3a3a36; }
+    }
+    body {
+      margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: var(--bg); color: var(--text); padding: 24px 16px; box-sizing: border-box;
+      font: 15px/1.7 system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+    }
+    h1 { font-weight: 500; letter-spacing: .08em; margin: 0 0 20px; }
+    form { width: min(560px, 100%); }
+    input {
+      width: 100%; box-sizing: border-box; height: 46px; padding: 0 20px; border-radius: 23px;
+      border: 1px solid var(--border); background: var(--input); color: var(--text); font: inherit; outline: none;
+    }
+    input:focus { border-color: var(--accent); }
+    ul { list-style: none; padding: 0; margin: 32px 0 0; color: var(--muted); font-size: 13px; max-width: 560px; }
+    li::before { content: "✓ "; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <h1>静 Shizuka</h1>
+  <form action="https://duckduckgo.com/" method="get">
+    <input name="q" placeholder="DuckDuckGoで検索" autofocus>
+  </form>
+  <ul>
+    <li>広告・トラッカー・Cookieバナーをフィルターリストで遮断</li>
+    <li>URLの追跡パラメータ（utm_・fbclid・gclid など）を自動で除去</li>
+    <li>第三者Cookieの送受信を遮断・リファラーを最小化・Do Not Track / GPC を送信</li>
+    <li>ビーコン送信・広告用ブラウザAPI・先読み通信・WebRTCのIP漏えいを停止</li>
+    <li>履歴・Cookie・キャッシュはメモリ上のみ。ウィンドウを閉じるとすべて消去</li>
+  </ul>
+</body>
+</html>

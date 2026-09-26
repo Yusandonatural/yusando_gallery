@@ -1,0 +1,28 @@
+{
+  "name": "shizuka-browser",
+  "productName": "Shizuka Browser",
+  "version": "0.1.0",
+  "description": "広告を除去し、追跡（トラッキング）を遮断するプライバシー重視のWebブラウザ",
+  "main": "src/main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.js",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "@ghostery/adblocker-electron": "^2.18.2",
+    "tldts": "^7.0.0"
+  },
+  "devDependencies": {
+    "electron": "^44.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "com.yusando.shizuka-browser",
+    "files": ["src/**/*", "package.json"],
+    "mac": { "target": "dmg" },
+    "win": { "target": "nsis" },
+    "linux": { "target": "AppImage" }
+  }
+}
