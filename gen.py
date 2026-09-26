@@ -617,25 +617,22 @@ def minor_card(m):
   <p class="tool-desc">{m["desc"]}</p>
 </div>'''
 
+import hero as _hero  # トップのヒーローと三つの約束（全言語共通）
 import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 
 # ---- index ----
 index_body = f'''
-<section class="hero">
-  <svg class="hero-enso" viewBox="0 0 200 200" aria-hidden="true">
-    <path d="M100 18 a82 82 0 1 0 60 26" fill="none" stroke="#2b2a26" stroke-width="10" stroke-linecap="round"/>
-  </svg>
-  <div class="hero-inner">
-    <p class="hero-kicker">均一価格の中古茶道具ポータル — FLAT-PRICE USED TEA UTENSILS</p>
-    <h1 class="hero-title">ときめきやワクワクで<br>お茶道具を選びたい</h1>
-    <p class="hero-sub">初心者でも楽しみやすい、<strong>均一価格</strong>の中古お茶道具ポータルです。<br>値段を気にせず、「これ、好きかも」で選べます。<br><span class="en-sub">A flat-price marketplace for pre-loved tea utensils — pick the one that makes you smile.</span></p>
-    <p class="hero-brand-note"><b>Cerendipity</b> ＝ Ceramic（やきもの）× Serendipity（うれしい偶然）。<br>器との思いがけない出会いを楽しむ、悠三堂の茶道具部門です。<br>その出会いが、茶道具を暮らしに取り入れることで、日々を豊かにしていきます。</p>
-    <div class="hero-cta">
-      <a class="btn solid" href="tools.html">道具一覧を見る</a>
-      <a class="btn" href="articles/index.html">読みものを見る</a>
-    </div>
-  </div>
-</section>
+{_hero.hero(dict(
+  kicker="均一価格の中古茶道具ポータル — FLAT-PRICE USED TEA UTENSILS",
+  title="ときめきやワクワクで<br>お茶道具を選びたい",
+  sub="初心者でも楽しみやすい、<strong>均一価格</strong>の中古お茶道具ポータルです。<br>値段を気にせず、「これ、好きかも」で選べます。",
+  cta=[("道具一覧を見る", "tools.html"), ("読みものを見る", "articles/index.html")],
+  note="<b>Cerendipity</b> ＝ Ceramic（やきもの）× Serendipity（うれしい偶然）。器との思いがけない出会いを楽しむ、悠三堂の茶道具部門です。その出会いが、茶道具を暮らしに取り入れることで、日々を豊かにしていきます。"))}
+{_hero.promises([
+  ("均一価格", "FLAT PRICE", "値札を見比べなくて大丈夫。選ぶ基準は「好きかどうか」だけです。"),
+  ("一点もの", "ONE OF A KIND", "茶碗も棗も、すべて中古の一点もの。出会いはそのときかぎりです。"),
+  ("知って楽しむ", "LEARN AS YOU GO", "道具ごとに読み方・歴史・使い方を、はじめての方にもわかる言葉で。"),
+], "悠三堂古美術ギャラリーの三つの約束")}
 
 <section class="section" id="about">
   <div class="intro-grid">
