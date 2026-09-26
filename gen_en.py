@@ -341,22 +341,25 @@ def minor_card_en(m):
   <p class="tool-desc">{m["desc"]}</p>
 </div>'''
 
-import hero as _hero  # トップのヒーローと三つの約束（全言語共通）
 import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 
 # ---- index ----
 index_body = f'''
-{_hero.hero(dict(
-  kicker="FLAT-PRICE USED TEA UTENSILS — 均一価格の中古茶道具ポータル",
-  title="Choose the one<br>that delights you.",
-  sub="A <strong>flat-price</strong> marketplace for pre-loved Japanese tea utensils, easy to enjoy even as a beginner.<br>No price-guessing — just pick the piece you like.",
-  cta=[("BROWSE THE UTENSILS", "tools.html"), ("HOW A BOWL IS MADE", "guide.html")],
-  note="<b>Cerendipity</b> = Ceramic × Serendipity — the happy accident of meeting a piece you love. The tea-utensil arm of Yusando. Bring that encounter into daily life, and the days grow richer."), root="../")}
-{_hero.promises([
-  ("One flat price", "均一価格", "No price tags to compare. The only question is whether you like it."),
-  ("One of a kind", "一点もの", "Every bowl and caddy is a single pre-loved piece. When it has gone, it has gone."),
-  ("Learn as you go", "知って楽しむ", "Each utensil comes with its name, history and use, explained in plain words."),
-], "Three promises of the Yusando Antique Gallery")}
+<section class="hero">
+  <svg class="hero-enso" viewBox="0 0 200 200" aria-hidden="true">
+    <path d="M100 18 a82 82 0 1 0 60 26" fill="none" stroke="#2b2a26" stroke-width="10" stroke-linecap="round"/>
+  </svg>
+  <div class="hero-inner">
+    <p class="hero-kicker">FLAT-PRICE USED TEA UTENSILS — 均一価格の中古茶道具ポータル</p>
+    <h1 class="hero-title">Choose the one<br>that delights you.</h1>
+    <p class="hero-sub">A <strong>flat-price</strong> marketplace for pre-loved Japanese tea utensils, easy to enjoy even as a beginner.<br>No price-guessing — just pick the piece you like.</p>
+    <p class="hero-brand-note"><b>Cerendipity</b> = Ceramic × Serendipity — the happy accident of meeting a piece you love.<br>The tea-utensil arm of Yusando.<br>Bring that encounter into daily life, and the days grow richer.</p>
+    <div class="hero-cta">
+      <a class="btn solid" href="tools.html">BROWSE THE UTENSILS</a>
+      <a class="btn" href="guide.html">HOW A BOWL IS MADE</a>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="about">
   <div class="intro-grid">

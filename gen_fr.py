@@ -248,21 +248,24 @@ def article_cards_fr(depth=1):
     return out
 
 
-import hero as _hero  # トップのヒーローと三つの約束（全言語共通）
 import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 
 index_body = f'''
-{_hero.hero(dict(
-  kicker="USTENSILES DE THÉ D&rsquo;OCCASION À PRIX UNIQUE — 均一価格の中古茶道具",
-  title="Choisissez celui<br>qui vous touche.",
-  sub="Un portail à <strong>prix unique</strong> d&rsquo;ustensiles de thé japonais de seconde main, abordable même pour qui débute.<br>Plus de prix à deviner : prenez simplement la pièce qui vous plaît.",
-  cta=[("VOIR LES USTENSILES", "tools.html"), ("COMMENT NAÎT UN BOL", "guide.html")],
-  note="<b>Cerendipity</b> = Ceramic × Serendipity : l&rsquo;heureux hasard de rencontrer la pièce que l&rsquo;on aime. La branche « ustensiles de thé » de Yusando. Faites entrer cette rencontre dans le quotidien, et les jours s&rsquo;enrichissent."), root="../")}
-{_hero.promises([
-  ("Un prix unique", "均一価格", "Aucune étiquette à comparer : la seule question est de savoir si la pièce vous plaît."),
-  ("Pièces uniques", "一点もの", "Chaque bol, chaque boîte à thé est une pièce d&rsquo;occasion unique. Une fois partie, elle ne revient pas."),
-  ("Apprendre en chemin", "知って楽しむ", "Pour chaque ustensile, son nom, son histoire et son usage, expliqués simplement."),
-], "Les trois promesses de la galerie Yusando")}
+<section class="hero">
+  <svg class="hero-enso" viewBox="0 0 200 200" aria-hidden="true">
+    <path d="M100 18 a82 82 0 1 0 60 26" fill="none" stroke="#2b2a26" stroke-width="10" stroke-linecap="round"/>
+  </svg>
+  <div class="hero-inner">
+    <p class="hero-kicker">USTENSILES DE THÉ D&rsquo;OCCASION À PRIX UNIQUE — 均一価格の中古茶道具</p>
+    <h1 class="hero-title">Choisissez celui<br>qui vous touche.</h1>
+    <p class="hero-sub">Un portail à <strong>prix unique</strong> d&rsquo;ustensiles de thé japonais de seconde main, abordable même pour qui débute.<br>Plus de prix à deviner : prenez simplement la pièce qui vous plaît.</p>
+    <p class="hero-brand-note"><b>Cerendipity</b> = Ceramic × Serendipity : l&rsquo;heureux hasard de rencontrer la pièce que l&rsquo;on aime.<br>La branche « ustensiles de thé » de Yusando.<br>Faites entrer cette rencontre dans le quotidien, et les jours s&rsquo;enrichissent.</p>
+    <div class="hero-cta">
+      <a class="btn solid" href="tools.html">VOIR LES USTENSILES</a>
+      <a class="btn" href="guide.html">COMMENT NAÎT UN BOL</a>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="about">
   <div class="intro-grid">

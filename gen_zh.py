@@ -254,21 +254,24 @@ def article_cards_zh(depth=1):
     return out
 
 
-import hero as _hero  # トップのヒーローと三つの約束（全言語共通）
 import sencha as _sencha  # 抹茶／煎茶の切り替え（A案）
 
 index_body = f'''
-{_hero.hero(dict(
-  kicker="均一價的二手茶道具 — 均一価格の中古茶道具ポータル",
-  title="選那件<br>讓您心動的。",
-  sub="以<strong>均一價</strong>提供二手日本茶道具，初入門也能安心親近。<br>不必再揣測價格，只要挑您喜歡的那一件。",
-  cta=[("瀏覽茶道具", "tools.html"), ("一碗茶是怎麼點成的", "guide.html")],
-  note="<b>Cerendipity</b> ＝ Ceramic（陶瓷）× Serendipity（喜悅的偶然）。享受與器物偶然相遇的悠三堂茶道具部門。把這份相遇帶進生活，日子也隨之豐富起來。"), root="../")}
-{_hero.promises([
-  ("均一價", "FLAT PRICE", "不必比較價格標籤，只要問自己喜不喜歡。"),
-  ("一點物", "ONE OF A KIND", "每只茶碗、每個棗都是獨一無二的二手器物，錯過便不再。"),
-  ("邊看邊學", "LEARN AS YOU GO", "每件茶道具的名稱、歷史與用法，都以淺白的文字說明。"),
-], "悠三堂古美術藝廊的三個承諾")}
+<section class="hero">
+  <svg class="hero-enso" viewBox="0 0 200 200" aria-hidden="true">
+    <path d="M100 18 a82 82 0 1 0 60 26" fill="none" stroke="#2b2a26" stroke-width="10" stroke-linecap="round"/>
+  </svg>
+  <div class="hero-inner">
+    <p class="hero-kicker">均一價的二手茶道具 — 均一価格の中古茶道具ポータル</p>
+    <h1 class="hero-title">選那件<br>讓您心動的。</h1>
+    <p class="hero-sub">以<strong>均一價</strong>提供二手日本茶道具，初入門也能安心親近。<br>不必再揣測價格，只要挑您喜歡的那一件。</p>
+    <p class="hero-brand-note"><b>Cerendipity</b> ＝ Ceramic（陶瓷）× Serendipity（喜悅的偶然）。<br>享受與器物偶然相遇的悠三堂茶道具部門。<br>把這份相遇帶進生活，日子也隨之豐富起來。</p>
+    <div class="hero-cta">
+      <a class="btn solid" href="tools.html">瀏覽茶道具</a>
+      <a class="btn" href="guide.html">一碗茶是怎麼點成的</a>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="about">
   <div class="intro-grid">
