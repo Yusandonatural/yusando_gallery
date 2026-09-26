@@ -4,11 +4,20 @@
 
 ## 起動
 
+必要なもの: **Node.js 22.12 以上**（https://nodejs.org/ の LTS 版）
+
 ```
+git fetch origin
+git checkout claude/dazzling-mayer-cfmss5   # browser フォルダはこのブランチにある
 cd browser
 npm install
 npm start
 ```
+
+リポジトリの一番上のフォルダからなら `npm run browser` だけで同じことをする。
+
+`npm start` は起動前に自動で点検し、Electron本体のダウンロード漏れは自動で取り直す。
+直せない原因（Node.jsが古い、Linuxのサンドボックス設定など）は、対処法を日本語で表示して止まる。
 
 配布用パッケージ（Windows .exe / macOS .dmg / Linux AppImage）: `npm run dist`
 

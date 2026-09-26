@@ -1,1 +1,1 @@
-{ "name": "yusando-gallery", "private": true, "scripts": { "deploy": "wrangler deploy" } }
+{"name": "yusando-gallery", "private": true, "scripts": {"deploy": "wrangler deploy", "browser": "npm --prefix browser install && npm --prefix browser start"}}

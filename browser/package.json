@@ -6,6 +6,7 @@
   "main": "src/main.js",
   "private": true,
   "scripts": {
+    "prestart": "node scripts/prestart.js",
     "start": "electron .",
     "test": "node --test test/*.test.js",
     "dist": "electron-builder"
@@ -20,9 +21,21 @@
   },
   "build": {
     "appId": "com.yusando.shizuka-browser",
-    "files": ["src/**/*", "package.json"],
-    "mac": { "target": "dmg" },
-    "win": { "target": "nsis" },
-    "linux": { "target": "AppImage" }
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
