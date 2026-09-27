@@ -5,28 +5,42 @@ const address = $('address');
 let editingAddress = false;
 let loading = false;
 
+// タブ要素はidごとに使い回す。作り直すとクリックの途中で×ボタンが入れ替わり、押しても閉じなくなる
+const tabElements = new Map();
+
+function createTabElement(id) {
+  const el = document.createElement('div');
+  el.className = 'tab';
+  const title = document.createElement('span');
+  title.className = 'title';
+  const close = document.createElement('button');
+  close.className = 'close';
+  close.textContent = '×';
+  close.title = 'タブを閉じる (Ctrl+W)';
+  close.addEventListener('mousedown', (e) => e.stopPropagation());
+  close.addEventListener('click', (e) => { e.stopPropagation(); window.browser.closeTab(id); });
+  el.addEventListener('mousedown', (e) => {
+    if (e.button === 1) window.browser.closeTab(id);
+    else if (e.button === 0) window.browser.switchTab(id);
+  });
+  el.append(title, close);
+  return el;
+}
+
 function render(tabs) {
   const container = $('tabs');
-  container.replaceChildren();
-  for (const tab of tabs) {
-    const el = document.createElement('div');
+  const ids = new Set(tabs.map((t) => t.id));
+  for (const [id, el] of tabElements) {
+    if (!ids.has(id)) { el.remove(); tabElements.delete(id); }
+  }
+  tabs.forEach((tab, i) => {
+    let el = tabElements.get(tab.id);
+    if (!el) { el = createTabElement(tab.id); tabElements.set(tab.id, el); }
     el.className = 'tab' + (tab.active ? ' active' : '') + (tab.loading ? ' loading' : '');
     el.title = tab.title;
-    const title = document.createElement('span');
-    title.className = 'title';
-    title.textContent = tab.title;
-    const close = document.createElement('button');
-    close.className = 'close';
-    close.textContent = '×';
-    close.title = 'タブを閉じる (Ctrl+W)';
-    close.addEventListener('click', (e) => { e.stopPropagation(); window.browser.closeTab(tab.id); });
-    el.addEventListener('mousedown', (e) => {
-      if (e.button === 1) window.browser.closeTab(tab.id);
-      else if (e.button === 0) window.browser.switchTab(tab.id);
-    });
-    el.append(title, close);
-    container.append(el);
-  }
+    el.querySelector('.title').textContent = tab.title;
+    if (container.children[i] !== el) container.insertBefore(el, container.children[i] || null);
+  });
 
   const active = tabs.find((t) => t.active);
   if (!active) return;
